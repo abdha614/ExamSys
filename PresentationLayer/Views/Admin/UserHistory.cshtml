@@ -1,0 +1,26 @@
+﻿@model List<PresentationLayer.ViewModels.HistoryViewModel>
+
+<h2>User History</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>Email</th>
+            <th>Timestamp</th>
+  
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var history in Model)
+        {
+                <tr>
+                    <td>@history.Action</td>
+                    <td>@history.Email</td>
+                    <td>@history.Timestamp</td>
+     
+                </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="UserManagement" class="btn btn-primary">Back to User Management</a>

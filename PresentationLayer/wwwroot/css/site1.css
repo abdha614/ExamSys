@@ -1,0 +1,73 @@
+﻿/* Form layout and spacing */
+.form-vertical-custom .form-group-custom {
+    margin-bottom: 1rem;
+}
+
+.form-group-custom label {
+    font-weight: bold;
+}
+
+.form-group-custom input,
+.form-group-custom select,
+.form-group-custom textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Custom button styling */
+.btn-primary-custom {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    cursor: pointer;
+}
+
+    .btn-primary-custom:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+/* Notification styling for invalid category */
+#categoryNotification {
+    color: #ff0000; /* Bootstrap danger color (red) */
+    font-size: 13px;
+ /*   font-style: italic;*/
+    margin-top: 70px;
+}
+#courseNotification {
+    color: #ff0000 ; /* Force the red color */
+    font-size: 13px; /* Adjust the font size */
+    margin-top: 10px; /* Ensure proper spacing */
+    display: block; /* Ensure the message is displayed when shown */
+}
+
+.answer-group .remove-answer {
+    height: 100%; /* Matches the input field height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group .input-group-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.remove-answer {
+    height: 100%; /* Matches the height of the input */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px; /* Adjust padding for button text */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+/*#minAnswerNotification {
+    font-weight: bold;
+    color: red;
+}*/

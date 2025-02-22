@@ -1,0 +1,84 @@
+﻿@model PresentationLayer.ViewModels.QuestionUpdateViewModel
+
+<h2>Edit Question</h2>
+
+<form asp-action="EditQuestion" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    
+    <div class="form-group-custom">
+        <label asp-for="CategoryId" class="control-label">Category:</label>
+        <select asp-for="CategoryId" class="form-control">
+            <option value="">Select Category</option>
+            @foreach (var category in (IEnumerable<SelectListItem>)ViewBag.Categories)
+            {
+                <option value="@category.Value" selected="@category.Selected">@category.Text</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group-custom">
+        <label asp-for="CourseId" class="control-label">Course:</label>
+        <select asp-for="CourseId" class="form-control">
+            <option value="">Select Course</option>
+            @foreach (var course in (IEnumerable<SelectListItem>)ViewBag.Courses)
+            {
+                <option value="@course.Value" selected="@course.Selected">@course.Text</option>
+            }
+        </select>
+        <span asp-validation-for="CourseId" class="text-danger"></span>
+
+    </div>
+
+    <div class="form-group-custom">
+        <label asp-for="Text" class="control-label">questionText:</label>
+        <input asp-for="Text" class="form-control" />
+        <span asp-validation-for="Text" class="text-danger"></span>
+    </div>
+
+    <input type="hidden" asp-for="QuestionTypeId" />
+
+    <div class="form-group-custom">
+        <label asp-for="DifficultyLevelId" class="control-label">Difficulty Level:</label>
+        <select asp-for="DifficultyLevelId" class="form-control">
+            <option value="1">Easy</option>
+            <option value="2">Medium</option>
+            <option value="3">Hard</option>
+        </select>
+        <span asp-validation-for="DifficultyLevelId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group-custom">
+        <label>Answers:</label>
+        <div id="answersContainer">
+            @for (int i = 0; i < Model.Answers.Count; i++)
+            {
+                <div class="input-group mb-2 answer-group align-items-center">
+                    <input asp-for="@Model.Answers[i].Text" class="form-control" />
+                    <div class="input-group-append">
+                        <!-- Correct Option -->
+                        <div class="input-group-text d-flex justify-content-center align-items-center">
+                            <input type="radio"
+                                   name="CorrectAnswerIndex"
+                                   value="@i"
+                            @(Model.Answers[i].IsCorrect ? "checked" : "") />
+                        </div>
+                    </div>
+                </div>
+                <span asp-validation-for="@Model.Answers[i].Text" class="text-danger"></span>
+            }
+        </div>
+    </div>
+    <span asp-validation-for="CorrectAnswerIndex" class="text-danger"></span>
+    <br />
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <script src="~/js/scripts.js"></script> 
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/site1.css" />
+}

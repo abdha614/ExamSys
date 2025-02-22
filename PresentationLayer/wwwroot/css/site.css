@@ -1,0 +1,166 @@
+/* Container for the entire login page */
+.exam-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*min-height: 100vh;
+    background: linear-gradient(to right, #A2C2E1, #F1E4B3);*/ /* Soft Light Blue to Light Yellow */
+}
+
+/* Grid to hold the image and form side by side */
+.exam-grid {
+    display: flex;
+    width: 100%;
+    max-width: 1200px; /* Adjust based on your design preference */
+}
+
+/* Image section on the left */
+.exam-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-top-left-radius: 10px; /* Border radius for merging */
+    border-bottom-left-radius: 10px;
+    height: 100%; /* Ensure the image section takes full height */
+}
+
+    .exam-image img {
+        max-width: 100%;
+        height: 100%; /* Make sure the image stretches to fill the height */
+        object-fit: cover; /* Ensures the image maintains its aspect ratio and covers the area */
+        border-top-left-radius: 10px; /* Ensure the image corners match */
+        border-bottom-left-radius: 10px;
+    }
+
+/* Login card on the right */
+.exam-login-card {
+    flex: 1;
+    padding: 28px 40px; /* Reduced padding from bottom */
+    background-color: whitesmoke;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content at the top */
+    align-items: center;
+    height: 100%; /* Keep full height */
+    box-sizing: border-box;
+}
+
+
+/* Styling for the title */
+.login-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+/* Styling for the subtitle */
+.login-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+/* Form fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Button styling */
+.btn-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Footer links */
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .login-footer a {
+        color: #4CAF50;
+        text-decoration: none;
+    }
+
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+
+/* Responsive Design for small screens */
+@media (max-width: 768px) {
+    .exam-grid {
+        flex-direction: column;
+    }
+
+    .exam-image, .exam-login-card {
+        flex: none;
+        width: 100%;
+    }
+}
+/*.login-title {
+    font-size: 2rem;
+    color: #1e3a8a;*/ /* Deep blue color for the title */
+    /*margin-bottom: 20px;
+}*/
+
+/*.login-subtitle {
+    font-size: 1.2rem;
+    color: #3b82f6;*/ /* Lighter blue for the subtitle */
+    /*margin-bottom: 30px;
+}*/
+
+/*.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #3b82f6;*/ /* Blue border for inputs */
+    /*border-radius: 5px;
+    margin-bottom: 15px;
+}*/
+
+.btn-login {
+    background-color: #3b82f6;  Blue background for the login button 
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+}
+
+    .btn-login:hover {
+        background-color: #2563eb; /* Darker blue on hover */
+    }
+
+.login-footer p {
+    font-size: 0.9rem;
+    color: #1e3a8a;
+}
+
+.login-footer a {
+    color: #3b82f6; /* Blue links */
+    text-decoration: none;
+}
+
+    .login-footer a:hover {
+        text-decoration: underline;
+    }

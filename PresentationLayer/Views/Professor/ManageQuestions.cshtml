@@ -1,0 +1,149 @@
+﻿@model IEnumerable<PresentationLayer.ViewModels.QuestionViewModel>
+
+@{
+    ViewBag.Title = "Manage Questions";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Manage Questions:</h1>
+    <a asp-action="ChooseQuestionType" class="btn btn-primary btn-lg" style="margin-top: 40px;">Add New Question</a>
+
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+@if (ViewBag.ErrorMessage != null)
+{
+        <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+        </div>
+}
+
+<!-- Filter Form -->
+<form asp-action="ManageQuestions" method="get" class="filter-form">
+    <div class="row justify-content-between align-items-center">
+        <!-- Question Type Dropdown -->
+        <div class="col-md-3 mb-3">
+            <div class="form-group">
+                <label for="questionType">Question Type:</label>
+                <select id="questionType" name="questionTypeId" class="form-control custom-select" data-toggle="tooltip" title="Select the type of question to filter">
+                    <option value="">All</option>
+                    @foreach (var questionType in (SelectList)ViewBag.QuestionTypes)
+                    {
+                        <option value="@questionType.Value" selected="@questionType.Selected">@questionType.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <!-- Difficulty Level Dropdown -->
+        <div class="col-md-3 mb-3">
+            <div class="form-group">
+                <label for="difficultyLevel">Difficulty Level:</label>
+                <select id="difficultyLevel" name="difficultyLevelId" class="form-control custom-select" data-toggle="tooltip" title="Select the difficulty level of the questions">
+                    <option value="">All</option>
+                    <option value="1" selected="@(ViewBag.SelectedDifficultyLevelId == 1)">Easy</option>
+                    <option value="2" selected="@(ViewBag.SelectedDifficultyLevelId == 2)">Medium</option>
+                    <option value="3" selected="@(ViewBag.SelectedDifficultyLevelId == 3)">Hard</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="col-md-3 mb-3">
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="categoryId" class="form-control custom-select" onchange="getCoursesByCategory(this.value)" data-toggle="tooltip" title="Select the category for the questions">
+                    <option value="">All</option>
+                    @foreach (var category in (SelectList)ViewBag.Categories)
+                    {
+                        <option value="@category.Value" selected="@category.Selected">@category.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <!-- Course Dropdown -->
+        <div class="col-md-3 mb-3">
+            <div class="form-group">
+                <label for="course">Course:</label>
+                <select id="course" name="courseId" class="form-control custom-select" data-selected-course-id="@ViewBag.SelectedCourseId" data-toggle="tooltip" title="Select the course for the questions">
+                    <option value="">All</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Button -->
+    <div class="form-group-custom" style="flex: 1 1 100%; text-align: left; margin-bottom: 1rem;">
+        <button type="submit" class="btn-primary-custom">Filter</button>
+    </div>
+</form>
+<!-- Questions Table -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th>Difficulty Level</th>
+            <th>Category</th>
+            <th>Course</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model)
+        {
+                <tr>
+                    <td>@question.Text</td>
+                    <td>@question.QuestionTypeName</td>
+                    <td>@question.DifficultyLevelName</td>
+                    <td>@question.CategoryName</td>
+                    <td>@question.CourseName</td>
+                    <td>
+                        <a asp-action="EditQuestion" asp-route-id="@question.Id" class="btn btn-primary btn-sm">Edit</a>
+                        @* <button class="btn btn-danger btn-sm" onclick="confirmDelete('@question.Id')">Delete</button> *@
+                        <button class="btn btn-danger btn-sm btn-delete-question" data-question-id="@question.Id">Delete</button>
+
+
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <!-- Added 'modal-dialog-centered' -->
+        <div class="modal-content text-center">
+            <!-- Added 'text-center' -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this question?
+            </div>
+            <div class="modal-footer justify-content-center">
+                <!-- Centered the footer buttons -->
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" style="display:inline;">
+                    @*  @Html.AntiForgeryToken() *@
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/filter-scripts.js"></script>
+}
+@* @section Styles {
+    <link href="~/css/manage-questions.css" rel="stylesheet" />
+} *@

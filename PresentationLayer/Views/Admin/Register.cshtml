@@ -1,0 +1,55 @@
+﻿@model PresentationLayer.ViewModels.RegisterViewModel
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+
+<div class="register-container">
+    <div class="register-card">
+        <h3 class="register-title">Register Here:</h3>
+        <br />
+
+        <form asp-action="Register" method="post" novalidate>
+            <!-- Validation summary for model errors -->
+          @*   <div asp-validation-summary="All" class="text-danger text-center mb-3"></div> *@
+
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input asp-for="Email" class="form-control" type="email" placeholder="Email" required  />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input asp-for="Password" class="form-control" type="password" placeholder="Password" minlength="6" required />
+              
+            </div>
+            <span asp-validation-for="Password" class="text-danger" style="margin-top: 5px;"></span>
+
+            <div class="input-group mb-4">
+                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                <select asp-for="RoleId" class="form-control" required>
+                    <option value="">Select a role</option>
+                    <option value="1">Professor</option>
+                    <option value="2">Student</option>
+                    <option value="3">Admin</option>
+                </select>
+            
+            </div>
+            <span asp-validation-for="RoleId" class="text-danger"></span>
+            <br />
+            <br />
+            <button type="submit" class="btn btn-register">Register</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Exam System</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/sitee.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/PresentationLayer.styles.css" asp-append-version="true" />
+
+
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <!-- Navbar Partial -->
+    <div>
+        @await Html.PartialAsync("_Navbar")
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <!-- Footer -->
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Validation Scripts -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Site Scripts -->
+    <script src="~/js/site.js"></script>
+
+    <!-- Scripts Section for View-Specific Scripts -->
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

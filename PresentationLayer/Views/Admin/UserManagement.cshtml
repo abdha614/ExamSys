@@ -1,0 +1,100 @@
+﻿@model IEnumerable<PresentationLayer.ViewModels.UserViewModel>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+
+    ViewData["Title"] = "User Management";
+}
+
+<h1>User Management</h1>
+
+<!-- Filter Users by Role -->
+<form method="get" asp-action="UserManagement">
+    <label for="roleFilter" class="form-label">Filter by Role:</label>
+    <select id="roleFilter" name="roleId" class="form-select" onchange="this.form.submit()">
+        <option value="">All Roles</option>
+        @foreach (var role in (SelectList)ViewBag.Roles)
+        {
+            <option value="@role.Value" selected="@role.Selected">@role.Text</option>
+        }
+    </select>
+</form>
+
+<!-- Create User Buttons -->
+<div class="mb-3 mt-3">
+    <a asp-action="Register" class="btn btn-primary">Create New User</a>
+</div>
+
+<!-- User Management Table -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Email</td>
+                <td>@user.RoleName</td>
+                <td>
+                    <button class="btn btn-danger btn-sm btn-delete-user"
+                            data-user-id="@user.Id"
+                            data-bs-toggle="modal"
+                            data-bs-target="#deleteModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this user?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" asp-controller="Admin" asp-action="Delete" style="display:inline;">
+                    <input type="hidden" name="id" id="deleteUserId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+            // Handle delete button click
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.btn-delete-user');
+            const deleteForm = document.getElementById('deleteForm');
+            const deleteUserId = document.getElementById('deleteUserId');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-user-id');
+                    deleteUserId.value = userId; // Set the hidden input value
+                });
+            });
+        });
+    </script>
+}

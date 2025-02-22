@@ -1,0 +1,162 @@
+﻿/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+/* Page Title */
+h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #3a3a3a;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Add New Question Button */
+.btn-lg {
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+    .btn-lg:hover {
+        background-color: #0056b3;
+    }
+
+/* Form and Filters */
+.filter-form {
+    margin-bottom: 30px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .filter-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .filter-form .custom-select {
+        height: 40px;
+        border-radius: 5px;
+        font-size: 1rem;
+        padding: 8px;
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+    }
+
+    .filter-form label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .filter-form .form-group-custom {
+        text-align: center;
+    }
+
+    .filter-form .btn-primary-custom {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+        background-color: #28a745;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-form .btn-primary-custom:hover {
+            background-color: #218838;
+        }
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: #fff;
+}
+
+    table th, table td {
+        padding: 15px;
+        text-align: left;
+        font-size: 1rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    table th {
+        background-color: #f7f7f7;
+        font-weight: bold;
+    }
+
+    table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    table .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+        border-radius: 5px;
+    }
+
+    table .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        table .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    table .btn-danger {
+        background-color: #dc3545;
+        border: none;
+    }
+
+        table .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-form .form-group {
+        margin-bottom: 10px;
+    }
+
+    .filter-form .col-md-3 {
+        margin-bottom: 15px;
+    }
+
+    table th, table td {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    .btn-lg {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.btn-primary {
+    font-size: 8rem;
+    padding: 0.5rem 1.5rem;
+}

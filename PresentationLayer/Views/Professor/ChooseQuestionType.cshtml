@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Choose Question Type";
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+<div class="container mt-5">
+    <h2 class="mb-4">Choose the Type of Question to Add</h2>
+
+    <div class="mb-4">
+        <a asp-action="AddMultipleChoiceQuestion" class="btn btn-primary me-2">Multiple Choice</a>
+        <a asp-action="AddTrueFalseQuestion" class="btn btn-primary">True/False</a>
+    </div>
+
+    <div class="mt-4">
+        <h3 class="mb-3">Or Import Questions</h3>
+        <form asp-action="ImportQuestions" method="post" enctype="multipart/form-data" id="importForm">
+            <div class="form-group mb-3">
+                <input type="file" name="importFile" id="importFile" class="form-control" />
+            </div>
+            <!-- Area to display validation messages -->
+            <div id="messageArea" class="text-danger mb-3" style="display:none;">
+                <!-- Error messages will be shown here -->
+            </div>
+            <button type="submit" class="btn btn-primary">Import Questions</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+	<script src="~/js/importfile-script.js"></script>
+
+}
+
+@section Styles {
+	<link href="~/css/choose-question-type.css" rel="stylesheet" />
+}

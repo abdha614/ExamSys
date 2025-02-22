@@ -1,0 +1,20 @@
+﻿.btn-register {
+    background-color: #007bff; /* Primary blue */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+    .btn-register:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: scale(1.05); /* Slight zoom effect */
+        color: #fff;
+    }
+
+    .btn-register:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus shadow */
+    }

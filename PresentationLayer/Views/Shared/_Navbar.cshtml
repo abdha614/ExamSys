@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Authentication.Cookies
+@using Microsoft.AspNetCore.Mvc
+@{
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    var userRole = User.IsInRole("Professor") ? "Professor" :
+                 User.IsInRole("Student") ? "Student" :
+                   User.IsInRole("Admin") ? "Admin" : "";
+}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Exam-System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    @* <a class="nav-link" href="/">Home</a> *@
+                </li>
+
+                @if (isAuthenticated)
+                {
+                    <li class="nav-item">
+                        @* <a class="nav-link" href="/Dashboard">Dashboard</a> *@
+                    </li>
+                    @if (userRole == "Professor")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Professor/Dashboard">Professor Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Professor/ManageQuestions">ManageQuestions</a>
+                        </li>
+
+                    }
+                    @if (userRole == "Student")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Student/Dashboard">Student Dashboard</a>
+                        </li>
+                    }
+                    @if (userRole == "Admin")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/UserManagement">Admin Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Admin/UserHistory">History</a>
+                        </li>
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Auth/Logout">Logout</a>
+                    </li>
+                }
+                @* else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Auth/Login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Auth/Register">Register</a>
+                    </li>
+                } *@
+            </ul>
+        </div>
+    </div>
+</nav>
