@@ -52,36 +52,50 @@ namespace PresentationLayer.Controllers
             {
                 var userDto = await _authService.LoginAsync(loginDto);
 
-                // Set claims for the user
-                var claims = new List<Claim>
+                // ✅ Handle users who must change their password
+                if ((userDto.RoleId == 1 || userDto.RoleId == 2) && userDto.MustChangePassword)
                 {
-                    new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()), // Ensure this claim is set
-                    new Claim(ClaimTypes.Name, userDto.Email),
-                    new Claim(ClaimTypes.Role, userDto.RoleId switch
-                    {
-                        1 => "Professor",
-                        2 => "Student",
-                        3 => "Admin",
-                        _ => "Unknown"
-                    })
-                };
+                    var tempClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
+                new Claim("MustChangePassword", "true") // Custom claim for forced password change
+            };
+
+                    var tempClaimsIdentity = new ClaimsIdentity(tempClaims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(tempClaimsIdentity));
+
+                    return RedirectToAction("ChangePassword", "Account"); // Redirect to password change page
+                }
+
+                // ✅ If no forced password change, perform normal authentication
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.NameIdentifier, userDto.Id.ToString()),
+            new Claim(ClaimTypes.Name, userDto.Email),
+            new Claim(ClaimTypes.Role, userDto.RoleId switch
+            {
+                1 => "Professor",
+                2 => "Student",
+                3 => "Admin",
+                _ => "Unknown"
+            })
+        };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authProperties = new AuthenticationProperties
                 {
-                    IsPersistent = false // This ensures the cookie is a session cookie
+                    IsPersistent = false // Ensures the cookie is a session cookie
                 };
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), authProperties);
 
-
-                // Role-based redirection
+                // ✅ Redirect based on user role
                 return userDto.RoleId switch
                 {
                     1 => RedirectToAction("ManageQuestions", "Professor"),
                     2 => RedirectToAction("Dashboard", "Student"),
-                    3 =>    RedirectToAction("UserManagement", "Admin"),
+                    3 => RedirectToAction("UserManagement", "Admin"),
                     _ => throw new UnauthorizedAccessException("Invalid role specified.")
                 };
             }
@@ -91,6 +105,7 @@ namespace PresentationLayer.Controllers
                 return View(loginViewModel);
             }
         }
+
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Logout()

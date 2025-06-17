@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogicLayer.Dtos.LectureDto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,8 +14,10 @@ namespace BusinessLogicLayer.Dtos
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } // Enriched with the corresponding name
 
-     //   public int professorId { get; set; }  // Add the UserId property
+        public List<LectureGetDto> Lectures { get; set; }
 
+        //   public int professorId { get; set; }  // Add the UserId property
+        // public CategoryGetDto Category { get; set; }
     }
 
     

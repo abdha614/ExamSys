@@ -1,0 +1,577 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Manual Exam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .question-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .filter-section {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .filter-checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            background: white;
+        }
+
+        .filter-checkbox-item {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .filter-checkbox-item:last-child {
+                border-bottom: none;
+            }
+
+        .filter-label {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Create Manual Exam</h2>
+        <hr>
+
+        <form id="manualExamForm">
+            <!-- Basic Exam Info -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="examTitle" class="form-label">Exam Title*</label>
+                        <input type="text" class="form-control" id="examTitle" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="categorySelect" class="form-label">Category*</label>
+                        <select class="form-select" id="categorySelect" required>
+                            <option value="">-- Select Category --</option>
+                            <option value="1">Computer Science</option>
+                            <option value="2">Mathematics</option>
+                            <option value="3">Physics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="examDuration" class="form-label">Duration (minutes)*</label>
+                        <input type="number" class="form-control" id="examDuration" min="10" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="passingScore" class="form-label">Passing Score (%)*</label>
+                        <input type="number" class="form-control" id="passingScore" min="0" max="100" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course and Lecture Selection -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="courseSelect" class="form-label">Course*</label>
+                        <select class="form-select" id="courseSelect" required>
+                            <option value="">-- Select Course --</option>
+                            <!-- Options will be populated by JavaScript based on category -->
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Lectures (Optional)</label>
+                        <div class="filter-checkbox-group" id="lectureCheckboxGroup">
+                            <p class="text-muted">Select a course first</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="examInstructions" class="form-label">Instructions</label>
+                <textarea class="form-control" id="examInstructions" rows="3"></textarea>
+            </div>
+
+            <hr>
+
+            <!-- Question Selection Section -->
+            <h4>Select Questions</h4>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="filter-label">Question Types</label>
+                            <div class="filter-checkbox-group">
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input question-type-filter" type="checkbox" value="all" id="typeAll" checked>
+                                    <label class="form-check-label" for="typeAll">All Types</label>
+                                </div>
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input question-type-filter" type="checkbox" value="mcq" id="typeMCQ" checked>
+                                    <label class="form-check-label" for="typeMCQ">Multiple Choice</label>
+                                </div>
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input question-type-filter" type="checkbox" value="truefalse" id="typeTrueFalse" checked>
+                                    <label class="form-check-label" for="typeTrueFalse">True/False</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="mb-3">
+                            <label class="filter-label">Difficulty Levels</label>
+                            <div class="filter-checkbox-group">
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input difficulty-filter" type="checkbox" value="all" id="difficultyAll" checked>
+                                    <label class="form-check-label" for="difficultyAll">All Levels</label>
+                                </div>
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input difficulty-filter" type="checkbox" value="easy" id="difficultyEasy" checked>
+                                    <label class="form-check-label" for="difficultyEasy">Easy</label>
+                                </div>
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input difficulty-filter" type="checkbox" value="medium" id="difficultyMedium" checked>
+                                    <label class="form-check-label" for="difficultyMedium">Medium</label>
+                                </div>
+                                <div class="filter-checkbox-item form-check">
+                                    <input class="form-check-input difficulty-filter" type="checkbox" value="hard" id="difficultyHard" checked>
+                                    <label class="form-check-label" for="difficultyHard">Hard</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="questionSearch" class="form-label">Search Questions</label>
+                            <div class="input-group">
+                                <input type="text" id="questionSearch" class="form-control" placeholder="Search question text...">
+                                <button type="button" id="searchBtn" class="btn btn-outline-secondary">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Questions Table -->
+            <div class="table-responsive mb-4">
+                <table class="table table-bordered" id="questionsTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th width="5%">Select</th>
+                            <th width="45%">Question Text</th>
+                            <th width="15%">Type</th>
+                            <th width="15%">Difficulty</th>
+                            <th width="20%">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample Questions - would be dynamically loaded in real app -->
+                        <tr data-type="mcq" data-difficulty="easy" data-course="1">
+                            <td><input type="checkbox" class="question-checkbox" value="1"></td>
+                            <td>What is the capital of France?</td>
+                            <td><span class="badge bg-primary">MCQ</span></td>
+                            <td><span class="badge bg-success">Easy</span></td>
+                            <td><input type="number" class="form-control form-control-sm points-input" value="1" min="0.5" max="10" step="0.5"></td>
+                        </tr>
+                        <tr data-type="truefalse" data-difficulty="easy" data-course="1">
+                            <td><input type="checkbox" class="question-checkbox" value="2"></td>
+                            <td>The Earth is flat.</td>
+                            <td><span class="badge bg-info">True/False</span></td>
+                            <td><span class="badge bg-success">Easy</span></td>
+                            <td><input type="number" class="form-control form-control-sm points-input" value="1" min="0.5" max="10" step="0.5"></td>
+                        </tr>
+                        <tr data-type="mcq" data-difficulty="medium" data-course="2">
+                            <td><input type="checkbox" class="question-checkbox" value="3"></td>
+                            <td>What is the time complexity of binary search?</td>
+                            <td><span class="badge bg-primary">MCQ</span></td>
+                            <td><span class="badge bg-warning">Medium</span></td>
+                            <td><input type="number" class="form-control form-control-sm points-input" value="2" min="0.5" max="10" step="0.5"></td>
+                        </tr>
+                        <tr data-type="mcq" data-difficulty="hard" data-course="3">
+                            <td><input type="checkbox" class="question-checkbox" value="4"></td>
+                            <td>Which algorithm is used for shortest path finding in graphs?</td>
+                            <td><span class="badge bg-primary">MCQ</span></td>
+                            <td><span class="badge bg-danger">Hard</span></td>
+                            <td><input type="number" class="form-control form-control-sm points-input" value="3" min="0.5" max="10" step="0.5"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Selected Questions Summary -->
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Selected Questions Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div id="selectedQuestionsSummary">
+                        <p class="text-muted">No questions selected yet</p>
+                    </div>
+                    <div class="mt-2">
+                        <strong>Total Questions:</strong> <span id="totalQuestionsCount">0</span> |
+                        <strong>Total Points:</strong> <span id="totalPoints">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-secondary me-md-2" onclick="window.location.href='index.html'">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create Exam</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample data - in real app, this would come from API
+        const coursesByCategory = {
+            1: [ // Computer Science
+                { id: 1, name: "Introduction to Programming" },
+                { id: 2, name: "Data Structures" },
+                { id: 3, name: "Algorithms" }
+            ],
+            2: [ // Mathematics
+                { id: 4, name: "Calculus I" },
+                { id: 5, name: "Linear Algebra" }
+            ],
+            3: [ // Physics
+                { id: 6, name: "Classical Mechanics" },
+                { id: 7, name: "Quantum Physics" }
+            ]
+        };
+
+        const lecturesByCourse = {
+            1: ["Lecture 1: Basics", "Lecture 2: Control Structures"],
+            2: ["Lecture 1: Arrays", "Lecture 2: Linked Lists"],
+            3: ["Lecture 1: Sorting", "Lecture 2: Searching"],
+            4: ["Lecture 1: Limits", "Lecture 2: Derivatives"],
+            5: ["Lecture 1: Vectors", "Lecture 2: Matrices"],
+            6: ["Lecture 1: Newton's Laws", "Lecture 2: Energy"],
+            7: ["Lecture 1: Wave-Particle Duality", "Lecture 2: Schrödinger Equation"]
+        };
+
+        // DOM elements
+        const categorySelect = document.getElementById('categorySelect');
+        const courseSelect = document.getElementById('courseSelect');
+        const lectureCheckboxGroup = document.getElementById('lectureCheckboxGroup');
+        const questionTypeFilters = document.querySelectorAll('.question-type-filter');
+        const difficultyFilters = document.querySelectorAll('.difficulty-filter');
+        const searchBtn = document.getElementById('searchBtn');
+        const questionSearch = document.getElementById('questionSearch');
+        const questionsTable = document.getElementById('questionsTable');
+
+        // Event listeners
+        categorySelect.addEventListener('change', updateCourses);
+        courseSelect.addEventListener('change', updateLectures);
+
+        // Add event listeners to all question type checkboxes
+        questionTypeFilters.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (this.value === 'all') {
+                    // If "All Types" is checked, uncheck others
+                    if (this.checked) {
+                        document.querySelectorAll('.question-type-filter:not([value="all"])').forEach(cb => {
+                            cb.checked = false;
+                        });
+                    }
+                } else {
+                    // If any specific type is checked, uncheck "All Types"
+                    document.querySelector('.question-type-filter[value="all"]').checked = false;
+
+                    // If all specific types are unchecked, check "All Types"
+                    const anyChecked = Array.from(document.querySelectorAll('.question-type-filter:not([value="all"])'))
+                        .some(cb => cb.checked);
+
+                    if (!anyChecked) {
+                        document.querySelector('.question-type-filter[value="all"]').checked = true;
+                    }
+                }
+                filterQuestions();
+            });
+        });
+
+        // Add event listeners to all difficulty level checkboxes
+        difficultyFilters.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (this.value === 'all') {
+                    // If "All Levels" is checked, uncheck others
+                    if (this.checked) {
+                        document.querySelectorAll('.difficulty-filter:not([value="all"])').forEach(cb => {
+                            cb.checked = false;
+                        });
+                    }
+                } else {
+                    // If any specific level is checked, uncheck "All Levels"
+                    document.querySelector('.difficulty-filter[value="all"]').checked = false;
+
+                    // If all specific levels are unchecked, check "All Levels"
+                    const anyChecked = Array.from(document.querySelectorAll('.difficulty-filter:not([value="all"])'))
+                        .some(cb => cb.checked);
+
+                    if (!anyChecked) {
+                        document.querySelector('.difficulty-filter[value="all"]').checked = true;
+                    }
+                }
+                filterQuestions();
+            });
+        });
+
+        searchBtn.addEventListener('click', filterQuestions);
+        questionSearch.addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') filterQuestions();
+        });
+
+        // Update selected questions summary when checkboxes change
+        questionsTable.addEventListener('change', function (e) {
+            if (e.target.classList.contains('question-checkbox')) {
+                updateSelectedQuestionsSummary();
+            }
+        });
+
+        // Update points total when point values change
+        questionsTable.addEventListener('input', function (e) {
+            if (e.target.classList.contains('points-input')) {
+                updateSelectedQuestionsSummary();
+            }
+        });
+
+        // Form submission
+        document.getElementById('manualExamForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const selectedQuestions = getSelectedQuestions();
+
+            if (selectedQuestions.length === 0) {
+                alert('Please select at least one question');
+                return;
+            }
+
+            alert('Exam created successfully with ' + selectedQuestions.length + ' questions!');
+            window.location.href = 'exam-preview.html';
+        });
+
+        // Functions
+        function updateCourses() {
+            const categoryId = categorySelect.value;
+            courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
+
+            if (categoryId && coursesByCategory[categoryId]) {
+                coursesByCategory[categoryId].forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.name;
+                    courseSelect.appendChild(option);
+                });
+            }
+
+            // Clear lecture selection
+            lectureCheckboxGroup.innerHTML = '<p class="text-muted">Select a course first</p>';
+        }
+
+        function updateLectures() {
+            const courseId = courseSelect.value;
+
+            if (!courseId || !lecturesByCourse[courseId]) {
+                lectureCheckboxGroup.innerHTML = '<p class="text-muted">No lectures available for this course</p>';
+                filterQuestions();
+                return;
+            }
+
+            let html = '';
+            lecturesByCourse[courseId].forEach((lecture, index) => {
+                html += `
+                        <div class="filter-checkbox-item form-check">
+                            <input class="form-check-input lecture-filter" type="checkbox" value="${lecture}" id="lecture${index}">
+                            <label class="form-check-label" for="lecture${index}">${lecture}</label>
+                        </div>
+                    `;
+            });
+
+            // Add "All Lectures" option at the top
+            html = `
+                    <div class="filter-checkbox-item form-check">
+                        <input class="form-check-input lecture-filter" type="checkbox" value="all" id="lectureAll" checked>
+                        <label class="form-check-label" for="lectureAll">All Lectures</label>
+                    </div>
+                ` + html;
+
+            lectureCheckboxGroup.innerHTML = html;
+
+            // Add event listeners to lecture checkboxes
+            document.querySelectorAll('.lecture-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    if (this.value === 'all') {
+                        // If "All Lectures" is checked, uncheck others
+                        if (this.checked) {
+                            document.querySelectorAll('.lecture-filter:not([value="all"])').forEach(cb => {
+                                cb.checked = false;
+                            });
+                        }
+                    } else {
+                        // If any specific lecture is checked, uncheck "All Lectures"
+                        document.querySelector('.lecture-filter[value="all"]').checked = false;
+
+                        // If all specific lectures are unchecked, check "All Lectures"
+                        const anyChecked = Array.from(document.querySelectorAll('.lecture-filter:not([value="all"])'))
+                            .some(cb => cb.checked);
+
+                        if (!anyChecked) {
+                            document.querySelector('.lecture-filter[value="all"]').checked = true;
+                        }
+                    }
+                    filterQuestions();
+                });
+            });
+
+            filterQuestions();
+        }
+
+        function filterQuestions() {
+            // Get selected question types
+            const selectedTypes = [];
+            if (document.querySelector('.question-type-filter[value="all"]').checked) {
+                selectedTypes.push('all');
+            } else {
+                document.querySelectorAll('.question-type-filter:checked:not([value="all"])').forEach(cb => {
+                    selectedTypes.push(cb.value);
+                });
+            }
+
+            // Get selected difficulty levels
+            const selectedDifficulties = [];
+            if (document.querySelector('.difficulty-filter[value="all"]').checked) {
+                selectedDifficulties.push('all');
+            } else {
+                document.querySelectorAll('.difficulty-filter:checked:not([value="all"])').forEach(cb => {
+                    selectedDifficulties.push(cb.value);
+                });
+            }
+
+            // Get selected lectures (if any)
+            const selectedLectures = [];
+            const lectureAllChecked = lectureCheckboxGroup.querySelector('.lecture-filter[value="all"]')?.checked;
+            if (lectureAllChecked) {
+                selectedLectures.push('all');
+            } else {
+                lectureCheckboxGroup.querySelectorAll('.lecture-filter:checked:not([value="all"])').forEach(cb => {
+                    selectedLectures.push(cb.value);
+                });
+            }
+
+            const searchText = questionSearch.value.toLowerCase();
+            const courseId = courseSelect.value;
+
+            document.querySelectorAll('#questionsTable tbody tr').forEach(row => {
+                const questionType = row.getAttribute('data-type');
+                const difficulty = row.getAttribute('data-difficulty');
+                const questionCourse = row.getAttribute('data-course');
+                const questionText = row.cells[1].textContent.toLowerCase();
+
+                let showRow = true;
+
+                // Apply type filter
+                if (!selectedTypes.includes('all') && !selectedTypes.includes(questionType)) {
+                    showRow = false;
+                }
+
+                // Apply difficulty filter
+                if (!selectedDifficulties.includes('all') && !selectedDifficulties.includes(difficulty)) {
+                    showRow = false;
+                }
+
+                // Apply course filter
+                if (courseId && questionCourse !== courseId) {
+                    showRow = false;
+                }
+
+                // Apply search filter
+                if (searchText && !questionText.includes(searchText)) {
+                    showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+
+        function getSelectedQuestions() {
+            const selected = [];
+            document.querySelectorAll('.question-checkbox:checked').forEach(checkbox => {
+                const row = checkbox.closest('tr');
+                selected.push({
+                    id: checkbox.value,
+                    text: row.cells[1].textContent,
+                    type: row.cells[2].textContent,
+                    difficulty: row.cells[3].textContent,
+                    points: row.querySelector('.points-input').value
+                });
+            });
+            return selected;
+        }
+
+        function updateSelectedQuestionsSummary() {
+            const selectedQuestions = getSelectedQuestions();
+            const summaryDiv = document.getElementById('selectedQuestionsSummary');
+
+            if (selectedQuestions.length === 0) {
+                summaryDiv.innerHTML = '<p class="text-muted">No questions selected yet</p>';
+                document.getElementById('totalQuestionsCount').textContent = '0';
+                document.getElementById('totalPoints').textContent = '0';
+                return;
+            }
+
+            let html = '<div class="selected-questions-list">';
+            let totalPoints = 0;
+
+            selectedQuestions.forEach((q, index) => {
+                html += `
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <strong>Q${index + 1}:</strong> ${q.text.substring(0, 50)}${q.text.length > 50 ? '...' : ''}
+                                    <br>
+                                    <small class="text-muted">${q.type} | ${q.difficulty} | ${q.points} pts</small>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deselectQuestion(${q.id})">Remove</button>
+                            </div>
+                        `;
+                totalPoints += parseFloat(q.points);
+            });
+
+            html += '</div>';
+            summaryDiv.innerHTML = html;
+            document.getElementById('totalQuestionsCount').textContent = selectedQuestions.length;
+            document.getElementById('totalPoints').textContent = totalPoints.toFixed(1);
+        }
+
+        // Global function for remove buttons
+        window.deselectQuestion = function (questionId) {
+            const checkbox = document.querySelector(`.question-checkbox[value="${questionId}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+                updateSelectedQuestionsSummary();
+            }
+        };
+
+        // Initialize
+        updateCourses();
+    </script>
+</body>
+</html>

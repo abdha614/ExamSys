@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.ViewModels
 {
@@ -14,5 +15,9 @@ namespace PresentationLayer.ViewModels
 
         [Required(ErrorMessage = "Please select a role.")]
         public int RoleId { get; set; }
+
+        public IEnumerable<SelectListItem>? Roles { get; set; }
+
+
     }
 }

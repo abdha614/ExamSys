@@ -95,6 +95,15 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("ProfessorId");
 
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 2,
+                            Name = "data1",
+                            ProfessorId = 2
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.DifficultyLevel", b =>
@@ -131,6 +140,112 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Exam", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Metadata")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TotalQuestions")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("Exams");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.ExamQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Points")
+                        .HasColumnType("float");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("ExamQuestions");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.ExamSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AllowedQuestionTypesJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EasyQuestionCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HardQuestionCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IncludedCategoryIdsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IncludedLectureIdsJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MediumQuestionCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExamId")
+                        .IsUnique();
+
+                    b.ToTable("ExamSettings");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.History", b =>
                 {
                     b.Property<int>("Id")
@@ -160,6 +275,33 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Histories");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Lecture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LectureName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ProfessorId");
+
+                    b.ToTable("lectures");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
                 {
                     b.Property<int>("Id")
@@ -182,6 +324,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("DifficultyLevelId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LectureId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProfessorId")
                         .HasColumnType("int");
 
@@ -199,6 +344,8 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("CourseId");
 
                     b.HasIndex("DifficultyLevelId");
+
+                    b.HasIndex("LectureId");
 
                     b.HasIndex("ProfessorId");
 
@@ -300,6 +447,9 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("MustChangePassword")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -318,7 +468,8 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             Email = "Admin@admin.com",
-                            PasswordHash = "AQAAAAIAAYagAAAAENE7SuiNo34he36DlWt1y82TVHuRFXYHo1GOZkN4tBFOaJDI8KbaNFWRdkvFoKHXqg==",
+                            MustChangePassword = false,
+                            PasswordHash = "AQAAAAIAAYagAAAAELHwM59ak2PqYX6QWkbJBiWTWGnA7fr4agH0bzcGq7UV74nJTbaxYotXggSpwB7gQA==",
                             RoleId = 3
                         });
                 });
@@ -364,6 +515,55 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Professor");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Exam", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Course", "Course")
+                        .WithMany("Exams")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "Professor")
+                        .WithMany("Exams")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Professor");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.ExamQuestion", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Exam", "Exam")
+                        .WithMany("ExamQuestions")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.ExamSettings", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Exam", "Exam")
+                        .WithOne("ExamSettings")
+                        .HasForeignKey("DataAccessLayer.Models.ExamSettings", "ExamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exam");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.History", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.User", "User")
@@ -375,36 +575,61 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Lecture", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Course", "Course")
+                        .WithMany("Lectures")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "Professor")
+                        .WithMany("Lectures")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Professor");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Category", "Category")
                         .WithMany("Questions")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Models.Course", "Course")
                         .WithMany("Questions")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Models.DifficultyLevel", "DifficultyLevel")
                         .WithMany("Questions")
                         .HasForeignKey("DifficultyLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.Lecture", "Lecture")
+                        .WithMany("Questions")
+                        .HasForeignKey("LectureId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Models.User", "Professor")
                         .WithMany("Questions")
                         .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("DataAccessLayer.Models.QuestionType", "QuestionType")
                         .WithMany("Questions")
                         .HasForeignKey("QuestionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -413,6 +638,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("DifficultyLevel");
 
+                    b.Navigation("Lecture");
+
                     b.Navigation("Professor");
 
                     b.Navigation("QuestionType");
@@ -420,13 +647,13 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
-                    b.HasOne("DataAccessLayer.Models.Role", "Role")
+                    b.HasOne("DataAccessLayer.Models.Role", "Roles")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
@@ -438,10 +665,27 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.Course", b =>
                 {
+                    b.Navigation("Exams");
+
+                    b.Navigation("Lectures");
+
                     b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.DifficultyLevel", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Exam", b =>
+                {
+                    b.Navigation("ExamQuestions");
+
+                    b.Navigation("ExamSettings")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Lecture", b =>
                 {
                     b.Navigation("Questions");
                 });
@@ -467,7 +711,11 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("Courses");
 
+                    b.Navigation("Exams");
+
                     b.Navigation("Histories");
+
+                    b.Navigation("Lectures");
 
                     b.Navigation("Questions");
                 });

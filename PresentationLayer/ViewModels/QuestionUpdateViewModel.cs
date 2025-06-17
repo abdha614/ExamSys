@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BusinessLogicLayer.Dtos;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.ViewModels
 {
@@ -24,10 +26,17 @@ namespace PresentationLayer.ViewModels
 
         [Required]
         public int CourseId { get; set; }
+        [Required]
+        public string LectureName { get; set; } // Instead of LectureId
 
         public List<AnswerAddViewModel> Answers { get; set; }
 
         [Required]
         public int CorrectAnswerIndex { get; set; }
+
+        public List<CategoryGetDto> Categories { get; set; } = new List<CategoryGetDto>(); // All available categories
+        public List<DifficultyLevelDto> DifficultyLevels { get; set; } = new List<DifficultyLevelDto>();
+        public List<CourseGetDto> Courses { get; set; } = new List<CourseGetDto>();       // All available courses
+
     }
 }

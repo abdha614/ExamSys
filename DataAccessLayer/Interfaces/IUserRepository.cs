@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Dtos;
+using DataAccessLayer.Models;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer.Interfaces
@@ -8,6 +9,9 @@ namespace DataAccessLayer.Interfaces
         Task<User> GetUserByEmailAsync(string email);
         Task<IEnumerable<User>> GetUsersByRoleAsync(int? roleId);
         Task DeleteUserAsync(int professorId);
+        Task<bool> EmailExistsAsync(string email);
+        Task<CreatedUserDto> AddUserAsync(User user);
+
 
     }
 }

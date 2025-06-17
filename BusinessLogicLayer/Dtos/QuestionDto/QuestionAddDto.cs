@@ -16,6 +16,10 @@ namespace BusinessLogicLayer.Dtos.QuestionDto
             public int professorId { get; set; }
             public int CategoryId { get; set; }
             public int CourseId { get; set; }
+            public int LectureId { get; set; }
+        public string LectureName { get; set; } 
+
+
         public List<AnswerAddDto> Answers { get; set; }
     }
     

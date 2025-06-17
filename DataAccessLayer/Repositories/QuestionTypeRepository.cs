@@ -18,5 +18,14 @@ namespace DataAccessLayer.Repositories
         {
             return await _dbSet.ToListAsync(); // Fetch all QuestionTypes
         }
+        public async Task<QuestionType> GetByNameAsync(string name)
+        {
+            string normalizedInput = name.Replace(" ", "").Replace("-", "").Trim().ToLower();
+
+            return await _dbSet
+                .FirstOrDefaultAsync(qt =>
+                    qt.Type.Replace(" ", "").Replace("-", "").Trim().ToLower() == normalizedInput);
+        }
+
     }
 }

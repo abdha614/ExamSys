@@ -17,5 +17,8 @@ namespace DataAccessLayer.Models
         public Category Category { get; set; }
         public User Professor { get; set; } // Navigation property for User
         public ICollection<Question> Questions { get; set; }
+        public ICollection<Lecture> Lectures { get; set; }
+        public ICollection<Exam> Exams { get; set; } // In Course and in Professor (User)
+
     }
 }

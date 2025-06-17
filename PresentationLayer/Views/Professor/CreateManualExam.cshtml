@@ -1,0 +1,612 @@
+﻿@model PresentationLayer.ViewModels.ExamViewModel.CreateManualExamViewModel
+
+@{
+    ViewData["Title"] = "Create Manual Exam";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Create Manual Exam</h2>
+
+    <form asp-action="PreviewExam" method="post">
+        <div class="row">
+            <!-- Exam Details Card -->
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header fw-bold bg-primary text-white">تفاصيل الامتحان</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="CourseNamee" class="form-label fw-bold">المادة</label>
+                            <input asp-for="CourseNamee" class="form-control shadow-sm" />
+                            <span asp-validation-for="CourseNamee" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TeacherName" class="form-label fw-bold">اسم مدرس المادة</label>
+                            <input asp-for="TeacherName" class="form-control shadow-sm" />
+                            <span asp-validation-for="TeacherName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Semester" class="form-label fw-bold">الفصل الدراسي</label>
+                            <select asp-for="Semester" class="form-select shadow-sm">
+                                <option value="">-- اختر الفصل الدراسي --</option>
+                                <option value="الأول 2025/2026">الأول 2025/2026</option>
+                                <option value="الثاني 2025/2026">الثاني 2025/2026</option>
+                                <option value="الأول 2026/2027">الأول 2026/2027</option>
+                                <option value="الثاني 2026/2027">الثاني 2026/2027</option>
+                            </select>
+                            <span asp-validation-for="Semester" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Course Selection Card -->
+            <div class="col-md-6">
+
+                <div class="card mb-3">
+                    <div class="card-header fw-bold bg-primary text-white">Course Selection</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="ExamTitle" class="form-label fw-bold"></label>
+                            <input asp-for="ExamTitle" class="form-control shadow-sm" />
+                            <span asp-validation-for="ExamTitle" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Category</label>
+                            <select asp-for="SelectedCategoryId" asp-items="Model.Categories" class="form-select shadow-sm" id="category">
+                                <option value="" disabled selected>-- Select Category --</option>
+                            </select>
+                            <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
+                            
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Course</label>
+                            <select asp-for="SelectedCourseId" asp-items="Model.Courses" class="form-select shadow-sm" id="course">
+                                <option value="" disabled selected>-- Select Course --</option>
+                            </select>
+                            <input type="hidden" asp-for="courseName" id="SelectedCourseName" />
+                            <span asp-validation-for="SelectedCourseId" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Question Filters</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <!-- Lectures Filter -->
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Lectures</label>
+                            <div class="border rounded p-3 bg-light" style="height: 200px; overflow-y: auto;" id="lecture-checkboxes">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllLectures" />
+                                    <label class="form-check-label fw-bold" for="selectAllLectures">All Lectures</label>
+                                </div>
+                                @foreach (var lecture in Model.Lectures)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input lecture-checkbox" type="checkbox" name="SelectedLectureIds" value="@lecture.Value" id="lecture_@lecture.Value" />
+                                        <label class="form-check-label" for="lecture_@lecture.Value">@lecture.Text</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Types Filter -->
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Question Types</label>
+                            <div class="border rounded p-3 bg-light" style="height: 200px; overflow-y: auto;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllTypes" />
+                                    <label class="form-check-label fw-bold" for="selectAllTypes">All Types</label>
+                                </div>
+                                @foreach (var type in Model.QuestionTypes)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input type-checkbox" type="checkbox" name="SelectedQuestionTypeIds" value="@type.Value" id="type_@type.Value" />
+                                        <label class="form-check-label" for="type_@type.Value">@type.Text</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Difficulty Levels Filter -->
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Difficulty Levels</label>
+                            <div class="border rounded p-3 bg-light" style="height: 200px; overflow-y: auto;">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="selectAllDifficulties" />
+                                    <label class="form-check-label fw-bold" for="selectAllDifficulties">All Difficulties</label>
+                                </div>
+                                @foreach (var diff in Model.DifficultyLevels)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input difficulty-checkbox" type="checkbox" name="SelectedDifficultyLevelIds" value="@diff.Value" id="diff_@diff.Value" />
+                                        <label class="form-check-label" for="diff_@diff.Value">@diff.Text</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary w-100" id="filterQuestionsBtn">Filter Questions</button>
+
+
+        <hr />
+        @* @if (Model.Questions != null && Model.Questions.Any())
+        { *@
+            @* <div class="card mt-4 mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0 text-center">Available Questions</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>Question Text</th>
+                                    <th>Type</th>
+                                    <th>Difficulty</th>
+                                    <th>Lecture</th>
+                                    <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questionsTableBody">
+                            @await Html.PartialAsync("_GeneratedQuestionsPartial", Model.Questions)
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> *@
+        <div class="card mt-4 mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0 text-center">Available Questions</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">Select</th>
+                                <th style="width: 61%;">Question Text</th>
+                                <th style="width: 10%;">Type</th>
+                                <th style="width: 8%;">Difficulty</th>
+                                <th style="width: 8%;">Lecture</th>
+                                <th style="width: 8%;">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody id="questionsTableBody">
+                            @await Html.PartialAsync("_GeneratedQuestionsPartial", Model.Questions)
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+            <!-- Summary Section -->
+            <div class="card mt-4">
+                <div class="card-header bg-light fw-bold">Selected Questions Summary</div>
+                <div class="card-body">
+                    <div id="summaryList"></div>
+
+                    <div>
+                        <strong>Total Questions:</strong> <span id="totalQuestions">0</span> |
+                        <strong>Total Points:</strong> <span id="totalPoints">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-end mt-3">
+                <a class="btn btn-secondary" href="#">Cancel</a>
+            <button type="submit" class="btn btn-primary" id="previewButton">Preview</button>
+        </div>
+        
+        <div id="hiddenInputsContainer"></div>
+        <!-- Confirmation Modal -->
+        <div class="modal fade" id="noQuestionModal" tabindex="-1" aria-labelledby="noQuestionModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-danger">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="noQuestionModalLabel">Warning</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <i class="bi bi-exclamation-triangle-fill fs-3 text-danger"></i>
+                        <p class="mt-3">Please select at least one question before previewing the exam.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+@*     <partial name="_ValidationScriptsPartial" />
+ *@
+    <script>
+        $(document).ready(function () {
+            // Initialize select all checkboxes
+            bindSelectAllCheckbox("selectAllLectures", "lecture-checkbox");
+            bindSelectAllCheckbox("selectAllTypes", "type-checkbox");
+            bindSelectAllCheckbox("selectAllDifficulties", "difficulty-checkbox");
+
+            // Category change handler
+            $('#category').change(function () {
+                var categoryId = $(this).val();
+                if (categoryId) {
+                    getCoursesByCategory(categoryId);
+                } else {
+                    $('#course').empty().append('<option value="">-- Select Course --</option>');
+                    $('#lecture-checkboxes').empty();
+                }
+            });
+
+            // Course change handler
+            $('#course').change(function () {
+                var courseId = $(this).val();
+                if (courseId) {
+                    getLecturesByCourse(courseId);
+                } else {
+                    $('#lecture-checkboxes').empty();
+                }
+            });
+        });
+
+        function bindSelectAllCheckbox(selectAllId, checkboxClass) {
+            $('#' + selectAllId).off('change').on('change', function () {
+                $('.' + checkboxClass).prop('checked', this.checked);
+            });
+        }
+
+        function getCoursesByCategory(categoryId) {
+            $.ajax({
+                url: '/Professor/GetCoursesByyCategory',
+                type: 'GET',
+                data: { categoryId: categoryId },
+                beforeSend: function () {
+                    $('#course').prop('disabled', true);
+                },
+                success: function (data) {
+                    var courseDropdown = $('#course');
+                    courseDropdown.empty();
+                    courseDropdown.append('<option value="" disabled selected>-- Select Course --</option>');
+
+
+                    if (data && data.length > 0) {
+                        $.each(data, function (i, course) {
+                            courseDropdown.append($('<option>', {
+                                value: course.id,
+                                text: course.name
+                            }));
+                        });
+                    }
+                },
+                complete: function () {
+                    $('#course').prop('disabled', false);
+                },
+                error: function () {
+                    alert('Error loading courses. Please try again.');
+                }
+            });
+        }
+
+        function getLecturesByCourse(courseId) {
+            $.ajax({
+                url: '/Professor/GetLecturesByCourse',
+                type: 'GET',
+                data: { courseId: courseId },
+                beforeSend: function () {
+                    $('#lecture-checkboxes').html('<div class="text-center py-3"><div class="spinner-border text-primary" role="status"></div></div>');
+                },
+                success: function (data) {
+                    var container = $('#lecture-checkboxes');
+                    container.empty();
+
+                    if (data && data.length > 0) {
+                        container.append(`
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="selectAllLectures" />
+                                        <label class="form-check-label fw-bold" for="selectAllLectures">All Lectures</label>
+                                    </div>
+                                `);
+
+                        // Sort lectures by numeric value extracted from lectureName
+                        data.sort(function (a, b) {
+                            const numA = parseInt(a.lectureName.match(/\d+/));
+                            const numB = parseInt(b.lectureName.match(/\d+/));
+                            return numA - numB;
+                        });
+
+                        $.each(data, function (i, lecture) {
+                            container.append(`
+                                        <div class="form-check">
+                                            <input class="form-check-input lecture-checkbox" type="checkbox" name="SelectedLectureIds" value="${lecture.id}" id="lecture_${lecture.id}" />
+                                            <label class="form-check-label" for="lecture_${lecture.id}">${lecture.lectureName}</label>
+                                        </div>
+                                    `);
+                        });
+
+                        bindSelectAllCheckbox("selectAllLectures", "lecture-checkbox");
+                    } else {
+                        container.append('<div class="text-muted">No lectures available for this course.</div>');
+                    }
+                },
+                error: function () {
+                    alert('Error loading lectures. Please try again.');
+                }
+            });
+        }
+        ////////////////////
+        function updateSummary() {
+            const summaryList = document.getElementById("summaryList");
+            const hiddenInputsContainer = document.getElementById("hiddenInputsContainer");
+            const checkboxes = document.querySelectorAll(".question-select");
+            let totalQuestions = 0;
+            let totalPoints = 0.0;
+            summaryList.innerHTML = "";
+            hiddenInputsContainer.innerHTML = ""; // Clear previous inputs
+
+            checkboxes.forEach((cb, index) => {
+                const isChecked = cb.checked;
+                const questionText = cb.dataset.text;
+                const type = cb.dataset.type;
+                const difficulty = cb.dataset.difficulty;
+                const idx = cb.dataset.index;
+                const lecture = cb.dataset.lecture;
+                const questionId = cb.value;
+                const pointsInput = document.querySelector(`.points-input[data-index='${idx}']`);
+                const points = parseFloat(pointsInput?.value || "0");
+
+                if (isChecked) {
+                    totalQuestions++;
+                    totalPoints += points;
+
+                    // Summary UI
+                    summaryList.innerHTML += `
+          <div class="d-flex justify-content-between align-items-center mb-2" id="summary-${idx}">
+            <div>
+              <strong>Q${totalQuestions}:</strong> ${questionText}<br>
+              <small>${type} | ${difficulty} | ${lecture} | ${points} pts</small>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion(${idx})">Remove</button>
+          </div>
+        `;
+
+
+
+                    // Hidden inputs
+                    hiddenInputsContainer.innerHTML += `
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionId" value="${questionId}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionText" value="${questionText}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionTypeName" value="${type}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].DifficultyLevelName" value="${difficulty}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].LectureName" value="${lecture}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].Points" value="${points}" />
+                    `;
+                }
+            });
+
+            document.getElementById("totalQuestions").innerText = totalQuestions;
+            document.getElementById("totalPoints").innerText = totalPoints.toFixed(1);
+        }
+
+
+
+
+        function removeQuestion(index) {
+            const checkbox = document.querySelector(`.question-select[data-index='${index}']`);
+            const pointsInput = document.querySelector(`.points-input[data-index='${index}']`);
+            if (checkbox) checkbox.checked = false;
+            if (pointsInput) pointsInput.value = "";
+            updateSummary();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".question-select, .points-input").forEach(el =>
+                el.addEventListener("change", updateSummary));
+        });
+        document.addEventListener("change", function (e) {
+            if (e.target.classList.contains("question-select") || e.target.classList.contains("points-input")) {
+                updateSummary();
+            }
+        });
+
+        ////////////////////
+        //////////////////////
+
+        $(document).ready(function () {
+            $("#filterQuestionsBtn").click(function () {
+                // Remove previous error messages
+                // $(".text-danger").remove();
+
+                // Collect selected values
+                var selectedLectures = $(".lecture-checkbox:checked").map(function () { return parseInt($(this).val()); }).get();
+                var selectedTypes = $(".type-checkbox:checked").map(function () { return parseInt($(this).val()); }).get();
+                var selectedDifficulties = $(".difficulty-checkbox:checked").map(function () { return parseInt($(this).val()); }).get();
+                var selectedCategoryId = parseInt($("#category").val()) || null;
+                var selectedCourseId = parseInt($("#course").val()) || null;
+                var isValid = true;
+
+                // Validation checks
+                if (!selectedCategoryId) {
+                    $("#category").closest(".mb-3").append('<p class="text-danger">Category is required.</p>');
+                    isValid = false;
+                }
+                if (!selectedCourseId) {
+                    $("#course").closest(".mb-3").append('<p class="text-danger">Course is required.</p>');
+                    isValid = false;
+                }
+                if (selectedLectures.length === 0) {
+                    $("#lecture-checkboxes").after('<p class="text-danger">Please select at least one lecture.</p>');
+                    isValid = false;
+                }
+                if (selectedTypes.length === 0) {
+                    $("#selectAllTypes").closest(".mb-3").append('<p class="text-danger">Please select at least one question type.</p>');
+                    isValid = false;
+                }
+                if (selectedDifficulties.length === 0) {
+                    $("#selectAllDifficulties").closest(".mb-3").append('<p class="text-danger">Please select at least one difficulty level.</p>');
+                    isValid = false;
+                }
+
+                // Stop execution if validation fails
+                if (!isValid) return;
+
+                console.log({
+                    selectedCategoryId,
+                    selectedCourseId,
+                    selectedLectureIds: selectedLectures,
+                    selectedQuestionTypeIds: selectedTypes,
+                    selectedDifficultyLevelIds: selectedDifficulties
+                });
+
+                // Send AJAX request
+                $.ajax({
+                    url: "/Professor/CreateManualExam",
+                    type: "GET",
+                    traditional: true,
+                    data: {
+                        selectedCategoryId: selectedCategoryId,
+                        selectedCourseId: selectedCourseId,
+                        selectedLectureIds: selectedLectures.length ? selectedLectures : [],
+                        selectedQuestionTypeIds: selectedTypes.length ? selectedTypes : [],
+                        selectedDifficultyLevelIds: selectedDifficulties.length ? selectedDifficulties : [],
+                        isAjaxRequest: true
+                    },
+                    beforeSend: function () {
+                        $("#questionsTableBody").html("<p>Loading filtered results...</p>");
+                    },
+                    success: function (response) {
+                        console.log("AJAX Response:", response);
+                        $("#questionsTableBody").html(response);
+                    },
+                    error: function () {
+                        alert("An error occurred while filtering questions.");
+                    }
+                });
+            });
+
+            // Remove error messages when selections are made
+            $(".lecture-checkbox, .type-checkbox, .difficulty-checkbox").on("change", function () {
+                $(this).closest(".mb-3").find(".text-danger").remove();
+            });
+
+            $("#category, #course").on("change", function () {
+                $(this).closest(".mb-3").find(".text-danger").remove();
+            });
+
+            $(document).on("change", ".lecture-checkbox", function () {
+                $("#lecture-checkboxes").siblings(".text-danger").remove();
+            });
+        });
+
+    
+
+        $(document).ready(function () {
+            // Set initial course name if already selected
+            $('#SelectedCourseName').val($('#course option:selected').text());
+
+            // Update on change
+            $('#course').change(function () {
+                var courseName = $('#course option:selected').text();
+                $('#SelectedCourseName').val(courseName);
+            });
+        });
+
+        ///////////////
+        // $(document).ready(function () {
+        //     $("form").submit(function (event) {
+        //         var isValid = true;
+
+        //         $(".points-input").each(function () {
+        //             var points = $(this).val().trim();
+        //             if (!points || isNaN(points) || parseFloat(points) <= 0) {
+        //                 isValid = false;
+        //                 $(this).addClass("is-invalid");
+        //             } else {
+        //                 $(this).removeClass("is-invalid");
+        //             }
+        //         });
+
+        //         if (!isValid) {
+        //             event.preventDefault();
+        //         }
+        //     });
+
+        //     $(".points-input").on("input", function () {
+        //         // Remove invalid class as soon as typing starts
+        //         $(this).removeClass("is-invalid");
+        //     });
+        // });
+        $(document).ready(function () {
+            $("form").submit(function (event) {
+                let isValid = true;
+
+                $(".question-select:checked").each(function () {
+                    const questionId = $(this).data("index");
+                    const pointInput = $(".points-input[data-index='" + questionId + "']");
+                    const points = pointInput.val().trim();
+
+                    if (!points || isNaN(points) || parseFloat(points) <= 0) {
+                        isValid = false;
+                        pointInput.addClass("is-invalid");
+                    } else {
+                        pointInput.removeClass("is-invalid");
+                    }
+                });
+
+                if (!isValid) {
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+
+            $(document).on("input", ".points-input", function () {
+                const value = $(this).val().trim();
+                if (value !== "" && !isNaN(value) && parseFloat(value) > 0) {
+                    $(this).removeClass("is-invalid");
+                }
+            });
+
+        });
+        ////
+        $(document).ready(function () {
+            $('#previewButton').on('click', function (e) {
+                var selectedQuestions = $('input[name="SelectedQuestionIds"]:checked');
+
+                if (selectedQuestions.length === 0) {
+                    e.preventDefault(); // Prevent form submission
+                    var noQuestionModal = new bootstrap.Modal(document.getElementById('noQuestionModal'));
+                    noQuestionModal.show();
+                }
+            });
+        });
+
+
+
+
+
+
+
+    </script>
+}

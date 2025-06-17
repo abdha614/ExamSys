@@ -33,17 +33,17 @@
 
             <div class="input-group mb-4">
                 <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                <select asp-for="RoleId" class="form-control" required>
+                <select asp-for="RoleId" asp-items="Model.Roles" class="form-control" required>
                     <option value="">Select a role</option>
-                    <option value="1">Professor</option>
-                    <option value="2">Student</option>
-                    <option value="3">Admin</option>
                 </select>
-            
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+
             </div>
             <span asp-validation-for="RoleId" class="text-danger"></span>
+
             <br />
             <br />
+
             <button type="submit" class="btn btn-register">Register</button>
         </form>
     </div>

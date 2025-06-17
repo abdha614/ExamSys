@@ -1,0 +1,52 @@
+﻿@model List<PresentationLayer.ViewModels.QuestionViewModel>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var question in Model)
+    {
+        <tr>
+            <td>
+                <input type="checkbox"
+                       class="form-check-input question-select"
+                       value="@question.Id"
+                       data-index="@question.Id"
+                       data-text="@question.Text"
+                       data-type="@question.QuestionTypeName"
+                       data-difficulty="@question.DifficultyLevelName"
+                       data-lecture="@question.LectureName" />
+            </td>
+            <td>@question.Text</td>
+            <td>
+                <span class="badge bg-primary">@question.QuestionTypeName</span>
+            </td>
+            <td>
+                @{
+                    var difficulty = question.DifficultyLevelName;
+                    var difficultyClass = difficulty switch
+                    {
+                        "Easy" => "bg-success",
+                        "Medium" => "bg-warning text-dark",
+                        "Hard" => "bg-danger",
+                        _ => "bg-secondary"
+                    };
+                }
+                <span class="badge @difficultyClass">@difficulty</span>
+            </td>
+            <td>@question.LectureName</td>
+            <td>
+                <input type="number"
+                       step="0.5"
+                       min="1"
+                       class="form-control form-control-sm points-input"
+                       data-index="@question.Id"
+                       style="max-width: 80px;" />
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="6" class="text-center text-muted">No questions found for selected filters.</td>
+    </tr>
+}

@@ -14,7 +14,8 @@ namespace DataAccessLayer.Models
         public int DifficultyLevelId { get; set; }
         public int QuestionTypeId { get; set; }
         public int CategoryId { get; set; } // Foreign key for Category
-       // public int UserId { get; set; } // Foreign key for User
+        public int LectureId { get; set; }
+
         // Foreign key for Professor 
         public int ProfessorId { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
@@ -24,6 +25,7 @@ namespace DataAccessLayer.Models
         public DifficultyLevel DifficultyLevel { get; set; }
         public QuestionType QuestionType { get; set; }
         public Category Category { get; set; } // Navigation property
+        public Lecture Lecture { get; set; } // Navigation property
         public ICollection<Answer> Answers { get; set; }
     }
 }

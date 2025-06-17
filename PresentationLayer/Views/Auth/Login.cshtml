@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
 <div class="exam-login-container">
-    <div class="exam-grid">
+    <div class="exam-shared-boundary">
         <!-- Left Side - Image Section -->
         <div class="exam-image">
             <img src="~/images/exam-background.jpg" alt="Exam Background" class="img-fluid" />
@@ -31,19 +31,14 @@
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
-              @*   <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="RememberMe" asp-for="RememberMe" />
-                    <label class="form-check-label" for="RememberMe">Remember Me</label>
-                </div> *@
-
                 <button type="submit" class="btn btn-login">Login</button>
             </form>
 
             <footer class="login-footer">
-              @*   <p>Forgot your password? <a href="#">Click here</a></p>
-                <p>Don't have an account? <a href="#">Register now</a></p> *@
+                <!-- Uncomment the below lines if needed -->
+                <!-- <p>Forgot your password? <a href="#">Click here</a></p> -->
+                <!-- <p>Don't have an account? <a href="#">Register now</a></p> -->
             </footer>
         </div>
     </div>
 </div>
-

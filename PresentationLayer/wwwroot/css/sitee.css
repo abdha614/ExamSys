@@ -50,3 +50,11 @@
         background-color: #0056b3;
         border-color: #004085;
     }
+
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
+

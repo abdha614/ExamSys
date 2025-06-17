@@ -71,3 +71,53 @@
     font-weight: bold;
     color: red;
 }*/
+/* Lecture Spinner Styles */
+.lecture-spinner {
+    position: relative;
+    display: block;
+    width: 100%; /* match width of course input */
+    margin-top: 5px;
+}
+
+    .lecture-spinner input[type="text"] {
+        width: 100%;
+        padding: 10px 16px;
+        padding-right: 40px; /* space for the up/down buttons */
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background-color: #fff;
+        font-size: 16px;
+        color: #495057;
+        appearance: none;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+        .lecture-spinner input[type="text"]:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+    .lecture-spinner .controls {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .lecture-spinner button {
+        background: none;
+        border: none;
+        font-size: 12px;
+        color: #495057;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+    }
+
+        .lecture-spinner button:hover {
+            color: #212529;
+        }

@@ -1,0 +1,225 @@
+﻿<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Category Management</h2>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Professor</th>
+                    <th>Categories</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="professorTable">-->
+<!-- Dynamic rows will be inserted here -->
+<!--</tbody>
+    </table>
+</div>-->
+<!-- Edit Categories Modal -->
+<!--<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Categories</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6 id="modalProfessorName"></h6>
+                <ul id="categoryList" class="list-group mb-3">-->
+<!-- Categories will be listed here -->
+<!--</ul>
+                    <input type="text" id="newCategoryInput" class="form-control" placeholder="Enter new category">
+                    <small id="categoryError" class="text-danger"></small>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addCategory()">Add Category</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let professors = {
+            "Prof. Smith": ["Math", "Physics"],
+            "Prof. Johnson": ["Biology", "Chemistry"],
+            "Prof. Davis": ["History", "Geography"]
+        };
+
+        function loadProfessors() {
+            let tableBody = document.getElementById("professorTable");
+            tableBody.innerHTML = "";
+            for (let prof in professors) {
+                let row = `<tr>
+                            <td>${prof}</td>
+                            <td>${professors[prof].join(", ")}</td>
+                            <td><button class="btn btn-primary btn-sm" onclick="editCategories('${prof}')">Edit</button></td>
+                        </tr>`;
+                tableBody.innerHTML += row;
+            }
+        }
+
+        let currentProfessor = "";
+        function editCategories(professor) {
+            currentProfessor = professor;
+            document.getElementById("modalProfessorName").textContent = `Editing categories for ${professor}`;
+            let categoryList = document.getElementById("categoryList");
+            categoryList.innerHTML = "";
+            professors[professor].forEach(category => {
+                categoryList.innerHTML += `<li class='list-group-item d-flex justify-content-between'>
+                            ${category} <button class='btn btn-danger btn-sm' onclick='removeCategory("${category}")'>Remove</button>
+                        </li>`;
+            });
+            $('#editCategoryModal').modal('show');
+        }
+
+        function addCategory() {
+            let newCategory = document.getElementById("newCategoryInput").value.trim();
+            let errorMessage = document.getElementById("categoryError");
+            if (newCategory === "") {
+                errorMessage.textContent = "Category cannot be empty.";
+                return;
+            }
+            if (professors[currentProfessor].includes(newCategory)) {
+                errorMessage.textContent = "Category already exists.";
+                return;
+            }
+            errorMessage.textContent = "";
+            professors[currentProfessor].push(newCategory);
+            editCategories(currentProfessor);
+            loadProfessors();
+        }
+
+        function removeCategory(category) {
+            professors[currentProfessor] = professors[currentProfessor].filter(cat => cat !== category);
+            editCategories(currentProfessor);
+            loadProfessors();
+        }
+
+        document.addEventListener("DOMContentLoaded", loadProfessors);
+    </script>
+</body>
+</html>
+
+
+<style>
+      body {
+                background-color: #f8f9fa;
+            }
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+     .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+</style>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Professor Categories</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Edit Categories for Professor <span id="professorName"></span></h2>
+
+        <div class="form-group">
+            <label for="categoryInput">Enter Category</label>
+            <input type="text" id="categoryInput" class="form-control" placeholder="Enter category">
+            <small id="categoryMessage" class="text-danger"></small>
+        </div>
+
+        <button class="btn btn-primary mb-3" onclick="assignCategory()">Add Category</button>
+
+        <h4>Assigned Categories</h4>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Categories</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="assignedTable"></tbody>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let professor = new URLSearchParams(window.location.search).get("professor");
+        document.getElementById("professorName").textContent = professor;
+
+        let categories = ["Math", "Physics"]; // Dummy categories for demonstration
+        let assignedTable = document.getElementById("assignedTable");
+
+        function displayCategories() {
+            assignedTable.innerHTML = "";
+            categories.forEach(category => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                        <td>${category}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="removeCategory('${category}')">Remove</button></td>
+                    `;
+                assignedTable.appendChild(row);
+            });
+        }
+
+        function assignCategory() {
+            let categoryInput = document.getElementById("categoryInput");
+            let category = categoryInput.value.trim();
+            let categoryMessage = document.getElementById("categoryMessage");
+
+            if (category === "") {
+                categoryMessage.textContent = "Please enter a category.";
+                return;
+            }
+
+            categoryMessage.textContent = "";
+            if (!categories.includes(category)) {
+                categories.push(category);
+                categoryInput.value = "";
+                displayCategories();
+            } else {
+                categoryMessage.textContent = "Category already assigned.";
+            }
+        }
+
+        function removeCategory(category) {
+            categories = categories.filter(cat => cat !== category);
+            displayCategories();
+        }
+
+        displayCategories(); // Initial display
+    </script>
+</body>
+</html>

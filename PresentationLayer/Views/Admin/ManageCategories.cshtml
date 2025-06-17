@@ -1,0 +1,28 @@
+﻿@model IEnumerable<PresentationLayer.ViewModels.CategoryViewModel>
+
+<h2>Manage Categories:</h2>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Professor</th>
+            <th>Categories</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model.GroupBy(category => category.Email))
+        {
+            <tr>
+                <td>@group.Key</td> <!-- Professor Email -->
+                <td>
+                    @string.Join(", ", group.Select(category => category.Name)) <!-- Category Names -->
+                </td>
+                <td>
+                    <a asp-action="EditProfessorCategories" asp-route-professorId="@group.First().professorId" class="btn btn-primary btn-sm">Edit</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

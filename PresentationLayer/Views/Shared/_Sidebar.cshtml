@@ -1,0 +1,97 @@
+﻿@{
+    var userRole = User.IsInRole("Professor") ? "Professor" :
+                   User.IsInRole("Student") ? "Student" :
+                   User.IsInRole("Admin") ? "Admin" : "";
+}
+
+<div class="sidebar bg-dark text-white p-3 d-flex flex-column" style="width: 250px; height: 100vh; position: fixed;">
+
+    <!-- Sidebar Header -->
+    <div class="sidebar-header text-center mb-3">
+        <h5 class="fw-bold"> Exam System</h5>
+        <hr class="text-light">
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <ul class="nav flex-column">
+        @if (userRole == "Professor")
+        {
+            
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" data-bs-toggle="collapse" href="#profileSubmenu" role="button" aria-expanded="false" aria-controls="profileSubmenu">
+                    <i class="bi bi-person"></i> Profile
+                </a>
+                <ul class="collapse list-unstyled ms-3" id="profileSubmenu">
+                    <li class="nav-item"> <a class="nav-link text-white sidebar-link" href="/Account/ProfileChangePassword"> 
+                        <i class="bi bi-key"></i> Change Password </a> </li>
+                   @*  <li class="nav-item">
+                        <a class="nav-link text-white sidebar-link" href="/Account/ProfileChangePassword">
+                            <i class="bi bi-key"></i> Update Personal Information
+                        </a>
+                    </li> *@
+                </ul>
+            </li>
+           @*  <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Professor/Dashboard">
+                    <i class="bi bi-speedometer2"></i> Professor Dashboard
+                </a>
+            </li> *@
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Professor/ManageQuestions">
+                    <i class="bi bi-question-circle"></i> Manage Questions
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Professor/ManageCourses">
+                    <i class="bi bi-question-circle"></i> ManageCourses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Professor/examlist">
+                    <i class="bi bi-question-circle"></i> ManageExam
+                </a>
+            </li>
+            @* <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Professor/CreateAutoExam">
+                    <i class="bi bi-question-circle"></i> CreateAutoExam
+                </a>
+            </li> *@
+
+            
+
+        }
+        else if (userRole == "Student")
+        {
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Student/Dashboard">
+                    <i class="bi bi-person"></i> Student Dashboard
+                </a>
+            </li>
+        }
+        else if (userRole == "Admin")
+        {
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Admin/UserManagement">
+                    <i class="bi bi-people"></i> Admin Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Admin/UserHistory">
+                    <i class="bi bi-clock-history"></i> History
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="/Admin/ManageCategories">
+                    <i class="bi bi-question-circle"></i> Manage Categories
+                </a>
+            </li>
+        }
+    </ul>
+
+    <!-- Sidebar Footer (Logout Button) -->
+    <div class="mt-auto">
+        <a href="/Auth/Logout" class="btn btn-danger w-100 mt-3">
+            <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+    </div>
+</div>

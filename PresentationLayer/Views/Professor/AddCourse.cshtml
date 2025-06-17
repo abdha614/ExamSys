@@ -1,0 +1,135 @@
+﻿@* @model PresentationLayer.ViewModels.AddCourseViewModel
+
+
+<div class="container mt-5">
+    <h1 class="mb-4">Add New Course</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    <form asp-action="AddCourse" method="post">
+        <div class="form-group">
+            <label for="category">Select Category:</label>
+            <select asp-for="SelectedCategoryId" asp-items="Model.Categories" class="form-control">
+                <option value="">-- Select a Category --</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="courseName">Course Name:</label>
+            <input asp-for="CourseName" class="form-control" placeholder="Enter Course Name" />
+            <span asp-validation-for="CourseName" class="text-danger"></span>
+        </div>
+
+        <input type="hidden" asp-for="ProfessorId" />
+
+        <button type="submit" class="btn btn-primary mt-3">Add Course</button>
+    </form>
+</div>
+ *@
+
+@model PresentationLayer.ViewModels.AddCourseViewModel
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-header bg-gradient-primary text-white">
+                    <h3 class="my-3 text-center">Add New Course</h3>
+                </div>
+
+                <div class="card-body p-5">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="AddCourse" method="post" class="needs-validation" novalidate>
+                        <div class="mb-4">
+                            <label asp-for="SelectedCategoryId" class="form-label fw-bold">Category</label>
+                            <select asp-for="SelectedCategoryId" asp-items="Model.Categories" class="form-select form-select-lg" required>
+                                <option value="" disabled selected>-- Select a Category --</option>
+                            </select>
+                            <span asp-validation-for="SelectedCategoryId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="CourseName" class="form-label fw-bold">Course Name</label>
+                            <input asp-for="CourseName" class="form-control form-control-lg" placeholder="Enter course name" required />
+                            <span asp-validation-for="CourseName" class="text-danger small"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="ProfessorId" />
+
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">
+                                <i class="fas fa-plus-circle me-2"></i> Add Course
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-footer bg-light text-center py-3">
+                    <small class="text-muted">Fill all required fields to create a new course</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+    }
+
+    .card {
+        border: none;
+        overflow: hidden;
+    }
+
+    .form-control-lg, .form-select-lg {
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e0e0e0;
+        transition: all 0.3s;
+    }
+
+        .form-control-lg:focus, .form-select-lg:focus {
+            border-color: #3a7bd5;
+            box-shadow: 0 0 0 0.25rem rgba(58, 123, 213, 0.25);
+        }
+
+    .btn-primary {
+        background-color: #3a7bd5;
+        border: none;
+        transition: all 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #2c5fb3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+</style>

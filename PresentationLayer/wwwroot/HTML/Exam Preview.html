@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exam Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+            <h2>Midterm Exam Preview</h2>
+            <div>
+                <a href="edit-exam.html" class="btn btn-warning">Edit</a>
+                <a href="#" class="btn btn-success">Publish</a>
+                <a href="index.html" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Exam Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p><strong>Course:</strong> Computer Science 101</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Duration:</strong> 60 minutes</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p><strong>Passing Score:</strong> 70%</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p><strong>Instructions:</strong></p>
+                        <p>Answer all questions. Each question carries equal marks. There is no negative marking.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Questions (20)</h5>
+            </div>
+            <div class="card-body">
+                <div class="question-container mb-4 p-3 border rounded">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Question 1: (MCQ) - Easy</h6>
+                        <span class="badge bg-primary">1 point</span>
+                    </div>
+                    <p class="question-text">What is the capital of France?</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">London</li>
+                        <li class="list-group-item list-group-item-success">Paris</li>
+                        <li class="list-group-item">Berlin</li>
+                        <li class="list-group-item">Madrid</li>
+                    </ul>
+                </div>
+
+                <div class="question-container mb-4 p-3 border rounded">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6>Question 2: (True/False) - Easy</h6>
+                        <span class="badge bg-primary">1 point</span>
+                    </div>
+                    <p class="question-text">The Earth is flat.</p>
+                    <div class="alert alert-danger">
+                        Correct Answer: False
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center no-print">
+            <button class="btn btn-primary" onclick="window.print()">Print Exam</button>
+            <a href="#" class="btn btn-secondary">Download PDF</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

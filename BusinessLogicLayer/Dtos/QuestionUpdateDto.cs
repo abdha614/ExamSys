@@ -17,6 +17,12 @@ namespace BusinessLogicLayer.Dtos
         public int professorId { get; set; }
         public int CategoryId { get; set; }
         public int CourseId { get; set; }
+        public string LectureName { get; set; } // Instead of LectureId
+
+
         public List<AnswerAddDto> Answers { get; set; }
+        public List<CategoryGetDto> Categories { get; set; }
+        public List<DifficultyLevelDto> DifficultyLevels { get; set; }
+        public List<CourseGetDto> Courses { get; set; }
     }
 }

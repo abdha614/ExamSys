@@ -1,0 +1,276 @@
+﻿@* @model PresentationLayer.ViewModels.ExamViewModel.CreateManualExamViewModel
+
+@{
+    ViewData["Title"] = "Exam Preview";
+}
+
+<div class="d-flex justify-content-between align-items-center my-4 text-center" style="direction: rtl;">
+    <div class="flex-fill text-end pe-3">
+        <h5 class="mb-0">الجامعة السورية الخاصة</h5>
+    </div>
+    <div class="flex-fill text-center">
+        <img src="~/images/spu-logo.jpg" alt="SPU Logo" style="height: 60px;" />
+    </div>
+    <div class="flex-fill text-start ps-3" dir="ltr">
+        <h5 class="mb-0">Syrian Private University</h5>
+    </div>
+</div>
+
+<!-- Row 1: الكلية + اسم الطالب -->
+<div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>الكلية:</strong> هندسة الحاسوب والمعلوماتية</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>اسم الطالب:</strong> .........................................................</p>
+    </div>
+</div>
+
+<!-- Row 2: المادة + رقم الطالب -->
+<div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>المادة:</strong> @Model.CourseNamee</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>رقم الطالب:</strong> .........................................................</p>
+    </div>
+</div>
+
+<!-- Row 3: اسم المدرس + الفصل الدراسي -->
+<div class="d-flex justify-content-between" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>اسم مدرس المادة:</strong> @Model.TeacherName</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>الفصل الدراسي:</strong> @Model.Semester</p>
+    </div>
+</div>
+
+
+
+    <hr style="border-top: 2px solid black; margin-top: 40px;" />
+
+    <div class="mt-4" dir="ltr">
+        <div class="mb-4">
+            <h5 class="mb-3 p-2 bg-light rounded"><strong>Q1) Check each statement with either true or false. (@Model.SelectedQuestions.Where(q => q.QuestionTypeName == "True/False").Sum(q => q.Points) m)</strong></h5>
+
+            @{
+                var tfQuestions = Model.SelectedQuestions.Where(q => q.QuestionTypeName == "True/False").ToList();
+            }
+            <ol class="ps-3">
+                @for (int i = 0; i < tfQuestions.Count; i++)
+                {
+                    var question = tfQuestions[i];
+                    <li class="mb-3">
+                         @question.QuestionText
+                    </li>
+                }
+            </ol>
+        </div>
+
+        <div>
+            <h5 class="mb-3 p-2 bg-light rounded"><strong>Q2) Choose the correct answer (@Model.SelectedQuestions.Where(q => q.QuestionTypeName != "True/False").Sum(q => q.Points) m)</strong></h5>
+
+            @{
+                var mcQuestions = Model.SelectedQuestions.Where(q => q.QuestionTypeName != "True/False").ToList();
+            }
+            <ol class="ps-3">
+                @for (int i = 0; i < mcQuestions.Count; i++)
+                {
+                    var question = mcQuestions[i];
+                    <li class="mb-4">
+                        <div class="mb-2">
+                            <strong>@question.QuestionText</strong>
+                        </div>
+                        <ul class="list-unstyled ps-3">
+                            @for (int j = 0; j < question.Answers.Count; j++)
+                            {
+                                var letter = (char)('A' + j);
+                                <li class="mb-1">
+                                    <strong>@letter)</strong> @question.Answers[j].Text
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+
+<!-- Form to post hidden data -->
+<form method="post" asp-controller="Professor" asp-action="DownloadExamPdf">
+    <input type="hidden" name="TeacherName" value="@Model.TeacherName" />
+    <input type="hidden" name="Semester" value="@Model.Semester" />
+    <input type="hidden" name="CourseNamee" value="@Model.CourseNamee" />
+
+    @for (int i = 0; i < Model.SelectedQuestions.Count; i++)
+    {
+        <input type="hidden" name="SelectedQuestions[@i].QuestionText" value="@Model.SelectedQuestions[i].QuestionText" />
+        <input type="hidden" name="SelectedQuestions[@i].QuestionTypeName" value="@Model.SelectedQuestions[i].QuestionTypeName" />
+        <input type="hidden" name="SelectedQuestions[@i].Points" value="@Model.SelectedQuestions[i].Points" />
+        @for (int j = 0; j < Model.SelectedQuestions[i].Answers.Count; j++)
+        {
+            <input type="hidden" name="SelectedQuestions[@i].Answers[@j].Text" value="@Model.SelectedQuestions[i].Answers[j].Text" />
+        }
+    }
+
+    <button type="submit" class="btn btn-primary">Download Exam as PDF</button>
+</form>
+
+
+
+
+
+ 
+
+
+  *@
+
+
+
+@model PresentationLayer.ViewModels.ExamViewModel.PreviewExamViewModel
+
+@{
+    ViewData["Title"] = "Exam Preview";
+    int orderIndex = 0;
+}
+
+<!-- Header Section -->
+<div class="d-flex justify-content-between align-items-center my-4 text-center" style="direction: rtl;">
+    <div class="flex-fill text-end pe-3">
+        <h5 class="mb-0">الجامعة السورية الخاصة</h5>
+    </div>
+    <div class="flex-fill text-center">
+        <img src="~/images/spu-logo.jpg" alt="SPU Logo" style="height: 60px;" />
+    </div>
+    <div class="flex-fill text-start ps-3" dir="ltr">
+        <h5 class="mb-0">Syrian Private University</h5>
+    </div>
+</div>
+
+<!-- Exam Details -->
+<div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>الكلية:</strong> هندسة الحاسوب والمعلوماتية</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>اسم الطالب:</strong> .........................................................</p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>المادة:</strong> @Model.CourseNamee</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>رقم الطالب:</strong> .........................................................</p>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between" style="direction: rtl;">
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>اسم مدرس المادة:</strong> @Model.TeacherName</p>
+    </div>
+    <div class="text-end" style="width: 48%;">
+        <p class="mb-1"><strong>الفصل الدراسي:</strong> @Model.Semester</p>
+    </div>
+</div>
+
+<hr style="border-top: 2px solid black; margin-top: 40px;" />
+
+@if (Model.SelectedQuestions.Any())
+{
+    <div>
+        <h5 class="mb-3 p-2 bg-light rounded">
+            <strong>Q1) Choose the correct answer (@Model.SelectedQuestions.Sum(q => q.Points) m):</strong>
+        </h5>
+        <div class="row">
+            @for (int i = 0; i < Model.SelectedQuestions.Count; i += 2) // Iterate two at a time
+            {
+                <div class="col-md-6 mb-4">
+                    @if (i < Model.SelectedQuestions.Count)
+                    {
+                        var questionLeft = Model.SelectedQuestions.OrderBy(q => q.QuestionTypeName == "True/False").ElementAt(i);
+                        <strong>@(i + 1)) @questionLeft.QuestionText</strong>
+                        <ul class="list-unstyled ps-3">
+                            @if (questionLeft.QuestionTypeName == "True/False")
+                            {
+                                <li class="mb-1"><strong>A)</strong> True</li>
+                                <li class="mb-1"><strong>B)</strong> False</li>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < questionLeft.Answers.Count; j++)
+                                {
+                                    var letter = (char)('A' + j);
+                                    <li class="mb-1"><strong>@letter)</strong> @questionLeft.Answers[j].Text</li>
+                                }
+                            }
+                        </ul>
+                    }
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    @if (i + 1 < Model.SelectedQuestions.Count)
+                    {
+                        var questionRight = Model.SelectedQuestions.OrderBy(q => q.QuestionTypeName == "True/False").ElementAt(i + 1);
+                        <strong>@(i + 2)) @questionRight.QuestionText</strong>
+                        <ul class="list-unstyled ps-3">
+                            @if (questionRight.QuestionTypeName == "True/False")
+                            {
+                                <li class="mb-1"><strong>A)</strong> True</li>
+                                <li class="mb-1"><strong>B)</strong> False</li>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < questionRight.Answers.Count; j++)
+                                {
+                                    var letter = (char)('A' + j);
+                                    <li class="mb-1"><strong>@letter)</strong> @questionRight.Answers[j].Text</li>
+                                }
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+
+<!-- Form for Download/Save -->
+<form method="post" asp-controller="Professor" asp-action="PreviewExam">
+    <input type="hidden" name="TeacherName" value="@Model.TeacherName" />
+    <input type="hidden" name="Semester" value="@Model.Semester" />
+    <input type="hidden" name="CourseNamee" value="@Model.CourseNamee" />
+    <input type="hidden" name="ExamTitle" value="@Model.ExamTitle" />
+    <input type="hidden" name="SelectedCourseId" value="@Model.SelectedCourseId" />
+  
+
+    @for (int i = 0; i < Model.SelectedQuestions.Count; i++)
+    {
+        var question = Model.SelectedQuestions[i];
+        <input type="hidden" name="SelectedQuestions[@i].QuestionId" value="@question.QuestionId" />
+        <input type="hidden" name="SelectedQuestions[@i].QuestionText" value="@question.QuestionText" />
+        <input type="hidden" name="SelectedQuestions[@i].QuestionTypeName" value="@question.QuestionTypeName" />
+        <input type="hidden" name="SelectedQuestions[@i].Points" value="@question.Points" />
+        <input type="hidden" name="SelectedQuestions[@i].OrderIndex" value="@question.OrderIndex" />
+        @for (int j = 0; j < question.Answers.Count; j++)
+        {
+            <input type="hidden" name="SelectedQuestions[@i].Answers[@j].Text" value="@question.Answers[j].Text" />
+        }
+    }
+
+    <div class="mt-4">
+     @*    <button type="submit" name="action" value="download" class="btn btn-primary me-2">Download Exam as PDF</button> *@
+        <button type="submit" name="action" value="save" class="btn btn-success me-2">Save Exam</button>
+        <button type="submit" name="action" value="back" class="btn btn-secondary">Back</button>
+    </div>
+</form>
+
+
+
+
+
+

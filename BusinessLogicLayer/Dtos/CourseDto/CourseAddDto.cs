@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.Dtos.CourseDto
     {
         public string Name { get; set; }
         public int CategoryId { get; set; }
-
+        public int professorId { get; set; }
 
     }
 }

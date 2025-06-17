@@ -21,6 +21,8 @@ namespace BusinessLogicLayer.Dtos.QuestionDto
         public string CategoryName { get; set; } // Enriched with the corresponding name
         public int CourseId { get; set; }
         public string CourseName { get; set; } // Enriched with the corresponding name
+        public string LectureName { get; set; }
+
         public List<AnswerGetDto> Answers { get; set; }
     }
 

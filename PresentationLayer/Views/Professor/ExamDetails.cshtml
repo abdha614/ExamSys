@@ -1,0 +1,217 @@
+﻿@model PresentationLayer.ViewModels.ExamViewModel.ExamDetailsViewModel
+
+<style>
+    .a4-page {
+        width: 210mm;
+        min-height: 297mm;
+        margin: auto;
+        padding: 5mm;
+        background: white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .avoid-break {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    @@media print {
+        body {
+            margin: 0;
+        }
+
+        .a4-page {
+            box-shadow: none;
+            page-break-after: always;
+        }
+
+        .d-print-none {
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="a4-page exam-container" id="exam-content">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center my-4 text-center" style="direction: rtl;">
+        <div class="flex-fill text-end pe-3">
+            <h5 class="mb-0">الجامعة السورية الخاصة</h5>
+        </div>
+        <div class="flex-fill text-center">
+            <img src="~/images/spu-logo.jpg" alt="SPU Logo" style="height: 60px;" />
+        </div>
+        <div class="flex-fill text-start ps-3" dir="ltr">
+            <h5 class="mb-0">Syrian Private University</h5>
+        </div>
+    </div>
+
+    <!-- Exam Details -->
+    <div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong> الكلية </strong><span>:</span> هندسة الحاسوب والمعلوماتية</p>
+        </div>
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong> اسم الطالب </strong><span>:</span> .........................................................</p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-2" style="direction: rtl;">
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong> المادة </strong><span>:</span> @Model.CourseName</p>
+        </div>
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong> رقم الطالب </strong><span>:</span> .........................................................</p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between" style="direction: rtl;">
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong> اسم مدرس المادة</strong><span>:</span> @Model.TeacherName</p>
+        </div>
+        <div class="text-end" style="width: 48%;">
+            <p class="mb-1"><strong>الفصل الدراسي</strong><span>:</span> @Model.Semester</p>
+        </div>
+    </div>
+
+    <hr style="border-top: 2px solid black; margin-top: 40px;" />
+    @if (Model.Questions.Any())
+    {
+        <div>
+            <h5 class="mb-3 p-2 rounded">
+                <strong>Q1) Choose the correct answer (@Model.Questions.Sum(q => q.Points) m):</strong>
+            </h5>
+            <div class="row">
+                @for (int i = 0; i < Model.Questions.Count; i++)
+                {
+                    var question = Model.Questions.OrderBy(q => q.QuestionType == "True/False").ElementAt(i);
+                    question.Order = i;
+                    <div class="col-md-6 mb-4 avoid-break">
+                        <input type="hidden" name="Questions[@Model.Questions.IndexOf(question)].Order" value="@question.Order" />
+                        <strong>@(i + 1)) @question.QuestionText</strong>
+                        <ul class="list-unstyled ps-3">
+                            @if (question.QuestionType == "True/False")
+                            {
+                                <li class="mb-1"><strong>A)</strong> True</li>
+                                <li class="mb-1"><strong>B)</strong> False</li>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < question.Answers.Count; j++)
+                                {
+                                    var letter = (char)('A' + j);
+                                    <li class="mb-1"><strong>@letter)</strong> @question.Answers[j].Text</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <!-- Action Buttons -->
+    <div class="d-print-none mt-3">
+        <a asp-action="ExamList" class="btn btn-secondary">Back to Exams</a>
+        <button onclick="saveAsPDF()" class="btn btn-primary">
+            <i class="bi bi-download"></i> Save as PDF
+        </button>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+    async function saveAsPDF() {
+        const { jsPDF } = window.jspdf;
+
+        const original = document.getElementById('exam-content');
+        const clone = original.cloneNode(true);
+        clone.querySelectorAll('.d-print-none').forEach(el => el.remove());
+
+        const hiddenContainer = document.createElement('div');
+        hiddenContainer.style.position = 'fixed';
+        hiddenContainer.style.top = '-9999px';
+        hiddenContainer.appendChild(clone);
+        document.body.appendChild(hiddenContainer);
+
+        const canvas = await html2canvas(clone, {
+            scale: 2,
+            useCORS: true,
+        });
+
+        document.body.removeChild(hiddenContainer);
+
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        // Scale factor: canvas pixels to PDF mm
+        const scaleFactor = pdfWidth / imgWidth;
+
+        // Define margins (in mm)
+        const firstPageTop = 5;   // Top margin on page 1
+        const otherPagesTop = 5;   // Top margin on pages 2+
+        const bottomMargin = 10;   // Bottom margin on all pages
+
+        // Compute available height in the canvas "units" (not mm)
+        const firstPageAvailableHeight = (pdfHeight - firstPageTop - bottomMargin) / scaleFactor;
+        const otherPagesAvailableHeight = (pdfHeight - otherPagesTop - bottomMargin) / scaleFactor;
+
+        // Calculate number of pages needed
+        let pageCount;
+        if (imgHeight <= firstPageAvailableHeight) {
+            pageCount = 1;
+        } else {
+            pageCount = 1 + Math.ceil((imgHeight - firstPageAvailableHeight) / otherPagesAvailableHeight);
+        }
+
+        let currentOffset = 0;  // how many canvas pixels have been used
+
+        for (let i = 0; i < pageCount; i++) {
+            // For first page, use firstPageTop; for others, use otherPagesTop.
+            const topMargin = (i === 0) ? firstPageTop : otherPagesTop;
+            // Determine available canvas height for this page:
+            let availableHeight = (i === 0) ? firstPageAvailableHeight : otherPagesAvailableHeight;
+            // Determine the slice height (in canvas pixels) that we can use:
+            let sliceHeight = Math.min(availableHeight, imgHeight - currentOffset);
+
+            // Create a temporary canvas for this slice.
+            const pageCanvas = document.createElement('canvas');
+            pageCanvas.width = imgWidth;
+            pageCanvas.height = sliceHeight;
+            const pageCtx = pageCanvas.getContext('2d');
+            // Draw the slice of the main canvas onto the pageCanvas.
+            pageCtx.drawImage(
+                canvas,
+                0,
+                currentOffset,
+                imgWidth,
+                sliceHeight,
+                0,
+                0,
+                imgWidth,
+                sliceHeight
+            );
+
+            // The image will be rendered at full PDF width;
+            // Its rendered height in mm is:
+            const displayHeight = sliceHeight * scaleFactor;
+
+            // Add the slice image to the PDF at the chosen top margin.
+            pdf.addImage(pageCanvas.toDataURL('image/jpeg', 1.0), 'JPEG', 0, topMargin, pdfWidth, displayHeight);
+
+            currentOffset += sliceHeight;
+            // Add a new page if there are still parts of the image left.
+            if (i < pageCount - 1) {
+                pdf.addPage();
+            }
+        }
+
+        pdf.save('Exam_Paper.pdf');
+    }
+
+</script>

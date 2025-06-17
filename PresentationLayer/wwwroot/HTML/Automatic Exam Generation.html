@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Generate Automatic Exam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Generate Automatic Exam</h2>
+        <hr>
+
+        <form id="autoExamForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="autoExamTitle" class="form-label">Exam Title</label>
+                        <input type="text" class="form-control" id="autoExamTitle" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="autoCourseSelect" class="form-label">Course</label>
+                        <select class="form-select" id="autoCourseSelect" required>
+                            <option value="">-- Select Course --</option>
+                            <option value="1">Computer Science 101</option>
+                            <option value="2">Mathematics 201</option>
+                            <option value="3">Physics 301</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="autoExamDuration" class="form-label">Duration (minutes)</label>
+                        <input type="number" class="form-control" id="autoExamDuration" min="10" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="autoPassingScore" class="form-label">Passing Score</label>
+                        <input type="number" class="form-control" id="autoPassingScore" min="0" max="100" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h4>Question Configuration</h4>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="totalQuestions" class="form-label">Total Questions</label>
+                        <input type="number" class="form-control" id="totalQuestions" min="5" max="100" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="mcqPercentage" class="form-label">MCQ Percentage</label>
+                        <input type="number" class="form-control" id="mcqPercentage" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="trueFalsePercentage" class="form-label">True/False Percentage</label>
+                        <input type="number" class="form-control" id="trueFalsePercentage" min="0" max="100" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="pointsPerQuestion" class="form-label">Points Per Question</label>
+                        <input type="number" class="form-control" id="pointsPerQuestion" min="0.5" max="10" step="0.5" required>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <h4>Difficulty Distribution</h4>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="easyPercentage" class="form-label">Easy (%)</label>
+                        <input type="number" class="form-control" id="easyPercentage" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="mediumPercentage" class="form-label">Medium (%)</label>
+                        <input type="number" class="form-control" id="mediumPercentage" min="0" max="100" required>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="hardPercentage" class="form-label">Hard (%)</label>
+                        <input type="number" class="form-control" id="hardPercentage" min="0" max="100" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="randomizeQuestions">
+                <label class="form-check-label" for="randomizeQuestions">Randomize Question Order</label>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="randomizeAnswers">
+                <label class="form-check-label" for="randomizeAnswers">Randomize Answer Choices</label>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-secondary me-md-2" onclick="window.location.href='index.html'">Cancel</button>
+                <button type="submit" class="btn btn-primary">Generate Exam</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('autoExamForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const mcq = parseInt(document.getElementById('mcqPercentage').value) || 0;
+            const tf = parseInt(document.getElementById('trueFalsePercentage').value) || 0;
+
+            if (mcq + tf !== 100) {
+                alert('MCQ and True/False percentages must add up to 100%');
+                return;
+            }
+
+            const easy = parseInt(document.getElementById('easyPercentage').value) || 0;
+            const medium = parseInt(document.getElementById('mediumPercentage').value) || 0;
+            const hard = parseInt(document.getElementById('hardPercentage').value) || 0;
+
+            if (easy + medium + hard !== 100) {
+                alert('Difficulty percentages must add up to 100%');
+                return;
+            }
+
+            alert('Exam generated successfully!');
+            window.location.href = 'exam-preview.html';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,451 @@
+﻿<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Multiple Choice Question</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #eef2f7;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            padding: 30px 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd1d9;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            transform: scale(1.2);
+            margin-left: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+            .btn:hover {
+                background-color: #2980b9;
+            }
+
+        .btn-primary {
+            background-color: #27ae60;
+        }
+
+            .btn-primary:hover {
+                background-color: #219150;
+            }
+
+        .lecture-wrapper {
+            position: relative;
+            display: flex;
+            max-width: 180px;
+        }
+
+            .lecture-wrapper input {
+                padding-right: 40px;
+            }
+
+        .spinner-controls {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+            .spinner-controls button {
+                background: transparent;
+                border: none;
+                font-size: 14px;
+                cursor: pointer;
+                padding: 2px;
+            }
+
+                .spinner-controls button:hover {
+                    color: #2c3e50;
+                }
+    </style>
+</head>
+<body>
+    <h2>Add Multiple Choice Question</h2>
+
+    <form method="post" class="form-container">-->
+<!-- Category -->
+<!--<div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" class="form-control">
+        <option value="">Select Category</option>
+    </select>
+</div>-->
+<!-- Course -->
+<!--<div class="form-group">
+    <label for="course">Course</label>
+    <select id="course" class="form-control">
+        <option value="">Select Course</option>
+    </select>
+</div>-->
+<!-- Lecture Spinner -->
+<!--<div class="form-group">
+    <label for="lectureSpinner">Lecture</label>
+    <div class="lecture-wrapper">
+        <input type="text" id="lectureSpinner" readonly />
+        <div class="spinner-controls">
+            <button type="button" onclick="incrementLecture()">▲</button>
+            <button type="button" onclick="decrementLecture()">▼</button>
+        </div>
+    </div>
+</div>-->
+<!-- Question Text -->
+<!--<div class="form-group">
+    <label for="questionText">Question Text</label>
+    <textarea id="questionText" class="form-control"></textarea>
+</div>-->
+<!-- Difficulty -->
+<!--<div class="form-group">
+    <label for="difficultyLevel">Difficulty Level</label>
+    <select id="difficultyLevel" class="form-control">
+        <option value="1">Easy</option>
+        <option value="2">Medium</option>
+        <option value="3">Hard</option>
+    </select>
+</div>-->
+<!-- Answers -->
+<!--<div class="form-group">
+    <label>Answers</label>
+    <div id="answersContainer">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Enter answer option" />
+            <input type="radio" name="correctAnswer" />
+        </div>
+    </div>
+    <button type="button" id="addAnswer" class="btn">+ Add Answer</button>
+</div>-->
+<!-- Submit -->
+<!--<button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <script>
+        let currentLecture = 1;
+        const minLecture = 1;
+        const maxLecture = 20;
+
+        const lectureInput = document.getElementById('lectureSpinner');
+        lectureInput.value = `Lecture ${currentLecture}`;
+
+        function incrementLecture() {
+            if (currentLecture < maxLecture) {
+                currentLecture++;
+                lectureInput.value = `Lecture ${currentLecture}`;
+            }
+        }
+
+        function decrementLecture() {
+            if (currentLecture > minLecture) {
+                currentLecture--;
+                lectureInput.value = `Lecture ${currentLecture}`;
+            }
+        }
+    </script>
+</body>
+</html>-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Multiple Choice Question</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #fdfdfd;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #2e2e2e;
+        }
+
+        .form-card {
+            max-width: 720px;
+            background-color: #fff;
+            margin: auto;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+            input:focus,
+            select:focus,
+            textarea:focus {
+                border-color: #007bff;
+                background-color: #fff;
+                outline: none;
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+            .input-group input[type="text"] {
+                flex: 1;
+            }
+
+        .lecture-spinner {
+            position: relative;
+            display: inline-flex;
+            width: 180px;
+        }
+
+            .lecture-spinner input {
+                padding-right: 48px;
+            }
+
+            .lecture-spinner .controls {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+            }
+
+            .lecture-spinner button {
+                background: none;
+                border: none;
+                font-size: 14px;
+                color: #555;
+                cursor: pointer;
+                padding: 0;
+                line-height: 1;
+            }
+
+                .lecture-spinner button:hover {
+                    color: #111;
+                }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .btn-add {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+            .btn-add:hover {
+                background-color: #138496;
+            }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+            .btn-submit:hover {
+                background-color: #218838;
+            }
+    </style>
+</head>
+<body>
+    <h2>Add Multiple Choice Question</h2>
+
+    <form class="form-card">
+        <!-- Category -->
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category">
+                <option value="">Select Category</option>
+            </select>
+        </div>
+
+        <!-- Course -->
+        <div class="form-group">
+            <label for="course">Course</label>
+            <select id="course">
+                <option value="">Select Course</option>
+            </select>
+        </div>
+
+        <!-- Lecture Spinner -->
+        <div class="form-group">
+            <label for="lectureSpinner">Lecture</label>
+            <div class="lecture-spinner">
+                <input type="text" id="lectureSpinner" readonly />
+                <div class="controls">
+                    <button type="button" onclick="incrementLecture()">▲</button>
+                    <button type="button" onclick="decrementLecture()">▼</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Text -->
+        <div class="form-group">
+            <label for="questionText">Question Text</label>
+            <textarea id="questionText"></textarea>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="form-group">
+            <label for="difficultyLevel">Difficulty Level</label>
+            <select id="difficultyLevel">
+                <option value="1">Easy</option>
+                <option value="2">Medium</option>
+                <option value="3">Hard</option>
+            </select>
+        </div>
+
+        <!-- Answers -->
+        <div class="form-group">
+            <label>Answers</label>
+            <div id="answersContainer">
+                <div class="input-group">
+                    <input type="text" placeholder="Enter answer option">
+                    <input type="radio" name="correctAnswer" />
+                </div>
+            </div>
+            <button type="button" id="addAnswer" class="btn btn-add">+ Add Answer</button>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-submit">Save Question</button>
+    </form>
+
+    <script>
+        let currentLecture = 1;
+        const minLecture = 1;
+        const maxLecture = 20;
+
+        const lectureInput = document.getElementById('lectureSpinner');
+        lectureInput.value = `Lecture ${currentLecture}`;
+
+        function incrementLecture() {
+            if (currentLecture < maxLecture) {
+                currentLecture++;
+                lectureInput.value = `Lecture ${currentLecture}`;
+            }
+        }
+
+        function decrementLecture() {
+            if (currentLecture > minLecture) {
+                currentLecture--;
+                lectureInput.value = `Lecture ${currentLecture}`;
+            }
+        }
+
+        document.getElementById('addAnswer').addEventListener('click', () => {
+            const container = document.getElementById('answersContainer');
+            const div = document.createElement('div');
+            div.className = 'input-group';
+            div.innerHTML = `
+            <input type="text" placeholder="Enter answer option">
+            <input type="radio" name="correctAnswer" />
+          `;
+            container.appendChild(div);
+        });
+    </script>
+</body>
+</html>

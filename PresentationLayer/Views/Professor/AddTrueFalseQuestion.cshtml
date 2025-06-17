@@ -3,52 +3,50 @@
 <h2>Add True/False Question</h2>
 
 <form asp-action="AddTrueFalseQuestion" method="post" class="form-vertical-custom">
-    <!-- Form fields for True/False Question -->
-    
-
-    <!-- Hidden input for QuestionTypeId set to True/False -->
     <input type="hidden" asp-for="QuestionTypeId" value="2" />
 
     <!-- Category Dropdown -->
     <div class="form-group-custom">
         <label for="category">Category:</label>
-        <select id="category" name="CategoryId" class="form-control" asp-for="CategoryId">
-            <option value="">Select Category</option>
-            @foreach (var category in (SelectList)ViewBag.Categories)
+        <select id="category" asp-for="CategoryId" class="form-control" onchange="loadCourses(this.value)">
+            <option value="" disabled selected>--Select Category--</option>
+            @foreach (var category in Model.Categories)
             {
-                <option value="@category.Value">@category.Text</option>
+                <option value="@category.Id">@category.Name</option>
             }
-            <option value="new">Add New Category</option>
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
-        <!-- Notification area for duplicate category -->
-        <span id="categoryNotification" style="display: none ">
-        </span>
-    </div>
-
-    <!-- Add New Category -->
-    <div id="newCategoryDiv" class="form-group-custom" style="display: none;">
-        <label for="newCategoryName">New Category Name:</label>
-        <input type="text" id="newCategoryName" name="newCategoryName" class="form-control" />
-        <button type="button" class="btn btn-primary" onclick="addCategory()">Add Category</button>
     </div>
 
     <!-- Course Dropdown -->
     <div class="form-group-custom">
         <label for="course">Course:</label>
-        <select id="course" name="CourseId" class="form-control" asp-for="CourseId">
-            <option value="">Select Course</option>
+        <select id="course" asp-for="CourseId" class="form-control">
+            <option value="" disabled selected>--Select Course--</option>
+            <!-- Courses loaded dynamically via AJAX -->
         </select>
         <span asp-validation-for="CourseId" class="text-danger"></span>
-        <span id="courseNotification" style="display: none;"></span>
     </div>
 
-    <!-- Add New Course -->
-    <div id="newCourseDiv" class="form-group-custom" style="display: none;">
-        <label for="newCourseName">New Course Name:</label>
-        <input type="text" id="newCourseName" name="newCourseName" class="form-control" />
-        <button type="button" class="btn btn-primary" onclick="addCourse()">Add Course</button>
+    <!-- Lecture Spinner -->
+    <div class="form-group-custom">
+        <label for="lectureSpinner"><strong>Lecture:</strong></label>
+        <div class="lecture-spinner">
+            <!-- Display the formatted lecture name -->
+            <input type="text" id="lectureSpinner" readonly />
+
+            <!-- Hidden input to store the actual LectureName with "Lecture X" format -->
+            <input type="hidden" id="lectureHidden" name="LectureName" asp-for="LectureName" />
+
+            <div class="controls">
+                <button type="button" onclick="incrementLecture()">▲</button>
+                <button type="button" onclick="decrementLecture()">▼</button>
+            </div>
+        </div>
+        <span asp-validation-for="LectureName" class="text-danger"></span>
     </div>
+
+
 
     <!-- Question Text -->
     <div class="form-group-custom">
@@ -59,11 +57,9 @@
 
     <!-- Difficulty Level -->
     <div class="form-group-custom">
-        <label for="difficultyLevel">Difficulty Level:</label>
-        <select id="difficultyLevel" name="DifficultyLevelId" class="form-control" asp-for="DifficultyLevelId">
-            <option value="1">Easy</option>
-            <option value="2">Medium</option>
-            <option value="3">Hard</option>
+        <label for="DifficultyLevelId">Difficulty Level:</label>
+        <select id="DifficultyLevelId" asp-for="DifficultyLevelId" asp-items="@(new SelectList(Model.DifficultyLevels, "Id", "Name"))" class="form-control">
+            <option value="" disabled selected>Select Difficulty Level</option>
         </select>
         <span asp-validation-for="DifficultyLevelId" class="text-danger"></span>
     </div>
@@ -75,7 +71,7 @@
             @for (int i = 0; i < Model.Answers.Count; i++)
             {
                 <div class="input-group mb-2 answer-group align-items-center">
-                    <input asp-for="@Model.Answers[i].Text" class="form-control" />
+                    <input asp-for="@Model.Answers[i].Text" class="form-control" readonly />
                     <div class="input-group-append">
                         <div class="input-group-text d-flex justify-content-center align-items-center">
                             <input asp-for="@Model.Answers[i].IsCorrect" type="radio" name="CorrectAnswerIndex" value="@i" />
@@ -91,11 +87,10 @@
     <button type="submit" class="btn btn-primary-custom">Save</button>
 </form>
 
-
 @section Scripts {
     <script src="~/js/question-scripts.js"></script>
 }
 
 @section Styles {
-    <link href="~/css/site1.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site1.css" />
 }

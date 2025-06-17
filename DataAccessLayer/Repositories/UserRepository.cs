@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Data;
+using DataAccessLayer.Dtos;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +13,15 @@ namespace DataAccessLayer.Repositories
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbSet.FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<IEnumerable<User>> GetUsersByRoleAsync(int? roleId)
         {
             // Start with all users
             var query = _dbSet
-                .Include(u => u.Role) // Include the Role entity
+                .Include(u => u.Roles) // Include the Role entity
+                .Include(u => u.Categories)
                 .AsQueryable();
 
             // If roleId is provided, filter users by that role
@@ -45,6 +47,22 @@ namespace DataAccessLayer.Repositories
             _context.Users.Remove(professor);
             await _context.SaveChangesAsync();
         }
+        public async Task<bool> EmailExistsAsync(string email)
+        {
+            return await _dbSet.AnyAsync(u => u.Email == email);
+        }
+        public async Task<CreatedUserDto> AddUserAsync(User user)
+        {
+            await _dbSet.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            return new CreatedUserDto
+            {
+                Id = user.Id,
+                RoleId = user.RoleId
+            };
+        }
+
     }
 
 }

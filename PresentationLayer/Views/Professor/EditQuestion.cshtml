@@ -2,53 +2,76 @@
 
 <h2>Edit Question</h2>
 
-<form asp-action="EditQuestion" method="post">
-    <input type="hidden" asp-for="Id" />
+<form asp-action="EditQuestion" method="post" class="form-vertical-custom">
+    <input type="hidden" asp-for="QuestionTypeId" value="1" />
 
-    
+    <!-- Category Dropdown -->
     <div class="form-group-custom">
-        <label asp-for="CategoryId" class="control-label">Category:</label>
-        <select asp-for="CategoryId" class="form-control">
-            <option value="">Select Category</option>
-            @foreach (var category in (IEnumerable<SelectListItem>)ViewBag.Categories)
+        <label for="category">Category:</label>
+        <select id="category" asp-for="CategoryId" class="form-control">
+            <option value="" disabled selected>Select Category</option>
+            @foreach (var category in Model.Categories)
             {
-                <option value="@category.Value" selected="@category.Selected">@category.Text</option>
+                <option value="@category.Id">@category.Name</option>
             }
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
 
+    <!-- Course Dropdown -->
     <div class="form-group-custom">
-        <label asp-for="CourseId" class="control-label">Course:</label>
-        <select asp-for="CourseId" class="form-control">
-            <option value="">Select Course</option>
-            @foreach (var course in (IEnumerable<SelectListItem>)ViewBag.Courses)
+        <label for="course">Course:</label>
+        <select id="course" asp-for="CourseId" class="form-control">
+            <option value="" disabled selected>Select Course</option>
+            <!-- Courses will be dynamically populated via AJAX -->
+            @foreach (var course in Model.Courses)
             {
-                <option value="@course.Value" selected="@course.Selected">@course.Text</option>
+                <option value="@course.Id">@course.Name</option>
             }
         </select>
         <span asp-validation-for="CourseId" class="text-danger"></span>
-
     </div>
 
+
+
+    <!-- Lecture Spinner -->
     <div class="form-group-custom">
-        <label asp-for="Text" class="control-label">questionText:</label>
-        <input asp-for="Text" class="form-control" />
+        <label for="lectureSpinner"><strong>Lecture:</strong></label>
+        <div class="lecture-spinner">
+            <!-- Display the formatted lecture name -->
+            <input type="text" id="lectureSpinner" readonly />
+
+            <!-- Hidden input to store the actual LectureName with "Lecture X" format -->
+            <input type="hidden" id="lectureHidden" name="LectureName" asp-for="LectureName" />
+
+            <div class="controls">
+                <button type="button" onclick="incrementLecture()">▲</button>
+                <button type="button" onclick="decrementLecture()">▼</button>
+            </div>
+        </div>
+        <span asp-validation-for="LectureName" class="text-danger"></span>
+    </div>
+
+
+
+    <!-- Question Text -->
+    <div class="form-group-custom">
+        <label for="questionText">Question Text:</label>
+        <textarea id="questionText" asp-for="Text" class="form-control"></textarea>
         <span asp-validation-for="Text" class="text-danger"></span>
     </div>
 
-    <input type="hidden" asp-for="QuestionTypeId" />
-
+    <!-- Difficulty Level -->
     <div class="form-group-custom">
-        <label asp-for="DifficultyLevelId" class="control-label">Difficulty Level:</label>
-        <select asp-for="DifficultyLevelId" class="form-control">
-            <option value="1">Easy</option>
-            <option value="2">Medium</option>
-            <option value="3">Hard</option>
+        <label for="DifficultyLevelId">Difficulty Level:</label>
+        <select id="DifficultyLevelId" asp-for="DifficultyLevelId" asp-items="@(new SelectList(Model.DifficultyLevels, "Id", "Name"))" class="form-control">
+            <option value="" disabled selected>Select Difficulty Level</option>
         </select>
         <span asp-validation-for="DifficultyLevelId" class="text-danger"></span>
     </div>
 
+
+    <!-- Answers -->
     <div class="form-group-custom">
         <label>Answers:</label>
         <div id="answersContainer">
@@ -71,9 +94,9 @@
         </div>
     </div>
     <span asp-validation-for="CorrectAnswerIndex" class="text-danger"></span>
-    <br />
+    <br>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="btn btn-primary-custom">Save</button>
 </form>
 
 @section Scripts {
@@ -82,3 +105,4 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/site1.css" />
 }
+

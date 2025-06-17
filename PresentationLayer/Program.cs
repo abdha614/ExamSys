@@ -8,6 +8,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using DataAccessLayer.Models;
+using Rotativa.AspNetCore;
+using DocumentFormat.OpenXml.Spreadsheet;
+using BusinessLogicLayer.Questions_Mangment.Interfaces;
 //using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +38,7 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
     // Add AutoMapper
-    services.AddAutoMapper(typeof(BusinessLogicLayer.Mapping.MappingProfile), typeof(PresentationLayer.Mapping.MappingProfile));
+    services.AddAutoMapper(typeof(BusinessLogicLayer.Mapping.MappingProfile), typeof(PresentationLayer.Mapping.MappingProfile), typeof(DataAccessLayer.Mapping.MappingProfile));
 
     // Register Repositories
     services.AddScoped<IRoleRepository, RoleRepository>();
@@ -57,11 +60,16 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<ICourseService, CourseService>();
     services.AddScoped<IQuestionTypeService, QuestionTypeService>();
     services.AddScoped<IQuestionTypeRepository, QuestionTypeRepository>();
-    services.AddScoped<ICsvImportService, CsvImportService>();
-  
+    services.AddScoped<IQuestionImportService, CsvImportService>();
+    services.AddScoped<IQuestionImportService, DocxImportService>();
+    services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
+    services.AddScoped<ILectureRepository, LectureRepository>();
+    services.AddScoped<IExamRepository, ExamRepository>();
+    services.AddScoped<IExamService, ExamService>();
 
     // Register PasswordHasher
     services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+    services.AddScoped<IDifficultyLevelService, DifficultyLevelService>();
 }
 
 void ConfigureAuthentication(IServiceCollection services)
@@ -105,9 +113,12 @@ void ConfigureMiddleware(WebApplication app)
 
     app.UseHttpsRedirection(); // Enforce HTTPS
     app.UseStaticFiles(); // Serve static files
+    app.UseRotativa(); // after app.UseStaticFiles();
     app.UseRouting(); // Adds routing
     app.UseAuthentication(); // Add authentication middleware
     app.UseAuthorization(); // Add authorization middleware
+                            // Configure Rotativa
+    RotativaConfiguration.Setup(app.Environment.WebRootPath);
 
     // Configure the routes
     app.MapControllerRoute(

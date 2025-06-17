@@ -1,0 +1,45 @@
+﻿body {
+    background: linear-gradient(to right, #e3f2fd, #f1f8ff);
+    background-size: cover;
+}
+
+/* Glass Card Styling */
+.glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Gradient for Icons */
+.text-gradient {
+    background: linear-gradient(to right, #007bff, #6610f2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Form and Input Styling */
+.form-control {
+    background-color: #f8f9fa;
+    border-radius: 12px;
+}
+
+    .form-control:focus {
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.7);
+    }
+
+/* Button Styling */
+.btn-primary {
+    background: linear-gradient(90deg, #007bff, #6610f2);
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease-in-out;
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #6610f2, #007bff);
+        box-shadow: 0 0 12px rgba(0, 123, 255, 0.7);
+    }
+
+.btn-outline-secondary {
+    border-radius: 12px;
+}

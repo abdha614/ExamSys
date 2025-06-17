@@ -1,0 +1,67 @@
+﻿@model PresentationLayer.ViewModels.ExamViewModel.ExamListViewModel
+
+<h2 style="margin-bottom: 30px;">Exam Management:</h2>
+
+<div class="text-center my-5">
+    
+    <div class="d-flex justify-content-center flex-wrap gap-4">
+        <a asp-action="CreateManualExam" class="btn btn-outline-primary btn-lg px-5 py-3 rounded-3 shadow-sm">
+            <i class="fas fa-edit me-2"></i> Manual Exam
+        </a>
+        <a asp-action="CreateAutoExam" class="btn btn-outline-secondary btn-lg px-5 py-3 rounded-3 shadow-sm">
+            <i class="fas fa-magic me-2"></i> Auto Exam
+        </a>
+    </div>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Course</th>
+            <th>Questions</th>
+            <th>CreateDate</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var exam in Model.Exams)
+        {
+            <tr>
+                <td>@exam.Title</td>
+                <td>@exam.CourseName</td>
+                <td>@exam.TotalQuestions</td>
+                <td>@exam.CreatedDate</td>
+                <td>
+                    <a asp-action="ExamDetails" asp-route-id="@exam.Id" class="btn btn-info">View</a>
+
+                    <!-- Delete Button that opens the modal -->
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteExamModal_@exam.Id">
+                        Delete
+                    </button>
+
+                    <!-- Confirmation Modal -->
+                    <div class="modal fade" id="deleteExamModal_@exam.Id" tabindex="-1" aria-labelledby="deleteExamModalLabel_@exam.Id" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content text-center">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteExamModalLabel_@exam.Id">Confirm Deletion</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to delete the exam "<strong>@exam.Title</strong>"? This action cannot be undone.
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <form asp-action="DeleteExam" asp-route-id="@exam.Id" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

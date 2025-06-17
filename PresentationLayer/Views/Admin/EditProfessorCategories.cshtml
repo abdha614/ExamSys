@@ -1,0 +1,147 @@
+﻿@* @model PresentationLayer.ViewModels.EditProfessorCategoriesViewModel
+
+@{
+    ViewData["Title"] = "Assigned Professor Categories";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Assigned Categories for Professor:</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form asp-action="AddCategory" method="post">
+        <input type="hidden" asp-for="ProfessorId" />
+
+        <div class="mb-3">
+            <label asp-for="NewCategoryName" class="form-label fw-bold">Enter Category :</label>
+            <input asp-for="NewCategoryName" class="form-control" placeholder="Enter category" />
+            <span asp-validation-for="NewCategoryName" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Add Category</button>
+    </form>
+
+    <h4>Assigned Categories:</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Categories</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>
+                        <form asp-action="RemoveCategory" method="post" class="d-inline">
+                            <input type="hidden" name="professorId" value="@Model.ProfessorId" />
+                            <input type="hidden" name="categoryId" value="@category.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+ *@
+@model PresentationLayer.ViewModels.EditProfessorCategoriesViewModel
+
+@{
+    ViewData["Title"] = "Assigned Professor Categories";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Assigned Categories for Professor:</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    <form asp-action="AddCategory" method="post">
+        <input type="hidden" asp-for="ProfessorId" />
+
+        <div class="mb-3">
+            <label asp-for="NewCategoryName" class="form-label fw-bold">Enter Category :</label>
+            <input asp-for="NewCategoryName" class="form-control" placeholder="Enter category" />
+            <span asp-validation-for="NewCategoryName" class="text-danger small"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Add Category</button>
+    </form>
+    <br />
+    <h4>Assigned Categories:</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Categories</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.Name</td>
+                    <td>
+                        <!-- Button to trigger modal -->
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal" data-category-id="@category.Id" data-professor-id="@Model.ProfessorId">
+                            Remove
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this category? Deleting this category will also delete all associated questions and courses.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="post" asp-controller="Admin" asp-action="RemoveCategory" style="display:inline;">
+                    <input type="hidden" name="professorId" id="modalProfessorId" />
+                    <input type="hidden" name="categoryId" id="modalCategoryId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle the modal -->
+<script>
+    // Get all the "Remove" buttons
+    var removeButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+
+    removeButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            // Get the category and professor IDs from the button's data attributes
+            var categoryId = button.getAttribute('data-category-id');
+            var professorId = button.getAttribute('data-professor-id');
+
+            // Set the values of the hidden inputs in the form within the modal
+            document.getElementById('modalCategoryId').value = categoryId;
+            document.getElementById('modalProfessorId').value = professorId;
+        });
+    });
+</script>

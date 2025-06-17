@@ -1,202 +1,4 @@
-﻿function checkNewCategory(value) {
-    if (value === 'new') {
-        $('#newCategoryDiv').show();
-    } else {
-        $('#newCategoryDiv').hide();
-        getCoursesByCategory(value);
-    }
-}
-
-// Function to add a new category
-// Function to add a new category
-// Function to add a new category
-function addCategory() {
-    var categoryName = $('#newCategoryName').val().trim(); // Get the value and trim extra spaces
-
-    // Check if the category name is not empty
-    if (categoryName === "") {
-        $('#categoryNotification').hide(); // Hide notification if input is empty
-        return; // Do nothing if the input is empty
-    }
-
-    // Check if the category already exists in the dropdown
-    var categoryExists = false;
-    $('#category option').each(function () {
-        if ($(this).text().trim().toLowerCase() === categoryName.toLowerCase()) {
-            categoryExists = true;
-            return false; // Break out of the loop
-        }
-    });
-
-    // If the category exists, show the notification
-    if (categoryExists) {
-        $('#categoryNotification').text('Category already exists. Please choose a different name or select it from the list.').show(); // Show the notification
-        return; // Do nothing if the category already exists
-    } else {
-        $('#categoryNotification').hide(); // Hide the notification if the input is valid
-    }
-
-    // If the category doesn't exist, proceed with the AJAX request
-    $.ajax({
-        url: '/Professor/AddCategory',
-        type: 'POST',
-        data: { name: categoryName },
-        success: function (data) {
-            // Add the new category to the dropdown list
-            $('#category').append('<option value="' + data.id + '">' + data.name + '</option>');
-
-            // Select the new category
-            $('#category').val(data.id);
-
-            // Hide the "Add New Category" input field
-            $('#newCategoryDiv').hide();
-
-            // Optionally, load courses for the newly added category
-            getCoursesByCategory(data.id);
-
-            // Hide the notification after successful addition
-            $('#categoryNotification').hide();
-        },
-        error: function () {
-            // Handle any errors (optional)
-            $('#categoryNotification').text('An error occurred while adding the category.').show();
-        }
-    });
-}
-
-// Event listener for category selection
-$('#category').change(function () {
-    // Hide the notification whenever the dropdown value changes
-    $('#categoryNotification').hide();
-
-    // Show the "Add New Category" form only if "new" is selected
-    if ($(this).val() === 'new') {
-        $('#newCategoryDiv').show();
-    } else {
-        $('#newCategoryDiv').hide();
-    }
-});
-
-// Event listener to hide the notification when the user starts typing or focuses the input field again
-$('#newCategoryName').on('input', function () {
-    $('#categoryNotification').hide(); // Hide the notification if the user starts typing a new category
-});
-
-
-// Function to add a new course
-// Function to add a new course
-// Event listener for course selection
-$('#course').change(function () {
-    $('#courseNotification').hide(); // Hide the notification whenever the dropdown value changes
-
-    // Show the "Add New Course" form only if "new" is selected
-    if ($(this).val() === 'new') {
-        $('#newCourseDiv').show();
-    } else {
-        $('#newCourseDiv').hide();
-    }
-});
-
-function addCourse() {
-    var courseName = $('#newCourseName').val().trim(); // Get the value and trim extra spaces
-    var categoryId = $('#category').val(); // Get selected category ID
-
-    // Check if the course name is not empty
-    if (courseName === "") {
-        $('#courseNotification').text("Please enter a course name.").show(); // Show error message for empty input
-        return; // Do nothing if the input is empty
-    }
-
-    // Check if a category is selected
-    if (categoryId === "" || categoryId === "new") {
-        $('#courseNotification').text("Please select a valid category before adding a course.").show();
-        return;
-    }
-
-    // Check if the course already exists in the dropdown
-    var courseExists = false;
-    $('#course option').each(function () {
-        if ($(this).text().trim().toLowerCase() === courseName.toLowerCase()) {
-            courseExists = true;
-            return false; // Break out of the loop
-        }
-    });
-
-    // If the course exists, show the notification
-    if (courseExists) {
-        $('#courseNotification').text('Course already exists. Please choose a different name or select it from the list.').show(); // Show the notification
-        return; // Do nothing if the course already exists
-    } else {
-        $('#courseNotification').hide(); // Hide the notification if the input is valid
-    }
-
-    // Send AJAX request to the backend
-    $.ajax({
-        url: '/Professor/AddCourse',
-        type: 'POST',
-        data: { name: courseName, categoryId: categoryId },
-        success: function (response) {
-            if (response.error) {
-                // Show error message from backend
-                $('#courseNotification').text(response.errorMessage).show();
-            } else {
-                // Add the new course to the dropdown list
-                $('#course').append('<option value="' + response.data.id + '">' + response.data.name + '</option>');
-                $('#course').val(response.data.id); // Set the new course as selected
-                $('#newCourseDiv').hide(); // Hide the "Add New Course" input field
-                $('#courseNotification').hide(); // Hide any notifications
-            }
-        },
-        error: function () {
-            // Handle any errors
-            $('#courseNotification').text('An error occurred while adding the course.').show();
-        }
-    });
-}
-
-
-$('#newCourseName').on('input', function () {
-    $('#courseNotification').hide(); // Hide notification when user types a new course
-});
-
-
-function getCoursesByCategory(categoryId) {
-    $.ajax({
-        url: '/Professor/GetCoursesByCategory',
-        type: 'GET',
-        data: { categoryId: categoryId },
-        success: function (data) {
-            var courseDropdown = $('#course');
-            courseDropdown.empty();
-            courseDropdown.append('<option value="">Select Course</option>');
-            $.each(data, function (i, course) {
-                courseDropdown.append('<option value="' + course.id + '">' + course.name + '</option>');
-            });
-            courseDropdown.append('<option value="new">Add New Course</option>');
-        }
-    });
-}
-
-$(document).ready(function () {
-    $('#category').change(function () {
-        checkNewCategory($(this).val());
-    });
-
-    $('#course').change(function () {
-        if ($(this).val() === 'new') {
-            $('#newCourseDiv').show();
-        } else {
-            $('#newCourseDiv').hide();
-        }
-    });
-
-    // Load courses if category is already selected
-    var selectedCategoryId = $('#category').val();
-    if (selectedCategoryId && selectedCategoryId !== 'new') {
-        getCoursesByCategory(selectedCategoryId);
-    }
-
-});
+﻿
 
 $(document).ready(function () {
     // Add Answer
@@ -281,3 +83,64 @@ $(document).ready(function () {
         }
     });
 });
+
+    function loadCourses(categoryId) {
+        if (!categoryId) {
+        $('#course').empty().append('<option value="">Select Course</option>');
+    return;
+        }
+
+    $.ajax({
+        url: '/Professor/GetCoursesByCategory', // Replace with your actual controller route
+    type: 'GET',
+    data: {categoryId: categoryId },
+    success: function (courses) {
+                var courseDropdown = $('#course');
+        courseDropdown.empty();
+        courseDropdown.append('<option value="" disabled selected>-- Select Course --</option>');
+    //courseDropdown.append('<option value="">Select Course</option>');
+
+
+    $.each(courses, function (index, course) {
+        courseDropdown.append('<option value="' + course.id + '">' + course.name + '</option>');
+                });
+            },
+    error: function () {
+        alert('Error loading courses');
+            }
+        });
+    }
+
+
+////////////////////
+let currentLecture = 1;  // Starting index for the lecture
+const minLecture = 1;    // Minimum lecture number
+const maxLecture = 20;   // Maximum number of lectures
+
+const spinnerInput = document.getElementById('lectureSpinner');
+const hiddenLecture = document.getElementById('lectureHidden');
+
+// Update the displayed lecture name and hidden field
+function updateLectureDisplay() {
+    spinnerInput.value = `Lecture ${currentLecture}`; // Format as "Lecture X"
+    hiddenLecture.value = `Lecture ${currentLecture}`; // Update hidden field to include "Lecture"
+}
+
+// Increment the lecture index (if within bounds)
+function incrementLecture() {
+    if (currentLecture < maxLecture) {
+        currentLecture++;
+        updateLectureDisplay();
+    }
+}
+
+// Decrement the lecture index (if within bounds)
+function decrementLecture() {
+    if (currentLecture > minLecture) {
+        currentLecture--;
+        updateLectureDisplay();
+    }
+}
+
+// Initialize the display when the page loads
+updateLectureDisplay();

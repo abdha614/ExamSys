@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PresentationLayer.ViewModels.UserViewModel>
+﻿@model PresentationLayer.ViewModels.UserManagementViewModel
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -9,17 +9,13 @@
     ViewData["Title"] = "User Management";
 }
 
-<h1>User Management</h1>
+<h1>User Management:</h1>
 
-<!-- Filter Users by Role -->
-<form method="get" asp-action="UserManagement">
+<!-- 🔍 Role Filter Dropdown -->
+<form method="get" asp-action="UserManagement" class="mb-3">
     <label for="roleFilter" class="form-label">Filter by Role:</label>
-    <select id="roleFilter" name="roleId" class="form-select" onchange="this.form.submit()">
+    <select id="roleFilter" name="roleId" class="form-select" asp-for="SelectedRoleId" asp-items="Model.Roles" onchange="this.form.submit()">
         <option value="">All Roles</option>
-        @foreach (var role in (SelectList)ViewBag.Roles)
-        {
-            <option value="@role.Value" selected="@role.Selected">@role.Text</option>
-        }
     </select>
 </form>
 
@@ -28,35 +24,46 @@
     <a asp-action="Register" class="btn btn-primary">Create New User</a>
 </div>
 
-<!-- User Management Table -->
-<table class="table">
+<!-- 📜 User List Table -->
+<table class="table table-striped">
     <thead>
         <tr>
             <th>ID</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Actions</th>
+            <th>Actions</th> <!-- ✅ Added Actions column -->
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @if (Model.Users != null && Model.Users.Any())
+        {
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Email</td>
+                    <td>@user.RoleName</td>
+                    <td>
+                        <!-- 🗑 Delete Button -->
+                        <button class="btn btn-danger btn-sm btn-delete-user"
+                                data-user-id="@user.Id"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+        else
         {
             <tr>
-                <td>@user.Id</td>
-                <td>@user.Email</td>
-                <td>@user.RoleName</td>
-                <td>
-                    <button class="btn btn-danger btn-sm btn-delete-user"
-                            data-user-id="@user.Id"
-                            data-bs-toggle="modal"
-                            data-bs-target="#deleteModal">
-                        Delete
-                    </button>
-                </td>
+                <td colspan="4" class="text-center">No users found.</td>
             </tr>
         }
     </tbody>
 </table>
+
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -79,14 +86,11 @@
     </div>
 </div>
 
-
-
 @section Scripts {
     <script>
-            // Handle delete button click
+        // Handle delete button click
         document.addEventListener('DOMContentLoaded', function () {
             const deleteButtons = document.querySelectorAll('.btn-delete-user');
-            const deleteForm = document.getElementById('deleteForm');
             const deleteUserId = document.getElementById('deleteUserId');
 
             deleteButtons.forEach(button => {

@@ -1,0 +1,59 @@
+﻿@model List<PresentationLayer.ViewModels.QuestionViewModel>
+
+
+<style>
+
+    .table td {
+        max-width: 200px; /* or whatever width suits your layout */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+</style>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Question Text</th>
+            <th>Question Type</th>
+            <th>Difficulty Level</th>
+            <th>Category</th>
+            <th>Course</th>
+            <th>lecture</th>
+            <th>Actions</th>
+
+
+           
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var question in Model)
+            {
+                <tr>
+                    <td>@question.Text</td>
+                    <td>@question.QuestionTypeName</td>
+                    <td>@question.DifficultyLevelName</td>
+                    <td>@question.CategoryName</td>
+                    <td>@question.CourseName</td>
+                    <td>@question.LectureName</td>
+                    <td>
+                        <a asp-action="EditQuestion" asp-route-id="@question.Id" class="btn btn-primary btn-sm">Edit</a>
+                        @* <button class="btn btn-danger btn-sm btn-delete-question" data-question-id="@question.Id">Delete</button> *@
+                        <button type="button" class="btn btn-danger btn-sm btn-delete-question" data-question-id="@question.Id">Delete</button>
+
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No questions found for the selected filters.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -13,6 +13,8 @@ namespace BusinessLogicLayer.Dtos
         public string Email { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; internal set; }
+        public bool MustChangePassword { get; set; }
+
     }
 }
 

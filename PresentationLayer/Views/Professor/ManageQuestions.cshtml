@@ -1,5 +1,82 @@
-﻿@model IEnumerable<PresentationLayer.ViewModels.QuestionViewModel>
+﻿@model PresentationLayer.ViewModels.ManageQuestionsViewModel
 
+<style>
+.filter-form {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 20px;
+}
+
+.filter-container {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.button-row {
+  text-align: right;
+}
+
+.filter-btn {
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.filter-btn i {
+  margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@@media (max-width: 1200px) {
+  .filter-group {
+    min-width: calc(33% - 15px);
+  }
+}
+
+@@media (max-width: 768px) {
+  .filter-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .button-row {
+    text-align: center;
+  }
+}
+</style>
 @{
     ViewBag.Title = "Manage Questions";
 }
@@ -23,105 +100,98 @@
         </div>
 }
 
-<!-- Filter Form -->
+<!-- Modern Filter Form with Button on New Row -->
 <form asp-action="ManageQuestions" method="get" class="filter-form">
-    <div class="row justify-content-between align-items-center">
-        <!-- Question Type Dropdown -->
-        <div class="col-md-3 mb-3">
-            <div class="form-group">
-                <label for="questionType">Question Type:</label>
-                <select id="questionType" name="questionTypeId" class="form-control custom-select" data-toggle="tooltip" title="Select the type of question to filter">
-                    <option value="">All</option>
-                    @foreach (var questionType in (SelectList)ViewBag.QuestionTypes)
-                    {
-                        <option value="@questionType.Value" selected="@questionType.Selected">@questionType.Text</option>
-                    }
-                </select>
-            </div>
-        </div>
+  <div class="filter-container">
+    <!-- Filter Controls Row -->
+    <div class="filter-row">
+      <!-- Question Type -->
+      <div class="filter-group">
+        <label for="questionType">Question Type</label>
+        <select id="questionType" name="questionTypeId" class="form-control">
+                    <option value="">All Types</option>
+          @foreach (var questionType in Model.QuestionTypes)
+          {
+            <option value="@questionType.Value" selected="@questionType.Selected">@questionType.Text</option>
+          }
+        </select>
+      </div>
 
-        <!-- Difficulty Level Dropdown -->
-        <div class="col-md-3 mb-3">
-            <div class="form-group">
-                <label for="difficultyLevel">Difficulty Level:</label>
-                <select id="difficultyLevel" name="difficultyLevelId" class="form-control custom-select" data-toggle="tooltip" title="Select the difficulty level of the questions">
-                    <option value="">All</option>
-                    <option value="1" selected="@(ViewBag.SelectedDifficultyLevelId == 1)">Easy</option>
-                    <option value="2" selected="@(ViewBag.SelectedDifficultyLevelId == 2)">Medium</option>
-                    <option value="3" selected="@(ViewBag.SelectedDifficultyLevelId == 3)">Hard</option>
-                </select>
-            </div>
-        </div>
+      <!-- Difficulty -->
+      <div class="filter-group">
+        <label for="difficultyLevel">Difficulty</label>
+        <select id="difficultyLevel" name="difficultyLevelId" class="form-control">
+                    <option value="">All Levels</option>
+          @foreach (var difficulty in Model.DifficultyLevels)
+          {
+            <option value="@difficulty.Value" selected="@difficulty.Selected">@difficulty.Text</option>
+          }
+        </select>
+      </div>
 
-        <!-- Category Dropdown -->
-        <div class="col-md-3 mb-3">
-            <div class="form-group">
-                <label for="category">Category:</label>
-                <select id="category" name="categoryId" class="form-control custom-select" onchange="getCoursesByCategory(this.value)" data-toggle="tooltip" title="Select the category for the questions">
-                    <option value="">All</option>
-                    @foreach (var category in (SelectList)ViewBag.Categories)
-                    {
-                        <option value="@category.Value" selected="@category.Selected">@category.Text</option>
-                    }
-                </select>
-            </div>
-        </div>
+      <!-- Category -->
+      <div class="filter-group">
+        <label for="category">Category</label>
+        <select id="category" name="categoryId" class="form-control" onchange="GetCoursesByCategory(this.value)">
+                    <option value="">All Categories</option>
+          @foreach (var category in Model.Categories)
+          {
+            <option value="@category.Value" selected="@category.Selected">@category.Text</option>
+          }
+        </select>
+      </div>
 
-        <!-- Course Dropdown -->
-        <div class="col-md-3 mb-3">
-            <div class="form-group">
-                <label for="course">Course:</label>
-                <select id="course" name="courseId" class="form-control custom-select" data-selected-course-id="@ViewBag.SelectedCourseId" data-toggle="tooltip" title="Select the course for the questions">
-                    <option value="">All</option>
-                </select>
-            </div>
-        </div>
+      <!-- Course -->
+      <div class="filter-group">
+        <label for="course">Course</label>
+        <select id="course" name="courseId" class="form-control" data-selected-course-id="@Model.SelectedCourseId" onchange="GetLecturesByCourse(this.value)">
+                    <option value="">All Courses</option>
+          @foreach (var course in Model.Courses)
+          {
+            <option value="@course.Value" selected="@course.Selected">@course.Text</option>
+          }
+        </select>
+      </div>
+
+      <!-- Lecture -->
+      <div class="filter-group">
+        <label for="lecture">Lecture</label>
+        <select id="lecture" name="lectureId" class="form-control" data-selected-lecture-id="@Model.SelectedLectureId">
+                    <option value="">All Lectures</option>
+          @foreach (var lecture in Model.Lectures)
+          {
+            <option value="@lecture.Value" selected="@lecture.Selected">@lecture.Text</option>
+          }
+        </select>
+      </div>
     </div>
 
-    <!-- Filter Button -->
-    <div class="form-group-custom" style="flex: 1 1 100%; text-align: left; margin-bottom: 1rem;">
-        <button type="submit" class="btn-primary-custom">Filter</button>
-    </div>
+    <!-- Filter Button Row -->
+     @*    <div class="button-row text-start">
+            <button type="submit" class="btn btn-primary filter-btn">
+                <i class="fas fa-filter"></i> Apply Filters
+            </button>
+        </div> *@
+        <!-- Filter Button Row -->
+<div class="button-row text-start">
+    <button type="button" class="btn btn-primary filter-btn" id="applyFilters">
+        <i class="fas fa-filter"></i> Apply Filters
+    </button>
+</div>
+
+
 </form>
+
+<br />
 <!-- Questions Table -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>Question Text</th>
-            <th>Question Type</th>
-            <th>Difficulty Level</th>
-            <th>Category</th>
-            <th>Course</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var question in Model)
-        {
-                <tr>
-                    <td>@question.Text</td>
-                    <td>@question.QuestionTypeName</td>
-                    <td>@question.DifficultyLevelName</td>
-                    <td>@question.CategoryName</td>
-                    <td>@question.CourseName</td>
-                    <td>
-                        <a asp-action="EditQuestion" asp-route-id="@question.Id" class="btn btn-primary btn-sm">Edit</a>
-                        @* <button class="btn btn-danger btn-sm" onclick="confirmDelete('@question.Id')">Delete</button> *@
-                        <button class="btn btn-danger btn-sm btn-delete-question" data-question-id="@question.Id">Delete</button>
 
-
-                    </td>
-                </tr>
-        }
-    </tbody>
-</table>
-
+<div id="questionsTableContainer">
+    @await Html.PartialAsync("_FilteredQuestionsPartial1", Model.Questions)
+</div>
 <!-- Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <!-- Added 'modal-dialog-centered' -->
         <div class="modal-content text-center">
-            <!-- Added 'text-center' -->
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -130,10 +200,8 @@
                 Are you sure you want to delete this question?
             </div>
             <div class="modal-footer justify-content-center">
-                <!-- Centered the footer buttons -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <form id="deleteForm" method="post" style="display:inline;">
-                    @*  @Html.AntiForgeryToken() *@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </div>
@@ -143,7 +211,56 @@
 
 @section Scripts {
     <script src="~/js/filter-scripts.js"></script>
+      @*  <script>
+        $(document).ready(function () {
+            $('#applyFilters').on('click', function () {
+                var questionTypeId = $('#questionType').val();
+                var difficultyLevelId = $('#difficultyLevel').val();
+                var categoryId = $('#category').val();
+                var courseId = $('#course').val();
+                var lectureId = $('#lecture').val();
+
+                $.ajax({
+                    url: '@Url.Action("FilterQuestions", "Professor")', // Replace "Professor" if needed
+                    type: 'GET',
+                    data: {
+                        questionTypeId: questionTypeId,
+                        difficultyLevelId: difficultyLevelId,
+                        categoryId: categoryId,
+                        courseId: courseId,
+                        lectureId: lectureId
+                    },
+                    success: function (result) {
+                        $('#questionsTableContainer').html(result);
+                    },
+                    error: function () {
+                        alert("An error occurred while filtering questions.");
+                    }
+                });
+            });
+        });
+    </script> *@
+
+
 }
 @* @section Styles {
     <link href="~/css/manage-questions.css" rel="stylesheet" />
 } *@
+
+@* <style>
+   /*  body {
+                background-color: #f8f9fa;
+            } */
+
+    .container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    } */
+</style> *@
+
