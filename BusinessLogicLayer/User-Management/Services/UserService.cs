@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Services
       
         public async Task DeleteUserAsync(int userId)
         {
-            await _userRepository.DeleteAsync(userId);
+            await _userRepository.DeleteUserAsync(userId);
         }
         public async Task<RegisteredUserDto> RegisterUserAsync(UserRegistrationDto registrationDto)
         {

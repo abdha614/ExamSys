@@ -36,17 +36,33 @@ namespace DataAccessLayer.Repositories
 
         public async Task DeleteUserAsync(int professorId)
         {
-            var categories = await _context.Categories.Where(c => c.ProfessorId == professorId).ToListAsync();
-            var courses = await _context.Courses.Where(c => c.ProfessorId == professorId).ToListAsync();
-
+            // Step 1: Remove related categories
+            var categories = await _context.Categories
+                .Where(c => c.ProfessorId == professorId)
+                .ToListAsync();
             _context.Categories.RemoveRange(categories);
+
+            // Step 2: Remove related courses
+            var courses = await _context.Courses
+                .Where(c => c.ProfessorId == professorId)
+                .ToListAsync();
             _context.Courses.RemoveRange(courses);
+
+            // Step 3: Remove related histories
+            var histories = await _context.Histories
+                .Where(h => h.UserId == professorId)
+                .ToListAsync();
+            _context.Histories.RemoveRange(histories);
+
+            // Save changes for related entities
             await _context.SaveChangesAsync();
 
+            // Step 4: Delete the professor
             var professor = await _context.Users.FindAsync(professorId);
             _context.Users.Remove(professor);
             await _context.SaveChangesAsync();
         }
+
         public async Task<bool> EmailExistsAsync(string email)
         {
             return await _dbSet.AnyAsync(u => u.Email == email);
