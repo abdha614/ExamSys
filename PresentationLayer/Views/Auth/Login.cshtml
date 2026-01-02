@@ -32,12 +32,20 @@
                 </div>
 
                 <button type="submit" class="btn btn-login">Login</button>
+
+                <!-- ✅ Forgot Password Link -->
+                <div class="text-center mt-3">
+                    <a asp-action="ForgotPassword" asp-controller="Auth" class="text-decoration-none" style="color: #25d0ea;">
+                        Forgot your password?
+                    </a>
+                </div>
             </form>
 
             <footer class="login-footer">
-                <!-- Uncomment the below lines if needed -->
-                <!-- <p>Forgot your password? <a href="#">Click here</a></p> -->
-                <!-- <p>Don't have an account? <a href="#">Register now</a></p> -->
+                <p class="mt-3 text-center">
+                    Don't have an account?
+                    <a asp-controller="Auth" asp-action="RequestSignUp" class="text-decoration-none" style="color: #25d0ea;">Sign Up</a>
+                </p>
             </footer>
         </div>
     </div>

@@ -2,66 +2,1443 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Exam Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Store Inventory System</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
         }
 
-        h2 {
-            color: #2c3e50;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        nav {
+            background-color: var(--dark);
+            padding: 0.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+            nav ul {
+                display: flex;
+                list-style: none;
+            }
+
+            nav li {
+                margin-right: 1.5rem;
+            }
+
+            nav a {
+                color: white;
+                text-decoration: none;
+                padding: 0.5rem 0;
+                display: block;
+                border-bottom: 3px solid transparent;
+                transition: all 0.3s ease;
+            }
+
+                nav a:hover, nav a.active {
+                    border-bottom: 3px solid var(--primary);
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1.5rem;
+        }
+
+            .card h3 {
+                color: var(--dark);
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 0.5rem;
+            }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+        }
+
+            .stat-card.warning {
+                border-left-color: var(--warning);
+            }
+
+            .stat-card.danger {
+                border-left-color: var(--danger);
+            }
+
+            .stat-card.success {
+                border-left-color: var(--secondary);
+            }
+
+            .stat-card .value {
+                font-size: 2rem;
+                font-weight: bold;
+                color: var(--dark);
+            }
+
+            .stat-card p {
+                color: #7f8c8d;
+                font-size: 0.9rem;
+            }
 
         table {
+            width: 100%;
             border-collapse: collapse;
-            width: 60%;
-            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5rem 0;
         }
 
         th, td {
+            padding: 1rem;
             text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
         }
 
         th {
-            background-color: #f4f4f4;
-            color: #333;
-            width: 200px;
+            background-color: var(--dark);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .badge-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .badge-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+            }
+
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+            .btn-success:hover {
+                background-color: #27ae60;
+            }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+            .btn-danger:hover {
+                background-color: #c0392b;
+            }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+            .btn-warning:hover {
+                background-color: #e67e22;
+            }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+
+            input:focus, select:focus, textarea:focus {
+                border-color: var(--primary);
+                outline: none;
+            }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+            .close:hover {
+                color: var(--dark);
+            }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+        }
+
+        .alert-warning {
+            background-color: #fef9e7;
+            border-left-color: var(--warning);
+            color: #f39c12;
+        }
+
+        .alert-danger {
+            background-color: #fadbd8;
+            border-left-color: var(--danger);
+            color: #e74c3c;
+        }
+
+        .alert-success {
+            background-color: #d5f5e3;
+            border-left-color: var(--secondary);
+            color: #27ae60;
+        }
+
+        .tab-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+            .tab.active {
+                border-bottom: 3px solid var(--primary);
+                font-weight: 500;
+                color: var(--primary);
+            }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+
+            .tab-content.active {
+                display: block;
+            }
+
+        .hidden-item {
+            opacity: 0.6;
+            background-color: #f9f9f9;
+        }
+
+            .hidden-item td:first-child {
+                position: relative;
+            }
+
+                .hidden-item td:first-child::before {
+                    content: "HIDDEN";
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background-color: var(--warning);
+                    color: white;
+                    padding: 0.2rem 0.5rem;
+                    border-radius: 4px;
+                    font-size: 0.7rem;
+                }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo">Two-Store Inventory System</div>
+        <div class="user-info">
+            <span>Admin User</span>
+            <div class="user-avatar">AU</div>
+        </div>
+    </header>
 
-    <h2>Exam Details</h2>
+    <nav>
+        <ul>
+            <li><a href="#dashboard" class="active">Dashboard</a></li>
+            <li><a href="#inventory">Inventory</a></li>
+            <li><a href="#orders">Orders</a></li>
+            <li><a href="#replenishment">Replenishment</a></li>
+            <li><a href="#suppliers">Supplier Receiving</a></li>
+            <li><a href="#reports">Reports</a></li>
+        </ul>
+    </nav>
 
-    <table>
-        <tr>
-            <th>Title</th>
-            <td>Midterm Exam</td>
-        </tr>
-        <tr>
-            <th>Course</th>
-            <td>Computer Science 101</td>
-        </tr>
-        <tr>
-            <th>Duration</th>
-            <td>60 minutes</td>
-        </tr>
-        <tr>
-            <th>Start Time</th>
-            <td>2025-06-01 09:00 AM</td>
-        </tr>
-        <tr>
-            <th>Questions</th>
-            <td>20</td>
-        </tr>
-        <tr>
-            <th>Note</th>
-            <td>Closed book exam. Bring your university ID.</td>
-        </tr>
-    </table>
+    <div class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-cards">
+                <div class="stat-card">
+                    <h3>Branch Store Stock Level</h3>
+                    <div class="value">78%</div>
+                    <p>of items above threshold</p>
+                </div>
+                <div class="stat-card warning">
+                    <h3>Low Stock Items</h3>
+                    <div class="value">12</div>
+                    <p>items need replenishment</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Pending Transfers</h3>
+                    <div class="value">5</div>
+                    <p>from Main Store</p>
+                </div>
+                <div class="stat-card success">
+                    <h3>Main Store Health</h3>
+                    <div class="value">92%</div>
+                    <p>of items above safety stock</p>
+                </div>
+            </div>
 
+            <div class="alert alert-warning">
+                <strong>Attention:</strong> 3 items are currently hidden from customers due to low stock.
+            </div>
+
+            <div class="card">
+                <h3>Recent Activity</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>User</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-06-20 09:15</td>
+                            <td>Stock Transfer</td>
+                            <td>System</td>
+                            <td>iPhone 15 (Qty: 50) from Main to Branch</td>
+                        </tr>
+                        <tr>
+                            <td>2023-06-20 08:30</td>
+                            <td>Product Hidden</td>
+                            <td>System</td>
+                            <td>Samsung TV hidden (Stock: 2, Threshold: 10)</td>
+                        </tr>
+                        <tr>
+                            <td>2023-06-19 17:45</td>
+                            <td>Order Fulfilled</td>
+                            <td>Admin</td>
+                            <td>Order #12345 for 2x AirPods</td>
+                        </tr>
+                        <tr>
+                            <td>2023-06-19 14:20</td>
+                            <td>Supplier Delivery</td>
+                            <td>Admin</td>
+                            <td>Received 200x iPhone 15 from Supplier A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Inventory Management Section -->
+        <section id="inventory" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2>Inventory Management</h2>
+                <button class="btn btn-primary" id="addProductBtn">Add New Product</button>
+            </div>
+
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab active" data-tab="branch">Branch Store</div>
+                    <div class="tab" data-tab="main">Main Store</div>
+                </div>
+
+                <div class="tab-content active" id="branch-tab">
+                    <div class="alert alert-warning">
+                        Items in <strong>red</strong> are hidden from customers due to low stock.
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Threshold</th>
+                                <th>Status</th>
+                                <th>Main Store Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>iPhone 15</td>
+                                <td>Electronics</td>
+                                <td>15</td>
+                                <td>10</td>
+                                <td><span class="badge badge-success">In Stock</span></td>
+                                <td>920</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="toggleProductVisibility(1001, false)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr class="hidden-item">
+                                <td>1002</td>
+                                <td>Samsung TV</td>
+                                <td>Electronics</td>
+                                <td>2</td>
+                                <td>10</td>
+                                <td><span class="badge badge-danger">Out of Stock</span></td>
+                                <td>120</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-success btn-sm" onclick="toggleProductVisibility(1002, true)">Show</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1003</td>
+                                <td>AirPods Pro</td>
+                                <td>Electronics</td>
+                                <td>8</td>
+                                <td>10</td>
+                                <td><span class="badge badge-warning">Low Stock</span></td>
+                                <td>250</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="toggleProductVisibility(1003, false)">Hide</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1004</td>
+                                <td>MacBook Pro</td>
+                                <td>Electronics</td>
+                                <td>25</td>
+                                <td>5</td>
+                                <td><span class="badge badge-success">In Stock</span></td>
+                                <td>150</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="toggleProductVisibility(1004, false)">Hide</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="main-tab">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Current Stock</th>
+                                <th>Threshold</th>
+                                <th>Status</th>
+                                <th>Branch Store Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1001</td>
+                                <td>iPhone 15</td>
+                                <td>Electronics</td>
+                                <td>920</td>
+                                <td>200</td>
+                                <td><span class="badge badge-success">In Stock</span></td>
+                                <td>15</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1002</td>
+                                <td>Samsung TV</td>
+                                <td>Electronics</td>
+                                <td>120</td>
+                                <td>100</td>
+                                <td><span class="badge badge-success">In Stock</span></td>
+                                <td>2</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1003</td>
+                                <td>AirPods Pro</td>
+                                <td>Electronics</td>
+                                <td>250</td>
+                                <td>50</td>
+                                <td><span class="badge badge-success">In Stock</span></td>
+                                <td>8</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Replenishment Section -->
+        <section id="replenishment" style="display: none;">
+            <h2>Replenishment Management</h2>
+
+            <div class="alert alert-warning">
+                <strong>Note:</strong> The system automatically generates replenishment requests for items below threshold.
+            </div>
+
+            <div class="card">
+                <h3>Pending Replenishment Requests</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Product</th>
+                            <th>Current Branch Stock</th>
+                            <th>Threshold</th>
+                            <th>Request Qty</th>
+                            <th>Main Store Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>REQ-2023-001</td>
+                            <td>Samsung TV</td>
+                            <td>2</td>
+                            <td>10</td>
+                            <td>8</td>
+                            <td>120</td>
+                            <td><span class="badge badge-primary">Pending</span></td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="approveReplenishment('REQ-2023-001')">Approve</button>
+                                <button class="btn btn-danger btn-sm">Reject</button>
+                                <button class="btn btn-primary btn-sm">Modify</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-2023-002</td>
+                            <td>AirPods Pro</td>
+                            <td>8</td>
+                            <td>10</td>
+                            <td>2</td>
+                            <td>250</td>
+                            <td><span class="badge badge-primary">Pending</span></td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="approveReplenishment('REQ-2023-002')">Approve</button>
+                                <button class="btn btn-danger btn-sm">Reject</button>
+                                <button class="btn btn-primary btn-sm">Modify</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Recent Replenishments</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transfer ID</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TRF-2023-015</td>
+                            <td>2023-06-19</td>
+                            <td>iPhone 15</td>
+                            <td>50</td>
+                            <td>Main Store</td>
+                            <td>Branch Store</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                        </tr>
+                        <tr>
+                            <td>TRF-2023-014</td>
+                            <td>2023-06-18</td>
+                            <td>MacBook Pro</td>
+                            <td>10</td>
+                            <td>Main Store</td>
+                            <td>Branch Store</td>
+                            <td><span class="badge badge-success">Completed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Supplier Receiving Section -->
+        <section id="suppliers" style="display: none;">
+            <h2>Supplier Receiving (Main Store)</h2>
+
+            <div class="card">
+                <h3>Add New Shipment</h3>
+                <form id="supplierForm">
+                    <div class="form-group">
+                        <label for="supplierName">Supplier Name</label>
+                        <input type="text" id="supplierName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supplierProduct">Product</label>
+                        <select id="supplierProduct" required>
+                            <option value="">Select Product</option>
+                            <option value="1001">iPhone 15 (Current: 920)</option>
+                            <option value="1002">Samsung TV (Current: 120)</option>
+                            <option value="1003">AirPods Pro (Current: 250)</option>
+                            <option value="1004">MacBook Pro (Current: 150)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supplierQty">Quantity Received</label>
+                        <input type="number" id="supplierQty" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="batchNumber">Batch/Lot Number</label>
+                        <input type="text" id="batchNumber">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add to Main Store</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Recent Receivings</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Supplier</th>
+                            <th>Product</th>
+                            <th>Qty</th>
+                            <th>Batch</th>
+                            <th>Received By</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2023-06-19</td>
+                            <td>Supplier A</td>
+                            <td>iPhone 15</td>
+                            <td>200</td>
+                            <td>BATCH-IP15-0619</td>
+                            <td>Admin</td>
+                        </tr>
+                        <tr>
+                            <td>2023-06-15</td>
+                            <td>Supplier B</td>
+                            <td>Samsung TV</td>
+                            <td>50</td>
+                            <td>BATCH-STV-0615</td>
+                            <td>Admin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section id="reports" style="display: none;">
+            <h2>Reports</h2>
+
+            <div class="card">
+                <h3>Stock Movement Report</h3>
+                <div class="form-group">
+                    <label for="reportDateRange">Date Range</label>
+                    <select id="reportDateRange">
+                        <option value="7">Last 7 Days</option>
+                        <option value="30" selected>Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+
+                <div id="customDateRange" style="display: none;">
+                    <div class="form-group">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" id="startDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+
+                <div id="reportResults" style="margin-top: 2rem;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Branch Sales</th>
+                                <th>Main Transfers</th>
+                                <th>Supplier Receivings</th>
+                                <th>Net Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>iPhone 15</td>
+                                <td>120</td>
+                                <td>150</td>
+                                <td>200</td>
+                                <td>+230</td>
+                            </tr>
+                            <tr>
+                                <td>Samsung TV</td>
+                                <td>25</td>
+                                <td>30</td>
+                                <td>50</td>
+                                <td>+55</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Product</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="productForm">
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text" id="productName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productCategory">Category</label>
+                    <select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home Goods</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="productSKU">SKU/Product ID</label>
+                    <input type="text" id="productSKU" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productPrice">Price</label>
+                    <input type="number" id="productPrice" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mainStock">Initial Main Store Stock</label>
+                    <input type="number" id="mainStock" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mainThreshold">Main Store Threshold</label>
+                    <input type="number" id="mainThreshold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="branchStock">Initial Branch Store Stock</label>
+                    <input type="number" id="branchStock" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="branchThreshold">Branch Store Threshold</label>
+                    <input type="number" id="branchThreshold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">Description</label>
+                    <textarea id="productDescription" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Product</button>
+                <button type="button" class="btn btn-danger" id="cancelAddProduct">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Product</h3>
+                <span class="close">&times;</span>
+            </div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+
+                <div class="form-group">
+                    <label for="editProductName">Product Name</label>
+                    <input type="text" id="editProductName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProductCategory">Category</label>
+                    <select id="editProductCategory" required>
+                        <option value="electronics">Electronics</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="home">Home Goods</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProductPrice">Price</label>
+                    <input type="number" id="editProductPrice" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editMainThreshold">Main Store Threshold</label>
+                    <input type="number" id="editMainThreshold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editBranchThreshold">Branch Store Threshold</label>
+                    <input type="number" id="editBranchThreshold" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProductDescription">Description</label>
+                    <textarea id="editProductDescription" rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Product</button>
+                <button type="button" class="btn btn-danger" id="cancelEditProduct">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample data store
+        const products = [
+            {
+                id: 1001,
+                name: "iPhone 15",
+                category: "electronics",
+                price: 999.99,
+                mainStock: 920,
+                mainThreshold: 200,
+                branchStock: 15,
+                branchThreshold: 10,
+                description: "Latest iPhone model",
+                hidden: false
+            },
+            {
+                id: 1002,
+                name: "Samsung TV",
+                category: "electronics",
+                price: 799.99,
+                mainStock: 120,
+                mainThreshold: 100,
+                branchStock: 2,
+                branchThreshold: 10,
+                description: "55-inch 4K Smart TV",
+                hidden: true
+            },
+            {
+                id: 1003,
+                name: "AirPods Pro",
+                category: "electronics",
+                price: 249.99,
+                mainStock: 250,
+                mainThreshold: 50,
+                branchStock: 8,
+                branchThreshold: 10,
+                description: "Wireless noise-cancelling earbuds",
+                hidden: false
+            },
+            {
+                id: 1004,
+                name: "MacBook Pro",
+                category: "electronics",
+                price: 1999.99,
+                mainStock: 150,
+                mainThreshold: 50,
+                branchStock: 25,
+                branchThreshold: 5,
+                description: "16-inch M2 Pro chip",
+                hidden: false
+            }
+        ];
+
+        const transfers = [
+            {
+                id: "TRF-2023-015",
+                date: "2023-06-19",
+                productId: 1001,
+                productName: "iPhone 15",
+                quantity: 50,
+                from: "Main Store",
+                to: "Branch Store",
+                status: "Completed"
+            },
+            {
+                id: "TRF-2023-014",
+                date: "2023-06-18",
+                productId: 1004,
+                productName: "MacBook Pro",
+                quantity: 10,
+                from: "Main Store",
+                to: "Branch Store",
+                status: "Completed"
+            }
+        ];
+
+        const replenishments = [
+            {
+                id: "REQ-2023-001",
+                productId: 1002,
+                productName: "Samsung TV",
+                branchStock: 2,
+                threshold: 10,
+                requestQty: 8,
+                mainStock: 120,
+                status: "Pending"
+            },
+            {
+                id: "REQ-2023-002",
+                productId: 1003,
+                productName: "AirPods Pro",
+                branchStock: 8,
+                threshold: 10,
+                requestQty: 2,
+                mainStock: 250,
+                status: "Pending"
+            }
+        ];
+
+        const supplierReceivings = [
+            {
+                date: "2023-06-19",
+                supplier: "Supplier A",
+                productId: 1001,
+                productName: "iPhone 15",
+                quantity: 200,
+                batch: "BATCH-IP15-0619",
+                receivedBy: "Admin"
+            },
+            {
+                date: "2023-06-15",
+                supplier: "Supplier B",
+                productId: 1002,
+                productName: "Samsung TV",
+                quantity: 50,
+                batch: "BATCH-STV-0615",
+                receivedBy: "Admin"
+            }
+        ];
+
+        // DOM Ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Navigation functionality
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    // Remove active class from all nav links
+                    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+
+                    // Add active class to clicked link
+                    link.classList.add('active');
+
+                    // Hide all sections
+                    document.querySelectorAll('section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    // Show the selected section
+                    const sectionId = link.getAttribute('href').substring(1);
+                    document.getElementById(sectionId).style.display = 'block';
+                });
+            });
+
+            // Tab functionality
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+
+            // Modal functionality
+            const modals = {
+                addProduct: document.getElementById('addProductModal'),
+                editProduct: document.getElementById('editProductModal')
+            };
+
+            // Open modals
+            document.getElementById('addProductBtn').addEventListener('click', () => {
+                modals.addProduct.style.display = 'flex';
+            });
+
+            // Close modals
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function () {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+
+            document.getElementById('cancelAddProduct').addEventListener('click', () => {
+                modals.addProduct.style.display = 'none';
+            });
+
+            document.getElementById('cancelEditProduct').addEventListener('click', () => {
+                modals.editProduct.style.display = 'none';
+            });
+
+            // Click outside modal to close
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    e.target.style.display = 'none';
+                }
+            });
+
+            // Form submissions
+            document.getElementById('productForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Product added successfully!');
+                modals.addProduct.style.display = 'none';
+            });
+
+            document.getElementById('editProductForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Product updated successfully!');
+                modals.editProduct.style.display = 'none';
+            });
+
+            document.getElementById('supplierForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const productId = parseInt(document.getElementById('supplierProduct').value);
+                const quantity = parseInt(document.getElementById('supplierQty').value);
+
+                // Find product and update main stock
+                const product = products.find(p => p.id === productId);
+                if (product) {
+                    product.mainStock += quantity;
+                    alert(`Added ${quantity} units to ${product.name}. New Main Store stock: ${product.mainStock}`);
+
+                    // Add to receivings history
+                    const newReceiving = {
+                        date: new Date().toISOString().split('T')[0],
+                        supplier: document.getElementById('supplierName').value,
+                        productId: productId,
+                        productName: product.name,
+                        quantity: quantity,
+                        batch: document.getElementById('batchNumber').value,
+                        receivedBy: "Admin"
+                    };
+
+                    supplierReceivings.unshift(newReceiving);
+                    renderSupplierReceivings();
+
+                    // Reset form
+                    e.target.reset();
+                }
+            });
+
+            // Report date range toggle
+            document.getElementById('reportDateRange').addEventListener('change', function () {
+                document.getElementById('customDateRange').style.display =
+                    this.value === 'custom' ? 'block' : 'none';
+            });
+
+            // Initialize dashboard as the default view
+            document.getElementById('dashboard').style.display = 'block';
+
+            // Set up edit buttons
+            document.querySelectorAll('.btn-primary:not(.btn-sm)').forEach(btn => {
+                if (btn.textContent.trim() === 'Edit') {
+                    btn.addEventListener('click', function () {
+                        const productId = parseInt(this.closest('tr').querySelector('td:first-child').textContent);
+                        const product = products.find(p => p.id === productId);
+
+                        if (product) {
+                            document.getElementById('editProductId').value = product.id;
+                            document.getElementById('editProductName').value = product.name;
+                            document.getElementById('editProductCategory').value = product.category;
+                            document.getElementById('editProductPrice').value = product.price;
+                            document.getElementById('editMainThreshold').value = product.mainThreshold;
+                            document.getElementById('editBranchThreshold').value = product.branchThreshold;
+                            document.getElementById('editProductDescription').value = product.description;
+
+                            modals.editProduct.style.display = 'flex';
+                        }
+                    });
+                }
+            });
+        });
+
+        // Toggle product visibility
+        function toggleProductVisibility(productId, show) {
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.hidden = !show;
+                alert(`Product ${show ? 'shown' : 'hidden'} in customer view.`);
+                renderInventoryTables();
+            }
+        }
+
+        // Approve replenishment
+        function approveReplenishment(requestId) {
+            const request = replenishments.find(r => r.id === requestId);
+            if (request) {
+                const product = products.find(p => p.id === request.productId);
+
+                if (product && product.mainStock >= request.requestQty) {
+                    // Update stocks
+                    product.mainStock -= request.requestQty;
+                    product.branchStock += request.requestQty;
+
+                    // Create transfer record
+                    const newTransfer = {
+                        id: `TRF-${new Date().toISOString().split('T')[0].replace(/-/g, '')}-${Math.floor(Math.random() * 1000)}`,
+                        date: new Date().toISOString().split('T')[0],
+                        productId: product.id,
+                        productName: product.name,
+                        quantity: request.requestQty,
+                        from: "Main Store",
+                        to: "Branch Store",
+                        status: "Completed"
+                    };
+
+                    transfers.unshift(newTransfer);
+
+                    // Remove from pending requests
+                    const index = replenishments.findIndex(r => r.id === requestId);
+                    if (index !== -1) {
+                        replenishments.splice(index, 1);
+                    }
+
+                    alert(`Transfer approved. ${request.requestQty} ${product.name} moved to Branch Store.`);
+                    renderReplenishmentTables();
+                    renderInventoryTables();
+                } else {
+                    alert('Not enough stock in Main Store to fulfill this request.');
+                }
+            }
+        }
+
+        // Generate report
+        function generateReport() {
+            alert('Report generated for selected date range.');
+            // In a real app, this would fetch data and update the report table
+        }
+
+        // Render supplier receivings table
+        function renderSupplierReceivings() {
+            const tbody = document.querySelector('#suppliers table tbody');
+            tbody.innerHTML = '';
+
+            supplierReceivings.forEach(receiving => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td>${receiving.date}</td>
+                        <td>${receiving.supplier}</td>
+                        <td>${receiving.productName}</td>
+                        <td>${receiving.quantity}</td>
+                        <td>${receiving.batch}</td>
+                        <td>${receiving.receivedBy}</td>
+                    `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render inventory tables
+        function renderInventoryTables() {
+            const branchTbody = document.querySelector('#branch-tab tbody');
+            const mainTbody = document.querySelector('#main-tab tbody');
+
+            branchTbody.innerHTML = '';
+            mainTbody.innerHTML = '';
+
+            products.forEach(product => {
+                // Branch store row
+                let branchStatus;
+                if (product.branchStock <= 0) {
+                    branchStatus = '<span class="badge badge-danger">Out of Stock</span>';
+                } else if (product.branchStock <= product.branchThreshold) {
+                    branchStatus = '<span class="badge badge-warning">Low Stock</span>';
+                } else {
+                    branchStatus = '<span class="badge badge-success">In Stock</span>';
+                }
+
+                const branchTr = document.createElement('tr');
+                if (product.hidden) branchTr.classList.add('hidden-item');
+
+                branchTr.innerHTML = `
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.branchStock}</td>
+                        <td>${product.branchThreshold}</td>
+                        <td>${branchStatus}</td>
+                        <td>${product.mainStock}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">Edit</button>
+                            ${product.hidden ?
+                        `<button class="btn btn-success btn-sm" onclick="toggleProductVisibility(${product.id}, true)">Show</button>` :
+                        `<button class="btn btn-danger btn-sm" onclick="toggleProductVisibility(${product.id}, false)">Hide</button>`}
+                        </td>
+                    `;
+                branchTbody.appendChild(branchTr);
+
+                // Main store row
+                let mainStatus = product.mainStock > product.mainThreshold ?
+                    '<span class="badge badge-success">In Stock</span>' :
+                    '<span class="badge badge-warning">Low Stock</span>';
+
+                const mainTr = document.createElement('tr');
+                mainTr.innerHTML = `
+                        <td>${product.id}</td>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.mainStock}</td>
+                        <td>${product.mainThreshold}</td>
+                        <td>${mainStatus}</td>
+                        <td>${product.branchStock}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">Edit</button>
+                        </td>
+                    `;
+                mainTbody.appendChild(mainTr);
+            });
+        }
+
+        // Render replenishment tables
+        function renderReplenishmentTables() {
+            const pendingTbody = document.querySelector('#replenishment table:first-of-type tbody');
+            const completedTbody = document.querySelector('#replenishment table:last-of-type tbody');
+
+            pendingTbody.innerHTML = '';
+            completedTbody.innerHTML = '';
+
+            // Pending requests
+            replenishments.forEach(request => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td>${request.id}</td>
+                        <td>${request.productName}</td>
+                        <td>${request.branchStock}</td>
+                        <td>${request.threshold}</td>
+                        <td>${request.requestQty}</td>
+                        <td>${request.mainStock}</td>
+                        <td><span class="badge badge-primary">Pending</span></td>
+                        <td>
+                            <button class="btn btn-success btn-sm" onclick="approveReplenishment('${request.id}')">Approve</button>
+                            <button class="btn btn-danger btn-sm">Reject</button>
+                            <button class="btn btn-primary btn-sm">Modify</button>
+                        </td>
+                    `;
+                pendingTbody.appendChild(tr);
+            });
+
+            // Completed transfers
+            transfers.forEach(transfer => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                        <td>${transfer.id}</td>
+                        <td>${transfer.date}</td>
+                        <td>${transfer.productName}</td>
+                        <td>${transfer.quantity}</td>
+                        <td>${transfer.from}</td>
+                        <td>${transfer.to}</td>
+                        <td><span class="badge badge-success">Completed</span></td>
+                    `;
+                completedTbody.appendChild(tr);
+            });
+        }
+    </script>
 </body>
 </html>

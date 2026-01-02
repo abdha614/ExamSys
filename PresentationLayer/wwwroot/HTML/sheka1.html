@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Store Inventory System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        .page {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .card-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+        .form-control, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+            .tab.active {
+                background: #3498db;
+                color: white;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-warning {
+            background: #f1c40f;
+            color: #fff;
+        }
+
+        .badge-success {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .badge-danger {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .order-status-pill {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background-color: #fdebd0;
+            color: #f39c12;
+        }
+
+        .status-approved {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+
+        .status-completed {
+            background-color: #d6eaf8;
+            color: #3498db;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .quantity-control button {
+                width: 30px;
+                height: 30px;
+                padding: 0;
+            }
+    </style>
+</head>
+<body>
+    <div id="replenishment" class="page">
+        <h1>Replenishment Management</h1>
+
+        <div class="tab-container">
+            <div class="tab active">Branch → Main Store</div>
+            <div class="tab">Main → Supplier</div>
+        </div>
+
+        <div class="card replenishment-form">
+            <div class="card-header">Create New Replenishment Request</div>
+            <div class="form-group">
+                <label>Select Product</label>
+                <select>
+                    <option>-- Select Product --</option>
+                    <option>Wireless Earbuds (Current: 15/100)</option>
+                    <option>Blender (Current: 8/100)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Request Quantity</label>
+                <div class="quantity-control">
+                    <button class="btn btn-primary">-</button>
+                    <input type="number" value="10" class="form-control">
+                    <button class="btn btn-primary">+</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea class="form-control"></textarea>
+            </div>
+            <button class="btn btn-success">Add to Pending Requests</button>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Pending Replenishment Requests</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#REQ-1001</td>
+                        <td>Wireless Earbuds</td>
+                        <td>50</td>
+                        <td><span class="badge badge-warning">Pending</span></td>
+                        <td>2023-05-18</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Replenishment Orders</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Products</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Requested</th>
+                        <th>Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#REPL-1001</td>
+                        <td>Smart Watch (30)</td>
+                        <td>30</td>
+                        <td><span class="order-status-pill status-completed">Completed</span></td>
+                        <td>2023-05-15</td>
+                        <td>2023-05-16</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

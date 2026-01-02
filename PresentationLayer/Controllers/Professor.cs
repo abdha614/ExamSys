@@ -29,6 +29,14 @@ using Rotativa.AspNetCore.Options;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
+using BusinessLogicLayer.Questions_Mangment.Services;
+using Newtonsoft.Json;
+using DataAccessLayer.Models;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using BusinessLogicLayer.Dtos.LectureDto;
+using static PresentationLayer.ViewModels.LectureOptionViewModel;
+using BusinessLogicLayer.RAG.Interfaces;
+
 
 
 
@@ -43,17 +51,30 @@ public class ProfessorController : Controller
     private readonly IQuestionTypeService _questionTypeService;
     private readonly IEnumerable<IQuestionImportService> _importServices;
     private readonly IExamService _examService ;
+    
+    private readonly IWebHostEnvironment _env;
+    private readonly IQuestionParser _questionParser;
+    private readonly ILectureFileService _lectureFileService;
+    private readonly IRagService _ragService;
 
 
-    public ProfessorController(IQuestionService questionService,IExamService examService ,ICategoryService categoryService, ICourseService courseService, IQuestionTypeService questionTypeService, IMapper mapper, IEnumerable<IQuestionImportService> importServices)
+
+
+
+    public ProfessorController(IQuestionService questionService,IExamService examService, IRagService ragService, ILectureFileService lectureFileService, IQuestionParser questionParser, IWebHostEnvironment env, ICategoryService categoryService, ICourseService courseService, IQuestionTypeService questionTypeService, IMapper mapper, IEnumerable<IQuestionImportService> importServices)
     {
         _questionService = questionService;
         _categoryService = categoryService;
+        _lectureFileService = lectureFileService;
         _courseService = courseService;
         _questionTypeService = questionTypeService;
         _mapper = mapper;
         _importServices = importServices;
         _examService = examService;
+        
+        _env = env;
+        _questionParser = questionParser;
+        _ragService = ragService;
     }
     public async Task<IActionResult> ManageQuestions(
     int? questionTypeId = null,
@@ -81,12 +102,12 @@ public class ProfessorController : Controller
                 Selected = c.Id == categoryId
             }).ToList(),
 
-            //Courses = filterData.Courses.Select(c => new SelectListItem
-            //{
-            //    Value = c.Id.ToString(),
-            //    Text = c.Name,
-            //    Selected = c.Id == courseId
-            //}).ToList(),
+            Courses = filterData.Courses.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name,
+                Selected = c.Id == courseId
+            }).ToList(),
 
 
             QuestionTypes = filterData.QuestionTypes.Select(qt => new SelectListItem
@@ -159,7 +180,8 @@ public class ProfessorController : Controller
             new AnswerAddViewModel(),
             new AnswerAddViewModel()
         },
-            Categories = professorData.Categories,
+            Courses = professorData.Courses,
+          //  Categories = professorData.Categories,
             DifficultyLevels = professorData.DifficultyLevels,
             
         };
@@ -226,7 +248,7 @@ public class ProfessorController : Controller
             new AnswerAddViewModel { Text = "True" },
             new AnswerAddViewModel { Text = "False" }
         },
-            Categories = professorData.Categories,
+            Courses = professorData.Courses,
             DifficultyLevels = professorData.DifficultyLevels
         };
 
@@ -474,7 +496,7 @@ public class ProfessorController : Controller
         var model = _mapper.Map<QuestionUpdateViewModel>(questionDto);
 
         // Set additional view data
-        model.Categories = professorData.Categories;
+        //model.Categories = professorData.Categories;
         model.DifficultyLevels = professorData.DifficultyLevels;
         model.Courses = professorData.Courses;
 
@@ -869,8 +891,8 @@ public class ProfessorController : Controller
         return new ViewAsPdf("PreviewManualExam", model)
         {
             FileName = "ExamPreview.pdf",
-            //PageSize = Rotativa.AspNetCore.Options.Size.A4,
-            //CustomSwitches = "--disable-smart-shrinking --print-media-type"
+            PageSize = Rotativa.AspNetCore.Options.Size.A4,
+            CustomSwitches = "--disable-smart-shrinking --print-media-type --page-offset 0 --margin-bottom 25mm"
         };
     }
     //public IActionResult SomeView()
@@ -919,6 +941,7 @@ public class ProfessorController : Controller
             //StartTime = null,
             //Questions = new List<QuestionViewModel>(),  // Empty on first load
             Categories = filterData.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
+            Courses = filterData.Courses.Select(c => new SelectListItem {Value = c.Id.ToString(),Text = c.Name }) .ToList(),
             QuestionTypes = filterData.QuestionTypes.Select(q => new SelectListItem { Value = q.Id.ToString(), Text = q.Type }).ToList(),
             DifficultyLevels = filterData.DifficultyLevels.Select(dl => new SelectListItem { Value = dl.Id.ToString(), Text = dl.Name }).ToList(),
             SelectedQuestions = new List<SelectedQuestionDto>()
@@ -1028,7 +1051,9 @@ public class ProfessorController : Controller
 
         var viewModel = new CreateAutoExamViewModel
         {
-            Categories = filterData.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList()
+            Categories = filterData.Categories.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
+            Courses = filterData.Courses.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).ToList(),
+
         };
 
         return View(viewModel);
@@ -1072,63 +1097,559 @@ public class ProfessorController : Controller
         await _examService.DeleteExamAsync(id);
         return RedirectToAction("ExamList");
     }
-    //[HttpGet]
-    //public async Task<IActionResult> PrintExam(int id)
-    //{
-    //    var professorId = User.GetProfessorId();
-    //    var examDto = await _examService.GetExamByIdAsync(id, professorId);
+    [HttpGet]
+    public async Task<IActionResult> GetAvailableQuestionsCount(
+    int courseId,
+    int? categoryId,
+    List<int> lectureIds,      // this stays a list
+    int questionTypeId,         // single value
+    int difficultyId            // single value
+)
+    {
+        var professorId = User.GetProfessorId();
+        var count = await _questionService.CountQuestionsAsync(
+            professorId,
+            courseId,
+            categoryId,
+            lectureIds,
+            questionTypeId,
+            difficultyId
+        );
 
-    //    if (examDto == null)
+        return Json(new { count });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DownloadExamPdf(int id)
+    {
+        var professorId = User.GetProfessorId();
+        var examDto = await _examService.GetExamByIdAsync(id, professorId);
+
+        if (examDto == null)
+            return NotFound();
+
+        var viewModel = _mapper.Map<ExamDetailsViewModel>(examDto);
+
+        var fileName = $"Exam_{viewModel.CourseName}_{DateTime.Now:yyyyMMdd}.pdf";
+        var pdf = new ViewAsPdf("ExamDetailsPdf", viewModel)
+        {
+            PageSize = Rotativa.AspNetCore.Options.Size.A4,
+            PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+            PageMargins = new Rotativa.AspNetCore.Options.Margins { Top = 10, Bottom = 25, Left = 10, Right = 10 },
+            CustomSwitches = "--disable-smart-shrinking --print-media-type --page-offset 0"
+        };
+
+        // Set UTF-8 filename header to support Arabic
+        Response.Headers["Content-Disposition"] = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(fileName);
+
+        return pdf;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> GenerateExamPdfs(int examId, int copyCount = 1)
+    {
+        var professorId = User.GetProfessorId();
+        var examDto = await _examService.GetExamByIdAsync(examId, professorId);
+
+        if (examDto == null)
+            return NotFound();
+
+        if (copyCount < 1 || copyCount > 50)
+        {
+            TempData["ErrorMessage"] = "Number of copies must be between 1 and 50.";
+            return RedirectToAction("ExamDetails", new { id = examId });
+        }
+
+        var viewModel = _mapper.Map<ExamDetailsViewModel>(examDto);
+
+        // Store the data in TempData for the generation page
+        TempData["ExamViewModel"] = Newtonsoft.Json.JsonConvert.SerializeObject(viewModel);
+        TempData["CopyCount"] = copyCount;
+
+        return RedirectToAction("GenerateExamPdfsPage");
+    }
+
+    [HttpGet]
+    public IActionResult GenerateExamPdfsPage()
+    {
+        var viewModelJson = TempData["ExamViewModel"] as string;
+        var copyCount = TempData["CopyCount"] as int?;
+
+        if (string.IsNullOrEmpty(viewModelJson) || !copyCount.HasValue)
+            return RedirectToAction("ExamList");
+
+        var viewModel = Newtonsoft.Json.JsonConvert.DeserializeObject<ExamDetailsViewModel>(viewModelJson);
+
+        ViewBag.CopyCount = copyCount.Value;
+        ViewBag.CourseName = viewModel.CourseName;
+
+        return View(viewModel);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DownloadShuffledExamPdf(int examId, int copyNumber, bool isAnswerKey = false)
+    {
+        var professorId = User.GetProfessorId();
+        var examDto = await _examService.GetExamByIdAsync(examId, professorId);
+
+        if (examDto == null)
+            return NotFound();
+
+        var viewModel = _mapper.Map<ExamDetailsViewModel>(examDto);
+
+        // Shuffle questions reproducibly
+        var random = new Random(examId * 1000 + copyNumber);
+        var shuffledQuestions = viewModel.Questions.OrderBy(x => random.Next()).ToList();
+        viewModel.Questions = shuffledQuestions
+            .OrderBy(q => q.QuestionType == "True/False") // Multiple Choice first
+            .ToList();
+
+        var viewName = isAnswerKey ? "ExamAnswerKeyPdf" : "ExamDetailsPdf";
+        var filePrefix = isAnswerKey ? "Answer_Key" : "Exam_Paper";
+
+        var fileName = $"{filePrefix}_Copy_{copyNumber}_{viewModel.CourseName}_{DateTime.Now:yyyyMMdd}.pdf";
+        var pdf = new ViewAsPdf(viewName, viewModel)
+        {
+            PageSize = Rotativa.AspNetCore.Options.Size.A4,
+            PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+            PageMargins = new Rotativa.AspNetCore.Options.Margins { Top = 15, Bottom = 15, Left = 15, Right = 15 },
+            CustomSwitches = "--disable-smart-shrinking --print-media-type"
+        };
+
+        // Set UTF-8 filename header
+        Response.Headers["Content-Disposition"] = "attachment; filename*=UTF-8''" + Uri.EscapeDataString(fileName);
+
+        return pdf;
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> AutoGenerateQeustion()
+      
+    {
+        // Get professorId from logged-in user
+        var professorId = User.GetProfessorId();
+
+        // Call the service to get courses with lectures and files
+        var courses = await _courseService.GetCoursesWithLecturesAndFilesByProfessorAsync(professorId);
+
+        // Map to ViewModel if needed, or pass DTOs directly
+        var model = courses.Select(c => new CourseOptionViewModel
+        {
+            Id = c.Id,
+            Name = c.Name,
+            Lectures = c.Lectures.Select(l => new LectureOptionViewModel
+            {
+                Id = l.Id,
+                LectureName = l.LectureName,
+                Files = l.Files.Select(f => new LectureFileOptionViewModel
+                {
+                    Id = f.Id,
+                    FileName = f.FileName,
+                    FilePath = f.FilePath
+                }).ToList()
+            }).ToList()
+        }).ToList();
+
+        return View(model); // or return Json(model) for API
+    }
+
+    //[HttpPost]
+    //public async Task<IActionResult> GenerateQuestions(IFormFile lecturePdf, Dictionary<string, int> parameters)
+    //{
+    //    if (lecturePdf == null || lecturePdf.Length == 0)
+    //        return BadRequest("No file uploaded.");
+
+    //    string filePath = Path.Combine(_env.WebRootPath, "uploads", lecturePdf.FileName);
+    //    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+    //    using (var stream = new FileStream(filePath, FileMode.Create))
     //    {
-    //        return NotFound();
+    //        await lecturePdf.CopyToAsync(stream);
     //    }
 
-    //    var viewModel = _mapper.Map<ExamDetailsViewModel>(examDto);
-
-    //    // Ensure proper UTF-8 encoding for Arabic text
-    //    Response.Headers["Content-Type"] = "application/pdf; charset=utf-8";
-
-    //    // Prevent encoding errors in file name
-    //    string fileName = Uri.EscapeDataString($"Exam_{viewModel.CourseName}.pdf");
-
-    //    return new ViewAsPdf("ExamDetails", viewModel)
-    //    {
-    //        FileName = $"Exam_{id}.pdf",
-    //        PageSize = Rotativa.AspNetCore.Options.Size.A4,
-    //        PageMargins = new Rotativa.AspNetCore.Options.Margins { Top = 10, Bottom = 10, Left = 10, Right = 10 },
-    //        CustomSwitches = "--disable-smart-shrinking --zoom 1.0 --no-stop-slow-scripts --print-media-type"
-    //    };
-
-
+    //    string result = await _questionGenerationService.GenerateQuestionsAsync(filePath, parameters);
+    //    return Content(result, "text/plain");
     //}
-    //[HttpGet]
-    //public async Task<IActionResult> DownloadExamAsPdf(int id)
-    //{
-    //    var professorId = User.GetProfessorId();
-    //    var examDto = await _examService.GetExamByIdAsync(id, professorId);
+    [HttpPost]
+    public async Task<IActionResult> GenerateQuestions([FromBody] QuestionSettingsViewModel model)
+    {
+        if (model == null || model.FilesToProcess.Count == 0)
+            return BadRequest("No lectures selected.");
 
-    //    if (examDto == null)
+        try
+        {
+            var fileIds = model.FilesToProcess.Select(f => f.FileId).ToList();
+
+            string aiResponse = await _ragService.GenerateQuestionsAsync(
+                fileIds,
+                model.Distribution,
+                model.SemanticQuery
+            );
+
+            var parsedDto = _questionParser.Parse(aiResponse);
+            var viewModel = _mapper.Map<GeneratedQuestionsViewModel>(parsedDto);
+
+            viewModel.CourseId = model.CourseId;
+
+            // ✅ Save ViewModel in Session instead of TempData
+            HttpContext.Session.SetString(
+                "GeneratedQuestions",
+                System.Text.Json.JsonSerializer.Serialize(viewModel)
+            );
+
+            // Return URL instead of HTML
+            return Json(new { redirectUrl = Url.Action("QuestionResultsPage", "Professor") });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new
+            {
+                error = ex.Message
+            });
+        }
+
+    }
+
+    public IActionResult QuestionResultsPage()
+    {
+        // ✅ Check if data exists in Session instead of TempData
+        var json = HttpContext.Session.GetString("GeneratedQuestions");
+        if (string.IsNullOrEmpty(json))
+            return RedirectToAction("Index"); // fallback if nothing stored
+
+        var viewModel = System.Text.Json.JsonSerializer.Deserialize<GeneratedQuestionsViewModel>(json);
+
+        return View("QuestionResults", viewModel);
+    }
+
+
+
+    //[HttpPost]
+    //public async Task<IActionResult> GenerateQuestions([FromBody] QuestionSettingsViewModel model)
+    //{
+    //    if (model == null || model.FilesToProcess.Count == 0)
+    //        return BadRequest("No lectures selected.");
+
+    //    try
     //    {
-    //        return NotFound();
+    //        // Collect lecture IDs
+    //        var fileIds = model.FilesToProcess.Select(f => f.FileId).ToList();
+
+
+    //        // Call RAG backend through RagService
+    //        string aiResponse = await _ragService.GenerateQuestionsAsync(
+    //            fileIds,
+    //            model.Distribution,
+    //            model.SemanticQuery
+    //        );
+
+    //            var parsedDto = _questionParser.Parse(aiResponse);
+    //            var viewModel = _mapper.Map<GeneratedQuestionsViewModel>(parsedDto);
+
+    //            viewModel.CourseId = model.CourseId;
+
+    //        return View("QuestionResults", viewModel);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return StatusCode(500, $"Error generating questions: {ex.Message}");
+    //    }
+    //}
+
+    //[HttpPost]
+    //public async Task<IActionResult> GenerateQuestion([FromBody] QuestionSettingsViewModel model)
+    //{
+    //    if (model == null || model.LecturesToProcess.Count == 0)
+    //        return BadRequest("No lectures selected.");
+
+
+
+    //    string aiResponse = await _questionGenerationService.GenerateQuestionsAsync(
+    //        model.CourseId,
+    //        model.LecturesToProcess.Select(l => l.LectureId).ToList(),
+    //        model.Distribution,
+    //        model.SemanticQuery
+    //    );
+
+    //    var parsedDto = _questionParser.Parse(aiResponse);
+    //    var viewModel = _mapper.Map<GeneratedQuestionsViewModel>(parsedDto);
+
+    //    return Ok();
+    //}
+
+
+    [HttpPost]
+    public async Task<IActionResult> SaveGeneratedQuestions(GeneratedQuestionsViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View("QuestionResults", viewModel);
+        }
+
+        var professorId = User.GetProfessorId();
+
+        // Map ViewModel to your Business DTO - e.g., ParsedQuestionsDto
+        var parsedDto = _mapper.Map<ParsedQuestionsDto>(viewModel);
+
+        await _questionService.SaveGeneratedQuestionsAsync(parsedDto, professorId);
+
+        TempData["Success"] = "Questions saved successfully!";
+
+        return RedirectToAction("ManageQuestions", "Professor");
+    }
+
+
+
+
+
+    //[HttpGet]
+    //public IActionResult QuestionResults()
+    //{
+    //    if (!TempData.ContainsKey("GeneratedQuestions"))
+    //        return RedirectToAction("Generate"); // or wherever appropriate
+
+    //    var json = TempData["GeneratedQuestions"] as string;
+    //    var parsedDto = JsonConvert.DeserializeObject<GeneratedQuestionsViewModel>(json);
+
+    //    // Keep TempData for next request as well
+    //    TempData.Keep("GeneratedQuestions");
+
+    //    var viewModel = _mapper.Map<GeneratedQuestionsViewModel>(parsedDto);
+    //    return View(viewModel);
+    //}
+    [HttpPost]
+    public async Task<IActionResult> DeleteeQuestion(Guid questionId)
+    {
+        var dtoJson = TempData["GeneratedQuestions"] as string;
+        if (string.IsNullOrEmpty(dtoJson))
+            return BadRequest();
+
+        var parsedDto = JsonConvert.DeserializeObject<GeneratedQuestionsViewModel>(dtoJson);
+
+        foreach (var group in parsedDto.QuestionGroups)
+            group.Questions = group.Questions.Where(q => q.Id != questionId).ToList();
+
+        TempData["GeneratedQuestions"] = JsonConvert.SerializeObject(parsedDto);
+
+        return Ok(); // AJAX-friendly response
+    }
+
+    //[HttpPost]
+    //public async Task<IActionResult> SaveGeneratedQuestions()
+    //{
+    //    var dtoJson = TempData["GeneratedQuestions"] as string;
+    //    if (string.IsNullOrEmpty(dtoJson))
+    //        return RedirectToAction("QuestionResults");
+
+    //    var parsedDto = JsonConvert.DeserializeObject<GeneratedQuestionsViewModel>(dtoJson);
+    //    var professorId = User.GetProfessorId(); // 👍 Use your existing method
+
+    //    foreach (var group in parsedDto.QuestionGroups)
+    //    {
+    //        foreach (var question in group.Questions)
+    //        {
+    //            var viewModel = new QuestionAddViewModel
+    //            {
+    //                Text = question.QuestionText,
+    //                QuestionTypeId = MapToTypeId(group.Type), // 👈 Implement mapping if needed
+    //                DifficultyLevelId = 2, // Set default or derive from UI
+    //                professorId = professorId,
+    //                CategoryId = 1, // Or assign dynamically
+    //                CourseId = 1, // Same here
+    //                LectureName = "Generated Lecture", // Or source from context
+
+    //                Answers = question.Choices.Select((c, i) => new AnswerAddViewModel
+    //                {
+    //                    Text = c,
+    //                    IsCorrect = c == question.Answer // ✅ Match correctness
+    //                }).ToList(),
+    //                CorrectAnswerIndex = question.Choices.FindIndex(c => c == question.Answer)
+    //            };
+
+    //            var questionDto = _mapper.Map<QuestionAddDto>(viewModel);
+    //            await _questionService.AddQuestionAsync(questionDto);
+    //        }
     //    }
 
-    //    var viewModel = _mapper.Map<ExamDetailsViewModel>(examDto);
+    //    TempData["SuccessMessage"] = "🟢 All questions have been saved successfully.";
+    //    return RedirectToAction("QuestionResults");
+    //}
 
-    //    return new ViewAsPdf("ExamDetails", viewModel)
+    //private int MapToTypeId(string type)
+    //{
+    //    return type.ToLower() switch
     //    {
-    //        PageSize = Rotativa.AspNetCore.Options.Size.A4,
-    //        PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
-    //        FileName = $"Exam.pdf"
-
+    //        "multiplechoice" => 1,
+    //        "truefalse" => 2,
+    //        _ => 0 // Default or throw
     //    };
     //}
-    
 
 
 
 
 
 
+
+
+
+
+
+    //[HttpPost]
+    //public IActionResult DeleteGeneratedQuestion(string type, string questionText)
+    //{
+    //    if (!TempData.ContainsKey("GeneratedQuestions"))
+    //        return RedirectToAction("QuestionResults");
+
+    //    var json = TempData["GeneratedQuestions"] as string;
+    //    var parsedDto = JsonConvert.DeserializeObject<GeneratedQuestionsViewModel>(json);
+
+    //    var group = parsedDto.QuestionGroups.FirstOrDefault(g => g.Type == type);
+    //    if (group != null)
+    //    {
+    //        var question = group.Questions.FirstOrDefault(q => q.QuestionText == questionText);
+    //        if (question != null)
+    //            group.Questions.Remove(question);
+    //    }
+
+    //    TempData["GeneratedQuestions"] = JsonConvert.SerializeObject(parsedDto);
+    //    TempData.Keep("GeneratedQuestions");
+
+    //    return RedirectToAction("QuestionResults");
+    //}
+
+    //[HttpPost]
+    //public async Task<IActionResult> SaveGeneratedQuestions()
+    //{
+    //    if (!TempData.ContainsKey("GeneratedQuestions"))
+    //        return BadRequest("No questions to save.");
+
+    //    var json = TempData["GeneratedQuestions"] as string;
+    //    var parsedDto = JsonConvert.DeserializeObject<GeneratedQuestionsViewModel>(json);
+
+    //    // Your saving logic here:
+    //  //  await _questionService.SaveGeneratedQuestionsAsync(parsedDto);
+
+    //    TempData.Remove("GeneratedQuestions");
+
+    //    return RedirectToAction("SaveSuccess"); // Or wherever you want
+    //}
+
+    //public IActionResult SaveSuccess()
+    //{
+    //    return View(); // Show success message
+    //}
+
+    [HttpGet]
+    public async Task<IActionResult> UploadLectureFile()
+    {
+        var professorId = User.GetProfessorId();
+        var courses = await _courseService.GetCoursesWithAvailableLecturesByProfessorAsync(professorId);
+
+        var model = new LectureUploadViewModel
+        {
+            Courses = courses.Select(c => new CourseOptionViewModel
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Lectures = c.Lectures.Select(l => new LectureOptionViewModel
+                {
+                    Id = l.Id,
+                    LectureName = l.LectureName,
+                    FileNames = l.FileNames // pass existing files to view
+                }).ToList()
+            }).ToList()
+        };
+
+
+        return View(model);
+    }
+    [HttpPost]
+    public async Task<IActionResult> UploadLectureFile(LectureUploadViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        if (model.File == null || model.File.Length == 0)
+        {
+            ModelState.AddModelError("File", "Please select a file.");
+            return View(model);
+        }
+
+        // Get professorId from logged-in user
+        var professorId = User.GetProfessorId(); // Assuming you have an extension method
+
+        try
+        {
+            // Call your service layer — automatically creates lecture if missing
+            await _lectureFileService.SaveLectureFileToDiskAsync(
+                courseName: model.SelectedCourseName,
+                lectureName: model.SelectedLectureName,
+                courseId: model.SelectedCourseId,
+                professorId: professorId,
+                file: model.File
+            );
+
+            TempData["SuccessMessage"] = "Lecture file uploaded successfully!";
+            return RedirectToAction("ViewUploadedLectures");
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Show error in the view
+            ModelState.AddModelError("File", ex.Message);
+            return View(model);
+        }
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> ViewUploadedLectures()
+    {
+        // Get professorId from logged-in user
+        var professorId = User.GetProfessorId();
+
+        // Call the service to get courses with lectures and files
+        var courses = await _courseService.GetCoursesWithLecturesAndFilesByProfessorAsync(professorId);
+
+        // Map to ViewModel if needed, or pass DTOs directly
+        var model = courses.Select(c => new CourseOptionViewModel
+        {
+            Id = c.Id,
+            Name = c.Name,
+            Lectures = c.Lectures.Select(l => new LectureOptionViewModel
+            {
+                Id = l.Id,
+                LectureName = l.LectureName,
+                Files = l.Files.Select(f => new LectureFileOptionViewModel
+                {
+                    Id = f.Id,
+                    FileName = f.FileName,
+                    FilePath = f.FilePath
+                }).ToList()
+            }).ToList()
+        }).ToList();
+
+        return View(model); // or return Json(model) for API
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteLectureFile(int lectureFileId, bool deleteQuestions)
+    {
+        try
+        {
+            // Change your service method to accept lectureFileId
+            await _lectureFileService.DeleteLectureFileAsync(lectureFileId, deleteQuestions);
+
+            //TempData["SuccessMessage"] = "Deleted successfully.";
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = "Error: " + ex.Message;
+        }
+
+        return RedirectToAction("ViewUploadedLectures");
+    }
 
 
 

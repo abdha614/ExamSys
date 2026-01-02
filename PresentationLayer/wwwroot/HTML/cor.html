@@ -1,40 +1,537 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Course</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>ExamFlow | Modern Exam Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #4f46e5;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+
+        .navbar {
+            padding: 1.5rem 0;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+            font-size: 1.25rem;
+        }
+
+        .hero {
+            padding: 8rem 0 6rem;
+            background-color: white;
+            position: relative;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 600px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+            .btn-primary:hover {
+                background-color: var(--primary-light);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            }
+
+        .btn-outline-primary {
+            border-radius: 8px;
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+            .section-title:after {
+                content: '';
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 40px;
+                height: 4px;
+                background: var(--primary);
+                border-radius: 2px;
+            }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+            .feature-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: var(--gray);
+        }
+
+        .how-it-works {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+            .step:before {
+                counter-increment: step;
+                content: counter(step);
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 56px;
+                height: 56px;
+                border-radius: 12px;
+                background: rgba(37, 99, 235, 0.1);
+                color: var(--primary);
+                font-weight: 700;
+                font-size: 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+            .testimonial-text:before {
+                content: '"';
+                position: absolute;
+                left: -15px;
+                top: -10px;
+                font-size: 3rem;
+                color: var(--gray);
+                opacity: 0.2;
+            }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 4rem 2rem;
+        }
+
+        .cta-title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .btn-light {
+            border-radius: 8px;
+            padding: 0.75rem 1.75rem;
+            font-weight: 600;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+            .footer-links a {
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                transition: all 0.2s;
+            }
+
+                .footer-links a:hover {
+                    color: white;
+                }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transition: all 0.2s;
+        }
+
+            .social-link:hover {
+                background: var(--primary);
+                transform: translateY(-2px);
+            }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero {
+                padding: 6rem 0 4rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-        <h1 class="text-2xl font-bold mb-6">Add New Course</h1>
+<body>
 
-        <form action="/Course/Add" method="post" class="space-y-6">
-            <!-- Category Selection -->
-            <div>
-                <label for="categoryId" class="block mb-2 font-semibold text-gray-700">Category</label>
-                <select id="categoryId" name="CategoryId" class="w-full p-3 border rounded-lg">
-                    <option value="">-- Select Category --</option>
-                    <option value="1">Programming</option>
-                    <option value="2">Math</option>
-                    <option value="3">Science</option>
-                    <!-- Add more categories dynamically -->
-                </select>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-journal-text me-2"></i>ExamFlow
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">How It Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="/Auth/Login" class="btn btn-outline-primary">Login</a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
+   
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">Modern Exam Management for Educators</h1>
+                    <p class="hero-subtitle mb-4">Transform your lecture materials into high-quality exams with AI-powered question generation and smart difficulty control.</p>
+                    <div class="d-flex gap-3">
+                        <a href="/Auth/Login" class="btn btn-primary">Get Started</a>
+                        <a href="#features" class="btn btn-outline-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <img src="" alt="Dashboard interface" class="img-fluid rounded-3 shadow">
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <!-- Course Name -->
-            <div>
-                <label for="courseName" class="block mb-2 font-semibold text-gray-700">Course Name</label>
-                <input type="text" id="courseName" name="CourseName" class="w-full p-3 border rounded-lg" placeholder="e.g., ASP.NET Core Basics" required>
-            </div>
+    <!-- Features Section -->
+    <section id="features" class="section bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Key Features</h2>
+            <div class="row g-4 mt-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-upload"></i>
+                        </div>
+                        <h4 class="feature-title">Lecture Upload</h4>
+                        <p class="feature-text">Upload PDF lecture files and automatically organize them by course and topic.</p>
+                    </div>
+                </div>
 
-            <!-- Submit Button -->
-            <div class="flex justify-end">
-                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
-                    Add Course
-                </button>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-robot"></i>
+                        </div>
+                        <h4 class="feature-title">AI Question Generation</h4>
+                        <p class="feature-text">Advanced NLP extracts relevant questions from your materials automatically.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-bar-chart"></i>
+                        </div>
+                        <h4 class="feature-title">Difficulty Analysis</h4>
+                        <p class="feature-text">Questions categorized by difficulty level (Easy, Medium, Hard) with accuracy.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-collection"></i>
+                        </div>
+                        <h4 class="feature-title">Exam Templates</h4>
+                        <p class="feature-text">Create reusable exam templates for different courses and assessment types.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-funnel"></i>
+                        </div>
+                        <h4 class="feature-title">Smart Filtering</h4>
+                        <p class="feature-text">Find questions by type, topic, difficulty, or keyword with powerful search.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-lock"></i>
+                        </div>
+                        <h4 class="feature-title">Secure Platform</h4>
+                        <p class="feature-text">Enterprise-grade security protects your exam content and student data.</p>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <img src="https://via.placeholder.com/600x400" alt="How it works" class="img-fluid rounded-3 shadow">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="section-title">How It Works</h2>
+                    <div class="how-it-works mt-4">
+                        <div class="step">
+                            <h4 class="step-title">Upload Your Materials</h4>
+                            <p class="feature-text">Simply upload your lecture slides, notes, or textbooks in PDF format.</p>
+                        </div>
+                        <div class="step">
+                            <h4 class="step-title">AI Processes Content</h4>
+                            <p class="feature-text">Our system analyzes your materials and generates relevant questions.</p>
+                        </div>
+                        <div class="step">
+                            <h4 class="step-title">Build Your Exam</h4>
+                            <p class="feature-text">Select questions manually or automatically based on your criteria.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="section bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Educator Testimonials</h2>
+            <div class="row g-4 mt-5">
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <p class="testimonial-text">ExamFlow has reduced my exam creation time by at least 60%. The AI-generated questions are remarkably accurate.</p>
+                        <div class="d-flex align-items-center">
+                            <img src="../images/hamze.jpg" alt="Dr. Sarah Johnson" class="avatar me-3">
+                            <div>
+                                <h6 class="mb-0">Dr. Hamze mosleh</h6>
+                                <small class="text-muted">Computer Science Professor</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <p class="testimonial-text">The difficulty level control is exceptional. I can quickly create differentiated exams for my students.</p>
+                        <div class="d-flex align-items-center">
+                            <img src="../images/amer.jpg" alt="Michael Chen" class="avatar me-3">
+                            <div>
+                                <h6 class="mb-0">Michael Chen</h6>
+                                <small class="text-muted">D.moaalam </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="testimonial-card h-100">
+                        <p class="testimonial-text">Finally, a tool that understands educators' needs. The interface is intuitive and the results are professional.</p>
+                        <div class="d-flex align-items-center">
+                            <img src="../images/ahmad.jpg" alt="Emma Rodriguez" class="avatar me-3">
+                            <div>
+                                <h6 class="mb-0">pr.Ahmed sheka</h6>
+                                <small class="text-muted">Ai in local security</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section">
+        <div class="container">
+            <div class="cta text-center">
+                <h2 class="cta-title">Ready to streamline your exam creation?</h2>
+                <p class="cta-text mb-4">Join thousands of educators saving hours every week with ExamFlow.</p>
+                <a href="/Auth/Login" class="btn btn-light">Start Free Trial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="mb-4"><i class="bi bi-journal-text me-2"></i>ExamFlow</h5>
+                    <p class="text-muted">The modern way to create exams from your lecture materials. Powered by AI, designed for educators.</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="mb-3">Product</h6>
+                    <div class="footer-links">
+                        <a href="#">Features</a>
+                        <a href="#">Pricing</a>
+                        <a href="#">Updates</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="mb-3">Company</h6>
+                    <div class="footer-links">
+                        <a href="#">About</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h6 class="mb-3">Stay Updated</h6>
+                    <p class="text-muted mb-3">Subscribe to our newsletter for the latest updates.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 text-muted">&copy; 2025 ExamFlow. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0 text-muted">Designed by <a href="#" class="text-white">Abd Hamed</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

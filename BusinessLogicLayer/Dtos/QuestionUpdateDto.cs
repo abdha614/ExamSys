@@ -13,9 +13,10 @@ namespace BusinessLogicLayer.Dtos
         public int Id { get; set; }
         public string Text { get; set; }
         public int QuestionTypeId { get; set; }
+
         public int DifficultyLevelId { get; set; }
         public int professorId { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public int CourseId { get; set; }
         public string LectureName { get; set; } // Instead of LectureId
 

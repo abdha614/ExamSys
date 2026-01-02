@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.Services
         public async Task LogActionAsync(HistoryDto historyDto)
         {
             // Set the actual time (UTC now)
-            historyDto.Timestamp = DateTime.UtcNow;
+            historyDto.Timestamp = DateTime.Now;
             // Map the HistoryDto to a History entity
             var history = new History
             {

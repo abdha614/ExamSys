@@ -15,11 +15,17 @@ namespace DataAccessLayer.Data
         public DbSet<QuestionType> QuestionTypes { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
-        public DbSet<SampleEntity> SampleEntities { get; set; }
+       // public DbSet<SampleEntity> SampleEntities { get; set; }
         public DbSet<Lecture> lectures { get; set; }
         public DbSet<Exam> Exams { get; set; }
         public DbSet<ExamQuestion> ExamQuestions { get; set; }
         public DbSet<ExamSettings> ExamSettings { get; set; }
+        public DbSet<SignupNotification> SignupNotifications { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; } // ✅ Added
+        public DbSet<EmailConfirmationCode> EmailConfirmationCodes { get; set; }
+        public DbSet<LectureFile> LectureFiles { get; set; }
+
+
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -153,6 +159,44 @@ namespace DataAccessLayer.Data
                 .WithMany()
                 .HasForeignKey(eq => eq.QuestionId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PasswordResetToken>()
+                .HasOne(t => t.User)
+                .WithMany()
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+   
+            // Optional: enforce unique code per email (one active code per email)
+            modelBuilder.Entity<EmailConfirmationCode>()
+                .HasIndex(e => e.Email)
+                .IsUnique(false); // Set to true if only one code per email at a time
+
+            // Optional: enforce unique confirmation code if necessary
+            modelBuilder.Entity<EmailConfirmationCode>()
+                .HasIndex(e => e.Code)
+                .IsUnique(false); // Or true if you want globally unique codes
+
+
+            // Optional: enforce unique token
+            modelBuilder.Entity<PasswordResetToken>()
+                .HasIndex(t => t.Token)
+                .IsUnique();
+
+            
+
+            modelBuilder.Entity<SignupNotification>(entity =>
+            {
+                entity.ToTable("SignupNotifications");
+
+                entity.Property(sn => sn.Email)
+                      .IsRequired();
+
+                entity.Property(sn => sn.RequestedAt)
+                      .HasDefaultValueSql("GETUTCDATE()");
+
+                entity.Property(sn => sn.IsHandled)
+                      .HasDefaultValue(false);
+            });
 
 
             // Seed data

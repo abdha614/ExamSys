@@ -116,7 +116,7 @@ namespace DataAccessLayer.Repositories
             return await _dbSet
                 .Where(c => c.Id == courseId) // Filter by course ID
                 .SelectMany(c => c.Lectures)  // Flatten lectures for the course
-                .Where(lecture => lecture.Questions.Any()) // Include lectures with questions
+             //   .Where(lecture => lecture.Questions.Any()) // Include lectures with questions
                 .ToListAsync();
         }
         public async Task<int?> GetCourseIdByNameAndProfessorAsync(string name, int professorId)
@@ -126,5 +126,81 @@ namespace DataAccessLayer.Repositories
                 .Select(c => (int?)c.Id) // Ensures null handling
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<Course>> GetCoursesWithAvailableLecturesAsync(int professorId)
+        {
+            const int maxLectureNumber = 20;
+
+            var courses = await _context.Courses
+                .Where(c => c.ProfessorId == professorId)
+                .Include(c => c.Lectures)
+                    .ThenInclude(l => l.Files)
+                .ToListAsync();
+
+            foreach (var course in courses)
+            {
+                var usedLectureNames = course.Lectures
+                    .Where(l => l.Files != null && l.Files.Any(f => !f.IsDeleted)) // only lectures with non-deleted files
+                    .Select(l => l.LectureName)
+                    .ToList();
+
+                var allLectureNames = Enumerable.Range(1, maxLectureNumber)
+                    .Select(i => $"Lecture {i}")
+                    .ToList();
+
+                var availableLectureNames = allLectureNames
+                    .Where(name => !usedLectureNames.Contains(name))
+                    .ToList();
+
+                // Build result list including existing files
+                course.Lectures = course.Lectures
+                    .Select(l => new Lecture
+                    {
+                        Id = l.Id,
+                        LectureName = l.LectureName,
+                        Files = l.Files.Where(f => !f.IsDeleted).ToList() // include uploaded files
+                    })
+                    .ToList();
+
+                // Optionally add placeholder lectures if you want empty ones available
+                availableLectureNames.ForEach(name =>
+                {
+                    if (!course.Lectures.Any(l => l.LectureName == name))
+                    {
+                        course.Lectures.Add(new Lecture
+                        {
+                            LectureName = name,
+                            CourseId = course.Id,
+                            Files = new List<LectureFile>()
+                        });
+                    }
+                });
+            }
+
+            return courses;
+        }
+
+        public async Task<List<Course>> GetCoursesWithLecturesAndFilesAsync(int professorId)
+        {
+            // Load courses with lectures and lecture files
+            var courses = await _dbSet
+                .Where(c => c.ProfessorId == professorId)
+                .Include(c => c.Lectures)
+                    .ThenInclude(l => l.Files)
+                .ToListAsync();
+
+            // Filter out lectures without any files
+            foreach (var course in courses)
+            {
+                course.Lectures = course.Lectures
+                    .Where(l => l.Files != null && l.Files.Any())
+                    .ToList();
+            }
+
+            return courses;
+        }
+
+
+
     }
 }

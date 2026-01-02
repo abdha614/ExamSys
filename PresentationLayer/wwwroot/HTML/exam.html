@@ -1,450 +1,1157 @@
-﻿<!--<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Multiple Choice Question</title>
+    <title>Two-Store Inventory System</title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #eef2f7;
-            margin: 0;
-            padding: 40px;
-            color: #333;
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
         }
 
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-
-        .form-container {
-            max-width: 700px;
-            margin: auto;
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            padding: 30px 40px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        input[type="text"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccd1d9;
-            border-radius: 8px;
-            font-size: 14px;
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI',Tahoma,Geneva,Verdana,sans-serif
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        body {
+            background: #f5f7fa;
+            color: #333;
+            line-height: 1.6
         }
 
-        .input-group {
+        header {
+            background: var(--dark);
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,.1)
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 1rem
         }
 
-        input[type="radio"] {
-            transform: scale(1.2);
-            margin-left: 10px;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700
+        }
+
+        nav {
+            background: var(--dark);
+            padding: .5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100
+        }
+
+            nav ul {
+                display: flex;
+                list-style: none
+            }
+
+            nav li {
+                margin-right: 1.5rem
+            }
+
+            nav a {
+                color: #fff;
+                text-decoration: none;
+                padding: .5rem 0;
+                display: block;
+                border-bottom: 3px solid transparent;
+                transition: .2s
+            }
+
+                nav a:hover, nav a.active {
+                    border-bottom-color: var(--primary)
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,.05);
+            margin-bottom: 1.5rem
+        }
+
+            .card h3 {
+                color: var(--dark);
+                margin-bottom: 1rem;
+                font-size: 1.15rem;
+                border-bottom: 1px solid #eee;
+                padding-bottom: .5rem
+            }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,.05);
+            border-left: 4px solid var(--primary)
+        }
+
+            .stat-card.success {
+                border-left-color: var(--secondary)
+            }
+
+            .stat-card.warning {
+                border-left-color: var(--warning)
+            }
+
+            .stat-card .value {
+                font-size: 1.6rem;
+                font-weight: 700;
+                color: var(--dark)
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,.05);
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.2rem 0
+        }
+
+        th, td {
+            padding: 0.9rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem
+        }
+
+        th {
+            background: var(--dark);
+            color: #fff;
+            font-weight: 500
+        }
+
+        tr:hover {
+            background: #f9f9f9
+        }
+
+        .badge {
+            display: inline-block;
+            padding: .25rem .5rem;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-weight: 500
+        }
+
+        .badge-primary {
+            background: var(--primary);
+            color: #fff
+        }
+
+        .badge-success {
+            background: var(--secondary);
+            color: #fff
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: #fff
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: #fff
         }
 
         .btn {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 12px 20px;
+            padding: .5rem 1rem;
             border: none;
-            border-radius: 8px;
-            font-size: 15px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            font-weight: 500;
+            transition: .2s;
+            font-size: .9rem
         }
 
-            .btn:hover {
-                background-color: #2980b9;
-            }
+        .btn-sm {
+            padding: .3rem .6rem;
+            font-size: .8rem
+        }
 
         .btn-primary {
-            background-color: #27ae60;
+            background: var(--primary);
+            color: #fff
         }
 
             .btn-primary:hover {
-                background-color: #219150;
+                background: #2980b9
             }
 
-        .lecture-wrapper {
-            position: relative;
+        .btn-success {
+            background: var(--secondary);
+            color: #fff
+        }
+
+            .btn-success:hover {
+                background: #27ae60
+            }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff
+        }
+
+            .btn-danger:hover {
+                background: #c0392b
+            }
+
+        .btn-warning {
+            background: var(--warning);
+            color: #fff
+        }
+
+            .btn-warning:hover {
+                background: #e67e22
+            }
+
+        .row {
             display: flex;
-            max-width: 180px;
+            gap: 8px;
+            flex-wrap: wrap
         }
 
-            .lecture-wrapper input {
-                padding-right: 40px;
-            }
-
-        .spinner-controls {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+        .small {
+            font-size: .85rem;
+            color: #7f8c8d
         }
 
-            .spinner-controls button {
-                background: transparent;
-                border: none;
-                font-size: 14px;
-                cursor: pointer;
-                padding: 2px;
-            }
-
-                .spinner-controls button:hover {
-                    color: #2c3e50;
-                }
-    </style>
-</head>
-<body>
-    <h2>Add Multiple Choice Question</h2>
-
-    <form method="post" class="form-container">-->
-<!-- Category -->
-<!--<div class="form-group">
-    <label for="category">Category</label>
-    <select id="category" class="form-control">
-        <option value="">Select Category</option>
-    </select>
-</div>-->
-<!-- Course -->
-<!--<div class="form-group">
-    <label for="course">Course</label>
-    <select id="course" class="form-control">
-        <option value="">Select Course</option>
-    </select>
-</div>-->
-<!-- Lecture Spinner -->
-<!--<div class="form-group">
-    <label for="lectureSpinner">Lecture</label>
-    <div class="lecture-wrapper">
-        <input type="text" id="lectureSpinner" readonly />
-        <div class="spinner-controls">
-            <button type="button" onclick="incrementLecture()">▲</button>
-            <button type="button" onclick="decrementLecture()">▼</button>
-        </div>
-    </div>
-</div>-->
-<!-- Question Text -->
-<!--<div class="form-group">
-    <label for="questionText">Question Text</label>
-    <textarea id="questionText" class="form-control"></textarea>
-</div>-->
-<!-- Difficulty -->
-<!--<div class="form-group">
-    <label for="difficultyLevel">Difficulty Level</label>
-    <select id="difficultyLevel" class="form-control">
-        <option value="1">Easy</option>
-        <option value="2">Medium</option>
-        <option value="3">Hard</option>
-    </select>
-</div>-->
-<!-- Answers -->
-<!--<div class="form-group">
-    <label>Answers</label>
-    <div id="answersContainer">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Enter answer option" />
-            <input type="radio" name="correctAnswer" />
-        </div>
-    </div>
-    <button type="button" id="addAnswer" class="btn">+ Add Answer</button>
-</div>-->
-<!-- Submit -->
-<!--<button type="submit" class="btn btn-primary">Save</button>
-    </form>
-
-    <script>
-        let currentLecture = 1;
-        const minLecture = 1;
-        const maxLecture = 20;
-
-        const lectureInput = document.getElementById('lectureSpinner');
-        lectureInput.value = `Lecture ${currentLecture}`;
-
-        function incrementLecture() {
-            if (currentLecture < maxLecture) {
-                currentLecture++;
-                lectureInput.value = `Lecture ${currentLecture}`;
-            }
-        }
-
-        function decrementLecture() {
-            if (currentLecture > minLecture) {
-                currentLecture--;
-                lectureInput.value = `Lecture ${currentLecture}`;
-            }
-        }
-    </script>
-</body>
-</html>-->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Multiple Choice Question</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Helvetica Neue', sans-serif;
-            background-color: #fdfdfd;
-            color: #333;
-            margin: 0;
-            padding: 40px;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: 600;
-            color: #2e2e2e;
-        }
-
-        .form-card {
-            max-width: 720px;
-            background-color: #fff;
-            margin: auto;
-            padding: 40px;
-            border-radius: 14px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 500;
-            color: #444;
-        }
-
-        input[type="text"],
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
-            padding: 12px 16px;
+            padding: .7rem;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            font-size: 15px;
-            transition: 0.3s;
+            border-radius: 4px;
+            font-size: 1rem
         }
 
-            input:focus,
-            select:focus,
-            textarea:focus {
-                border-color: #007bff;
-                background-color: #fff;
-                outline: none;
+            input:focus, select:focus, textarea:focus {
+                border-color: var(--primary);
+                outline: none
             }
 
-        textarea {
-            resize: vertical;
-            min-height: 90px;
+        .hidden-item {
+            opacity: .6;
+            background: #f9f9f9
         }
 
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-            .input-group input[type="text"] {
-                flex: 1;
+            .hidden-item td:first-child {
+                position: relative
             }
 
-        .lecture-spinner {
-            position: relative;
-            display: inline-flex;
-            width: 180px;
-        }
-
-            .lecture-spinner input {
-                padding-right: 48px;
-            }
-
-            .lecture-spinner .controls {
-                position: absolute;
-                right: 10px;
-                top: 50%;
-                transform: translateY(-50%);
-                display: flex;
-                flex-direction: column;
-                gap: 2px;
-            }
-
-            .lecture-spinner button {
-                background: none;
-                border: none;
-                font-size: 14px;
-                color: #555;
-                cursor: pointer;
-                padding: 0;
-                line-height: 1;
-            }
-
-                .lecture-spinner button:hover {
-                    color: #111;
+                .hidden-item td:first-child::before {
+                    content: "HIDDEN";
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: var(--warning);
+                    color: #fff;
+                    padding: .2rem .5rem;
+                    border-radius: 4px;
+                    font-size: .7rem
                 }
 
-        .btn {
-            padding: 12px 20px;
-            font-size: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        .btn-add {
-            background-color: #17a2b8;
-            color: white;
-        }
-
-            .btn-add:hover {
-                background-color: #138496;
+        @media(max-width:768px) {
+            nav ul {
+                flex-direction: column
             }
 
-        .btn-submit {
-            background-color: #28a745;
-            color: white;
-            width: 100%;
-            margin-top: 20px;
-        }
-
-            .btn-submit:hover {
-                background-color: #218838;
+            nav li {
+                margin-right: 0;
+                margin-bottom: .5rem
             }
+
+            .dashboard-cards {
+                grid-template-columns: 1fr
+            }
+        }
     </style>
 </head>
 <body>
-    <h2>Add Multiple Choice Question</h2>
+    <header>
+        <div class="logo">Two-Store Inventory System</div>
+        <div class="user-info"><span>Admin User</span><div class="user-avatar">AU</div></div>
+    </header>
 
-    <form class="form-card">
-        <!-- Category -->
-        <div class="form-group">
-            <label for="category">Category</label>
-            <select id="category">
-                <option value="">Select Category</option>
-            </select>
-        </div>
+    <nav>
+        <ul>
+            <li><a href="#dashboard" class="active">Dashboard</a></li>
+            <li><a href="#inventory">Inventory</a></li>
+            <li><a href="#orders">Orders</a></li>
+            <li><a href="#replenishment">Replenishment</a></li>
+            <li><a href="#suppliers">Main & Receiving</a></li>
+            <li><a href="#reports">Reports</a></li>
+        </ul>
+    </nav>
 
-        <!-- Course -->
-        <div class="form-group">
-            <label for="course">Course</label>
-            <select id="course">
-                <option value="">Select Course</option>
-            </select>
-        </div>
-
-        <!-- Lecture Spinner -->
-        <div class="form-group">
-            <label for="lectureSpinner">Lecture</label>
-            <div class="lecture-spinner">
-                <input type="text" id="lectureSpinner" readonly />
-                <div class="controls">
-                    <button type="button" onclick="incrementLecture()">▲</button>
-                    <button type="button" onclick="decrementLecture()">▼</button>
-                </div>
+    <div class="container">
+        <!-- Dashboard -->
+        <section id="dashboard">
+            <h2>Dashboard Overview</h2>
+            <div class="dashboard-cards">
+                <div class="stat-card"><h3>Branch Stock Level</h3><div class="value" id="kpiBranchLevel">—</div><p>of items above threshold</p></div>
+                <div class="stat-card success"><h3>Main Store Health</h3><div class="value" id="kpiMainHealth">—</div><p>of items above safety stock</p></div>
+                <div class="stat-card warning"><h3>Low Stock Items</h3><div class="value" id="kpiLowItems">—</div><p>branch+main under threshold</p></div>
+                <div class="stat-card"><h3>Pending Requests</h3><div class="value" id="kpiPendingTransfers">—</div><p>Branch → Main</p></div>
             </div>
-        </div>
-
-        <!-- Question Text -->
-        <div class="form-group">
-            <label for="questionText">Question Text</label>
-            <textarea id="questionText"></textarea>
-        </div>
-
-        <!-- Difficulty -->
-        <div class="form-group">
-            <label for="difficultyLevel">Difficulty Level</label>
-            <select id="difficultyLevel">
-                <option value="1">Easy</option>
-                <option value="2">Medium</option>
-                <option value="3">Hard</option>
-            </select>
-        </div>
-
-        <!-- Answers -->
-        <div class="form-group">
-            <label>Answers</label>
-            <div id="answersContainer">
-                <div class="input-group">
-                    <input type="text" placeholder="Enter answer option">
-                    <input type="radio" name="correctAnswer" />
-                </div>
+            <div class="dashboard-cards">
+                <div class="stat-card"><h3>Today’s Revenue</h3><div class="value" id="kpiRevToday">—</div><p>Approved orders</p></div>
+                <div class="stat-card"><h3>Month‑to‑Date Revenue</h3><div class="value" id="kpiRevMTD">—</div><p>Approved orders</p></div>
+                <div class="stat-card"><h3>Pending Orders</h3><div class="value" id="kpiOrdersPending">—</div><p>awaiting approval</p></div>
             </div>
-            <button type="button" id="addAnswer" class="btn btn-add">+ Add Answer</button>
-        </div>
 
-        <!-- Submit -->
-        <button type="submit" class="btn btn-submit">Save Question</button>
-    </form>
+            <div class="card">
+                <h3>Recent Activity</h3>
+                <table id="recentActivity">
+                    <thead><tr><th>Date</th><th>Activity</th><th>User</th><th>Details</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Inventory -->
+        <section id="inventory" style="display:none">
+            <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:1.2rem">
+                <h2>Inventory Management</h2>
+                <button class="btn btn-primary" id="addProductBtn">Add New Product</button>
+            </div>
+
+            <div class="card">
+                <h3>Branch Store</h3>
+                <table>
+                    <thead>
+                        <tr><th>Product ID</th><th>Product</th><th>Category</th><th>Branch Stock</th><th>Threshold</th><th>Status</th><th>Main Stock</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="branchInvBody"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Main Store</h3>
+                <table>
+                    <thead>
+                        <tr><th>Product ID</th><th>Product</th><th>Category</th><th>Main Stock</th><th>Threshold</th><th>Status</th><th>Branch Stock</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="mainInvBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Orders -->
+        <section id="orders" style="display:none">
+            <h2>Orders</h2>
+
+            <div class="card">
+                <h3>Create New Order (simulates user order)</h3>
+                <form id="orderForm">
+                    <div class="row">
+                        <div style="flex:1;min-width:220px">
+                            <label for="custName">Customer Name</label>
+                            <input id="custName" placeholder="e.g., Ahmed Ali" required />
+                        </div>
+                        <div style="flex:1;min-width:220px">
+                            <label for="paymentMethod">Payment Method</label>
+                            <select id="paymentMethod" required>
+                                <option value="Cash">Cash</option>
+                                <option value="Card">Card</option>
+                                <option value="Online">Online</option>
+                            </select>
+                        </div>
+                        <div style="flex:1;min-width:220px">
+                            <label for="orderDate">Order Date/Time</label>
+                            <input id="orderDate" type="datetime-local" />
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:10px"><strong>Items</strong></div>
+                    <div id="orderItems"></div>
+                    <div class="row" style="margin-top:8px">
+                        <button type="button" class="btn btn-primary" id="btnAddLine">+ Add Item</button>
+                    </div>
+
+                    <div class="row" style="margin-top:12px;align-items:flex-end">
+                        <div style="width:160px">
+                            <label>Total</label>
+                            <input id="orderTotal" readonly />
+                        </div>
+                        <button type="submit" class="btn btn-success">Submit Order</button>
+                    </div>
+                    <div class="small" style="margin-top:6px">Orders are created as <b>Pending</b>. Stock is not deducted until an admin <b>Approves</b> below.</div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Pending Orders</h3>
+                <table id="pendingOrdersTable">
+                    <thead><tr><th>Order #</th><th>Date</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>Approved Orders (Recent)</h3>
+                <table id="approvedOrdersTable">
+                    <thead><tr><th>Order #</th><th>Approved At</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Replenishment -->
+        <section id="replenishment" style="display:none">
+            <h2>Replenishment Management</h2>
+            <div class="card">
+                <h3>Pending Replenishment Requests</h3>
+                <table id="pendingReplTable">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Branch</th>
+                            <th>Product</th>
+                            <th>Branch Stock</th>
+                            <th>Threshold</th>
+                            <th>Requested</th>
+                            <th>Main Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="small">You can also approve from “Main & Receiving → Incoming Branch Requests”.</div>
+            </div>
+
+            <div class="card">
+                <h3>Recent Replenishments</h3>
+                <table id="recentTransfersTable">
+                    <thead><tr><th>Transfer ID</th><th>Date</th><th>Product</th><th>Qty</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Main Store / Receiving -->
+        <section id="suppliers" style="display:none">
+            <h2>Main Store & Receiving</h2>
+
+            <div class="card">
+                <h3>Main Store: Incoming Branch Requests (Actionable)</h3>
+                <table id="incomingRequestsTable">
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Branch</th>
+                            <th>Product</th>
+                            <th>Branch Stock</th>
+                            <th>Threshold</th>
+                            <th>Requested</th>
+                            <th>Main Stock</th>
+                            <th>Approve Qty</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="small">Partial approvals allowed. Remaining balance stays pending.</div>
+            </div>
+
+            <div class="card">
+                <h3>Add New Shipment</h3>
+                <form id="supplierForm" class="row" style="align-items:flex-end">
+                    <div style="flex:1;min-width:220px"><label for="supplierName">Supplier Name</label><input type="text" id="supplierName" required></div>
+                    <div style="flex:1;min-width:220px"><label for="supplierProduct">Product</label><select id="supplierProduct" required><option value="">Select Product</option></select></div>
+                    <div style="width:140px"><label for="supplierQty">Qty</label><input type="number" id="supplierQty" min="1" required></div>
+                    <div style="flex:1;min-width:220px"><label for="batchNumber">Batch/Lot</label><input type="text" id="batchNumber"></div>
+                    <button type="submit" class="btn btn-primary">Add to Main</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Recent Receivings</h3>
+                <table id="receivingsTable">
+                    <thead><tr><th>Date</th><th>Supplier</th><th>Product</th><th>Qty</th><th>Batch</th><th>Received By</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Reports -->
+        <section id="reports" style="display:none">
+            <h2>Reports</h2>
+            <div class="card">
+                <h3>Stock Movement Report</h3>
+                <div class="row" style="gap:10px;align-items:flex-end">
+                    <div>
+                        <label for="reportDateRange">Date Range</label>
+                        <select id="reportDateRange">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div id="customDateRange" style="display:none" class="row">
+                        <div><label for="startDate">Start Date</label><input type="date" id="startDate"></div>
+                        <div><label for="endDate">End Date</label><input type="date" id="endDate"></div>
+                    </div>
+                    <button class="btn btn-primary" id="btnGenerateReport">Generate</button>
+                </div>
+                <table>
+                    <thead><tr><th>Product</th><th>Branch Sales</th><th>Main Transfers</th><th>Supplier Receivings</th><th>Net Change</th></tr></thead>
+                    <tbody id="reportBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Add / Edit Product Modals -->
+    <div class="modal" id="addProductModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Add New Product</h3><span class="close">&times;</span></div>
+            <form id="productForm">
+                <div class="row">
+                    <div style="flex:1"><label>Name</label><input id="productName" required></div>
+                    <div style="flex:1">
+                        <label>Category</label>
+                        <select id="productCategory" required><option value="">Select</option><option value="electronics">Electronics</option><option value="clothing">Clothing</option><option value="home">Home</option></select>
+                    </div>
+                    <div style="flex:1"><label>SKU/Product ID</label><input id="productSKU" required></div>
+                </div>
+                <div class="row">
+                    <div style="flex:1"><label>Price</label><input type="number" id="productPrice" step="0.01" required></div>
+                    <div style="flex:1"><label>Main Stock</label><input type="number" id="mainStock" required></div>
+                    <div style="flex:1"><label>Main Threshold</label><input type="number" id="mainThreshold" required></div>
+                </div>
+                <div class="row">
+                    <div style="flex:1"><label>Branch Stock</label><input type="number" id="branchStock" required></div>
+                    <div style="flex:1"><label>Branch Threshold</label><input type="number" id="branchThreshold" required></div>
+                </div>
+                <div><label>Description</label><textarea id="productDescription" rows="3"></textarea></div>
+                <div class="row" style="margin-top:8px">
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                    <button type="button" class="btn btn-danger" id="cancelAddProduct">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editProductModal">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Edit Product</h3><span class="close">&times;</span></div>
+            <form id="editProductForm">
+                <input type="hidden" id="editProductId">
+                <div class="row">
+                    <div style="flex:1"><label>Name</label><input id="editProductName" required></div>
+                    <div style="flex:1">
+                        <label>Category</label>
+                        <select id="editProductCategory" required><option value="electronics">Electronics</option><option value="clothing">Clothing</option><option value="home">Home</option></select>
+                    </div>
+                    <div style="flex:1"><label>Price</label><input type="number" id="editProductPrice" step="0.01" required></div>
+                </div>
+                <div class="row">
+                    <div style="flex:1"><label>Main Threshold</label><input type="number" id="editMainThreshold" required></div>
+                    <div style="flex:1"><label>Branch Threshold</label><input type="number" id="editBranchThreshold" required></div>
+                </div>
+                <div><label>Description</label><textarea id="editProductDescription" rows="3"></textarea></div>
+                <div class="row" style="margin-top:8px">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-danger" id="cancelEditProduct">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
-        let currentLecture = 1;
-        const minLecture = 1;
-        const maxLecture = 20;
+        // ===== Data =====
+        const products = [
+            { id: 1001, name: "iPhone 15", category: "electronics", price: 999.99, mainStock: 920, mainThreshold: 200, branchStock: 15, branchThreshold: 10, description: "Latest iPhone model", hidden: false },
+            { id: 1002, name: "Samsung TV", category: "electronics", price: 799.99, mainStock: 120, mainThreshold: 100, branchStock: 2, branchThreshold: 10, description: "55-inch 4K Smart TV", hidden: true },
+            { id: 1003, name: "AirPods Pro", category: "electronics", price: 249.99, mainStock: 250, mainThreshold: 50, branchStock: 8, branchThreshold: 10, description: "Wireless noise-cancelling earbuds", hidden: false },
+            { id: 1004, name: "MacBook Pro", category: "electronics", price: 1999.99, mainStock: 150, mainThreshold: 50, branchStock: 25, branchThreshold: 5, description: "16-inch M2 Pro chip", hidden: false }
+        ];
+        const replenishments = [
+            { id: "REQ-2023-001", branchName: "Branch A", productId: 1002, productName: "Samsung TV", branchStock: 2, threshold: 10, requestQty: 8, mainStock: 120, status: "Pending" },
+            { id: "REQ-2023-002", branchName: "Branch A", productId: 1003, productName: "AirPods Pro", branchStock: 8, threshold: 10, requestQty: 2, mainStock: 250, status: "Pending" }
+        ];
+        const transfers = [
+            { id: "TRF-2023-015", date: "2023-06-19", productId: 1001, productName: "iPhone 15", quantity: 50, from: "Main Store", to: "Branch A", status: "Completed" },
+            { id: "TRF-2023-014", date: "2023-06-18", productId: 1004, productName: "MacBook Pro", quantity: 10, from: "Main Store", to: "Branch A", status: "Completed" }
+        ];
+        const supplierReceivings = [
+            { date: "2023-06-19", supplier: "Supplier A", productId: 1001, productName: "iPhone 15", quantity: 200, batch: "BATCH-IP15-0619", receivedBy: "Admin" },
+            { date: "2023-06-15", supplier: "Supplier B", productId: 1002, productName: "Samsung TV", quantity: 50, batch: "BATCH-STV-0615", receivedBy: "Admin" }
+        ];
 
-        const lectureInput = document.getElementById('lectureSpinner');
-        lectureInput.value = `Lecture ${currentLecture}`;
+        // Orders & Payments
+        const orders = [];      // {id, customer, items:[{productId,name,qty,unitPrice}], total, paymentMethod, status, createdAt, approvedAt?}
+        const payments = [];    // {orderId, amount, method, approvedAt}
+        const sales = [];       // {orderId, productId, productName, qty, unitPrice, revenue, isoDate}
 
-        function incrementLecture() {
-            if (currentLecture < maxLecture) {
-                currentLecture++;
-                lectureInput.value = `Lecture ${currentLecture}`;
+        // ===== Helpers =====
+        const $ = s => document.querySelector(s);
+        const $$ = s => document.querySelectorAll(s);
+        const isoLocal = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}T${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+        const today = () => new Date().toISOString().slice(0, 10);
+        function addRecentActivity(activity, details, user = 'System') {
+            const tbody = $('#recentActivity tbody'); const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${new Date().toISOString().slice(0, 16).replace('T', ' ')}</td><td>${activity}</td><td>${user}</td><td>${details}</td>`;
+            tbody.prepend(tr);
+        }
+        function getProduct(pid) { return products.find(p => p.id === pid); }
+
+        // ===== Navigation =====
+        function showSection(id) { $$('section').forEach(s => s.style.display = 'none'); $('#' + id).style.display = 'block'; $$('nav a').forEach(a => a.classList.remove('active')); const nav = $(`nav a[href="#${id}"]`); if (nav) nav.classList.add('active'); }
+        function setupNav() {
+            $$('nav a').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); const id = a.getAttribute('href').substring(1); location.hash = id; showSection(id); }));
+            showSection(location.hash ? location.hash.substring(1) : 'dashboard');
+        }
+
+        // ===== Inventory =====
+        function renderInventoryTables() {
+            const bBody = $('#branchInvBody'); bBody.innerHTML = '';
+            products.forEach(p => {
+                const st = (p.branchStock <= 0) ? '<span class="badge badge-danger">Out of Stock</span>' : (p.branchStock <= p.branchThreshold ? '<span class="badge badge-warning">Low Stock</span>' : '<span class="badge badge-success">In Stock</span>');
+                const tr = document.createElement('tr'); if (p.hidden) tr.classList.add('hidden-item');
+                tr.innerHTML = `<td>${p.id}</td><td>${p.name}</td><td>${p.category}</td><td>${p.branchStock}</td><td>${p.branchThreshold}</td><td>${st}</td><td>${p.mainStock}</td>
+            <td><button class="btn btn-primary btn-sm">Edit</button> ${p.hidden ? `<button class="btn btn-success btn-sm" data-action="show" data-id="${p.id}">Show</button>` : `<button class="btn btn-danger btn-sm" data-action="hide" data-id="${p.id}">Hide</button>`}</td>`;
+                bBody.appendChild(tr);
+            });
+
+            const mBody = $('#mainInvBody'); mBody.innerHTML = '';
+            products.forEach(p => {
+                const st = p.mainStock > p.mainThreshold ? '<span class="badge badge-success">In Stock</span>' : '<span class="badge badge-warning">Low Stock</span>';
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${p.id}</td><td>${p.name}</td><td>${p.category}</td><td>${p.mainStock}</td><td>${p.mainThreshold}</td><td>${st}</td><td>${p.branchStock}</td><td><button class="btn btn-primary btn-sm">Edit</button></td>`;
+                mBody.appendChild(tr);
+            });
+
+            renderKPIs();
+        }
+        $('#inventory').addEventListener('click', (e) => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            const tr = btn.closest('tr'); if (!tr) return;
+            if (btn.classList.contains('btn-primary') && btn.textContent.trim() === 'Edit') {
+                const id = parseInt(tr.children[0].textContent, 10); const p = getProduct(id); if (!p) return;
+                $('#editProductId').value = p.id; $('#editProductName').value = p.name; $('#editProductCategory').value = p.category; $('#editProductPrice').value = p.price; $('#editMainThreshold').value = p.mainThreshold; $('#editBranchThreshold').value = p.branchThreshold; $('#editProductDescription').value = p.description || '';
+                $('#editProductModal').style.display = 'flex';
+            }
+            if (btn.dataset.action === 'hide' || btn.dataset.action === 'show') {
+                const id = parseInt(btn.dataset.id, 10); const p = getProduct(id); if (!p) return;
+                p.hidden = btn.dataset.action === 'show' ? false : true;
+                addRecentActivity('Product Visibility', `${p.name} ${p.hidden ? 'hidden' : 'shown'}`);
+                renderInventoryTables();
+            }
+        });
+
+        // ===== Orders =====
+        function newOrderItemRow() {
+            const row = document.createElement('div');
+            row.className = 'row';
+            row.style.marginTop = '6px';
+            row.innerHTML = `
+            <div style="flex:2;min-width:220px">
+              <select class="ordProduct" required></select>
+            </div>
+            <div style="width:110px">
+              <input class="ordQty" type="number" min="1" value="1" required/>
+            </div>
+            <div style="width:150px">
+              <input class="ordPrice" type="number" step="0.01" min="0" required/>
+            </div>
+            <div style="width:90px">
+              <button type="button" class="btn btn-danger btn-sm ordRemove">Remove</button>
+            </div>`;
+            // populate products
+            const sel = row.querySelector('.ordProduct');
+            products.forEach(p => {
+                const opt = document.createElement('option'); opt.value = p.id; opt.textContent = `${p.name} (Branch: ${p.branchStock})`; sel.appendChild(opt);
+            });
+            // default price from product
+            const p0 = getProduct(parseInt(sel.value, 10));
+            row.querySelector('.ordPrice').value = p0 ? p0.price : 0;
+            // listeners for recalc
+            row.addEventListener('change', recalcOrderTotal);
+            row.addEventListener('input', recalcOrderTotal);
+            row.querySelector('.ordRemove').addEventListener('click', () => { row.remove(); recalcOrderTotal(); });
+            return row;
+        }
+
+        function recalcOrderTotal() {
+            let total = 0;
+            document.querySelectorAll('#orderItems .row').forEach(r => {
+                const qty = parseInt(r.querySelector('.ordQty').value || 0, 10);
+                const price = parseFloat(r.querySelector('.ordPrice').value || 0);
+                total += qty * price;
+            });
+            $('#orderTotal').value = total.toFixed(2);
+        }
+
+        function setupOrderForm() {
+            $('#orderDate').value = isoLocal();
+            // start with one line
+            const container = $('#orderItems'); container.innerHTML = '';
+            container.appendChild(newOrderItemRow());
+            recalcOrderTotal();
+
+            $('#btnAddLine').addEventListener('click', () => {
+                container.appendChild(newOrderItemRow());
+                recalcOrderTotal();
+            });
+
+            $('#orderForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const customer = $('#custName').value.trim();
+                const method = $('#paymentMethod').value;
+                const dt = $('#orderDate').value ? new Date($('#orderDate').value) : new Date();
+
+                // collect items
+                const items = [];
+                document.querySelectorAll('#orderItems .row').forEach(r => {
+                    const pid = parseInt(r.querySelector('.ordProduct').value, 10);
+                    const qty = Math.max(1, parseInt(r.querySelector('.ordQty').value || 1, 10));
+                    const price = Math.max(0, parseFloat(r.querySelector('.ordPrice').value || 0));
+                    const prod = getProduct(pid);
+                    if (prod) items.push({ productId: pid, name: prod.name, qty, unitPrice: price });
+                });
+                if (items.length === 0) { alert('Add at least one item.'); return; }
+
+                const total = items.reduce((s, i) => s + i.qty * i.unitPrice, 0);
+
+                const order = {
+                    id: `ORD-${Date.now()}`,
+                    customer,
+                    items,
+                    total: +total.toFixed(2),
+                    paymentMethod: method,
+                    status: 'Pending',
+                    createdAt: dt.toISOString()
+                };
+                orders.unshift(order);
+                addRecentActivity('Order Created', `${order.id} by ${customer} (Total ${order.total.toFixed(2)})`, 'Customer');
+
+                renderPendingOrders();
+                renderKPIs();
+                // reset to new
+                $('#orderForm').reset();
+                $('#orderDate').value = isoLocal();
+                const container2 = $('#orderItems'); container2.innerHTML = ''; container2.appendChild(newOrderItemRow());
+                recalcOrderTotal();
+                alert('Order submitted. Awaiting admin approval.');
+            });
+        }
+
+        function renderPendingOrders() {
+            const tb = $('#pendingOrdersTable tbody'); tb.innerHTML = '';
+            orders.filter(o => o.status === 'Pending').forEach(o => {
+                const itemsText = o.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+              <td>${o.id}</td>
+              <td>${o.createdAt.slice(0, 16).replace('T', ' ')}</td>
+              <td>${o.customer}</td>
+              <td>${itemsText}</td>
+              <td>${o.total.toFixed(2)}</td>
+              <td>${o.paymentMethod}</td>
+              <td><span class="badge badge-primary">Pending</span></td>
+              <td>
+                <button class="btn btn-success btn-sm" data-approve-order="${o.id}">Approve</button>
+                <button class="btn btn-danger btn-sm" data-reject-order="${o.id}">Reject</button>
+              </td>`;
+                tb.appendChild(tr);
+            });
+            // KPI
+            $('#kpiOrdersPending').textContent = orders.filter(o => o.status === 'Pending').length;
+        }
+
+        function renderApprovedOrders() {
+            const tb = $('#approvedOrdersTable tbody'); tb.innerHTML = '';
+            orders.filter(o => o.status === 'Approved').slice(0, 20).forEach(o => {
+                const itemsText = o.items.map(i => `${i.name} x${i.qty}`).join(', ');
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+              <td>${o.id}</td>
+              <td>${o.approvedAt?.slice(0, 16).replace('T', ' ') || '-'}</td>
+              <td>${o.customer}</td>
+              <td>${itemsText}</td>
+              <td>${o.total.toFixed(2)}</td>
+              <td>${o.paymentMethod}</td>`;
+                tb.appendChild(tr);
+            });
+        }
+
+        // Approve / Reject
+        $('#orders').addEventListener('click', (e) => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            if (btn.dataset.approveOrder) approveOrder(btn.dataset.approveOrder);
+            if (btn.dataset.rejectOrder) rejectOrder(btn.dataset.rejectOrder);
+        });
+
+        function approveOrder(orderId) {
+            const o = orders.find(x => x.id === orderId && x.status === 'Pending'); if (!o) return;
+
+            // 1) validate stock
+            const insufficient = [];
+            o.items.forEach(i => {
+                const p = getProduct(i.productId);
+                if (!p || i.qty > p.branchStock) insufficient.push(`${i.name} (need ${i.qty}, have ${p ? p.branchStock : 0})`);
+            });
+            if (insufficient.length) {
+                alert('Not enough branch stock for:\n- ' + insufficient.join('\n- '));
+                return;
+            }
+
+            // 2) deduct stock and record sales
+            o.items.forEach(i => {
+                const p = getProduct(i.productId);
+                p.branchStock -= i.qty;
+
+                // sales entry for reporting
+                sales.push({
+                    orderId: o.id, productId: i.productId, productName: i.name,
+                    qty: i.qty, unitPrice: i.unitPrice, revenue: +(i.qty * i.unitPrice).toFixed(2),
+                    isoDate: new Date().toISOString()
+                });
+
+                // auto-replenishment if below threshold
+                maybeCreateReplenishment(p);
+            });
+
+            // 3) record payment
+            payments.push({
+                orderId: o.id,
+                amount: o.total,
+                method: o.paymentMethod,
+                approvedAt: new Date().toISOString()
+            });
+
+            // 4) finalize order
+            o.status = 'Approved';
+            o.approvedAt = new Date().toISOString();
+
+            addRecentActivity('Order Approved', `${o.id} (${o.total.toFixed(2)} via ${o.paymentMethod})`, 'Admin');
+
+            // 5) refresh UI
+            renderInventoryTables();
+            renderPendingOrders();
+            renderApprovedOrders();
+            renderReplenishmentTables();
+            renderSupplierProductOptions();
+            renderKPIs();
+            alert(`Order ${o.id} approved. Stock updated and payment recorded.`);
+        }
+
+        function rejectOrder(orderId) {
+            const o = orders.find(x => x.id === orderId && x.status === 'Pending'); if (!o) return;
+            o.status = 'Rejected';
+            o.rejectedAt = new Date().toISOString();
+            addRecentActivity('Order Rejected', `${o.id} (${o.total.toFixed(2)})`, 'Admin');
+            renderPendingOrders();
+            renderKPIs();
+        }
+
+        // ===== Replenishment (same core as before) =====
+        function renderReplenishmentTables() {
+            const pBody = $('#pendingReplTable tbody'); pBody.innerHTML = '';
+            replenishments.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${r.id}</td><td>${r.branchName || 'Branch A'}</td><td>${r.productName}</td>
+            <td>${r.branchStock}</td><td>${r.threshold}</td><td>${r.requestQty}</td><td>${getProduct(r.productId).mainStock}</td>
+            <td><span class="badge badge-primary">Pending</span></td>
+            <td>
+              <button class="btn btn-success btn-sm" data-approve="${r.id}">Approve (All)</button>
+              <button class="btn btn-danger btn-sm"  data-reject="${r.id}">Reject</button>
+            </td>`;
+                pBody.appendChild(tr);
+            });
+
+            const tBody = $('#recentTransfersTable tbody'); tBody.innerHTML = '';
+            transfers.forEach(t => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${t.id}</td><td>${t.date}</td><td>${t.productName}</td><td>${t.quantity}</td><td>${t.from}</td><td>${t.to}</td><td><span class="badge badge-success">Completed</span></td>`;
+                tBody.appendChild(tr);
+            });
+
+            renderIncomingRequestsTable();
+        }
+
+        function renderIncomingRequestsTable() {
+            const body = $('#incomingRequestsTable tbody'); if (!body) return;
+            body.innerHTML = '';
+            replenishments.forEach(r => {
+                const p = getProduct(r.productId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+              <td>${r.id}</td>
+              <td>${r.branchName || 'Branch A'}</td>
+              <td>${r.productName}</td>
+              <td>${r.branchStock}</td>
+              <td>${r.threshold}</td>
+              <td>${r.requestQty}</td>
+              <td>${p.mainStock}</td>
+              <td><input type="number" class="approveInput" data-id="${r.id}" min="0" value="${Math.min(r.requestQty, p.mainStock)}" style="width:120px"></td>
+              <td>
+                <button class="btn btn-success btn-sm" data-approve-partial="${r.id}">Approve</button>
+                <button class="btn btn-danger btn-sm" data-reject="${r.id}">Reject</button>
+              </td>`;
+                body.appendChild(tr);
+            });
+        }
+
+        // Approve/Reject replenishment from both pages
+        document.getElementById('replenishment').addEventListener('click', (e) => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            if (btn.dataset.approve) { approveReplenishmentFull(btn.dataset.approve); }
+            if (btn.dataset.reject) { rejectReplenishment(btn.dataset.reject); }
+        });
+        document.getElementById('suppliers').addEventListener('click', (e) => {
+            const btn = e.target.closest('button'); if (!btn) return;
+            if (btn.dataset.approvePartial) {
+                const id = btn.dataset.approvePartial;
+                const field = document.querySelector(`.approveInput[data-id="${id}"]`);
+                const qty = Math.max(0, parseInt(field.value || 0, 10));
+                approveReplenishmentPartial(id, qty);
+            }
+            if (btn.dataset.reject) { rejectReplenishment(btn.dataset.reject); }
+        });
+
+        function approveReplenishmentFull(requestId) {
+            const req = replenishments.find(r => r.id === requestId); if (!req) return;
+            approveReplenishmentPartial(requestId, req.requestQty);
+        }
+        function approveReplenishmentPartial(requestId, approveQty) {
+            const idx = replenishments.findIndex(r => r.id === requestId); if (idx === -1) return;
+            const req = replenishments[idx]; const prod = getProduct(req.productId); if (!prod) return;
+            const maxQty = Math.min(req.requestQty, prod.mainStock);
+            if (approveQty <= 0) { alert('Approve Qty must be > 0'); return; }
+            if (approveQty > maxQty) { alert(`Max allowed is ${maxQty}.`); return; }
+
+            prod.mainStock -= approveQty; prod.branchStock += approveQty;
+            const trf = { id: `TRF-${today().replace(/-/g, '')}-${Math.floor(Math.random() * 1000)}`, date: today(), productId: prod.id, productName: prod.name, quantity: approveQty, from: "Main Store", to: req.branchName || "Branch A", status: "Completed" };
+            transfers.unshift(trf);
+            addRecentActivity('Stock Transfer', `${approveQty} x ${prod.name} Main → ${req.branchName || 'Branch A'}`, 'Admin');
+
+            req.requestQty -= approveQty;
+            req.branchStock += approveQty;
+            req.mainStock = prod.mainStock;
+            if (req.requestQty <= 0) replenishments.splice(idx, 1);
+
+            renderInventoryTables(); renderReplenishmentTables(); renderSupplierProductOptions(); renderKPIs();
+        }
+        function rejectReplenishment(requestId) {
+            const idx = replenishments.findIndex(r => r.id === requestId);
+            if (idx !== -1) {
+                addRecentActivity('Replenishment Rejected', `${replenishments[idx].productName} (Req ${replenishments[idx].requestQty})`);
+                replenishments.splice(idx, 1);
+                renderReplenishmentTables(); renderKPIs();
             }
         }
 
-        function decrementLecture() {
-            if (currentLecture > minLecture) {
-                currentLecture--;
-                lectureInput.value = `Lecture ${currentLecture}`;
+        // Auto‑replenish helper
+        function maybeCreateReplenishment(p) {
+            if (p.branchStock <= p.branchThreshold) {
+                const need = Math.max(0, p.branchThreshold - p.branchStock);
+                if (need <= 0) return;
+                let req = replenishments.find(r => r.productId === p.id && r.status === 'Pending');
+                if (req) {
+                    req.requestQty = Math.max(req.requestQty, need);
+                    req.branchStock = p.branchStock;
+                    req.mainStock = p.mainStock;
+                } else {
+                    req = {
+                        id: `REQ-${today().replace(/-/g, '')}-${Math.floor(Math.random() * 1000)}`,
+                        branchName: 'Branch A', productId: p.id, productName: p.name,
+                        branchStock: p.branchStock, threshold: p.branchThreshold,
+                        requestQty: need, mainStock: p.mainStock, status: 'Pending'
+                    };
+                    replenishments.unshift(req);
+                    addRecentActivity('Auto Replenishment', `${p.name} requested ${need} (branch under threshold)`);
+                }
+                renderReplenishmentTables();
             }
         }
 
-        document.getElementById('addAnswer').addEventListener('click', () => {
-            const container = document.getElementById('answersContainer');
-            const div = document.createElement('div');
-            div.className = 'input-group';
-            div.innerHTML = `
-            <input type="text" placeholder="Enter answer option">
-            <input type="radio" name="correctAnswer" />
-          `;
-            container.appendChild(div);
+        // ===== Supplier Receiving =====
+        function renderSupplierReceivings() {
+            const tbody = $('#receivingsTable tbody'); if (!tbody) return;
+            tbody.innerHTML = '';
+            supplierReceivings.forEach(r => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${r.date}</td><td>${r.supplier}</td><td>${r.productName}</td><td>${r.quantity}</td><td>${r.batch}</td><td>${r.receivedBy}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        function renderSupplierProductOptions() {
+            const sel = $('#supplierProduct'); if (!sel) return;
+            sel.innerHTML = '<option value="">Select Product</option>';
+            products.forEach(p => { const opt = document.createElement('option'); opt.value = p.id; opt.textContent = `${p.name} (Current: ${p.mainStock})`; sel.appendChild(opt); });
+        }
+        function setupSupplierForm() {
+            const f = $('#supplierForm'); if (!f) return;
+            f.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const productId = parseInt($('#supplierProduct').value, 10);
+                const qty = parseInt($('#supplierQty').value, 10);
+                const supplier = $('#supplierName').value;
+                const batch = $('#batchNumber').value;
+                const p = getProduct(productId); if (!p) return;
+                p.mainStock += qty;
+                supplierReceivings.unshift({ date: today(), supplier, productId, productName: p.name, quantity: qty, batch, receivedBy: 'Admin' });
+                addRecentActivity('Supplier Delivery', `${qty} x ${p.name} added to Main`, 'Admin');
+                renderSupplierReceivings(); renderInventoryTables(); renderReplenishmentTables(); renderSupplierProductOptions(); renderReport(); renderKPIs();
+                e.target.reset(); alert(`Added ${qty} units to ${p.name}. New Main stock: ${p.mainStock}`);
+            });
+        }
+
+        // ===== Reports (simple demo) =====
+        function renderReport() {
+            const body = $('#reportBody'); if (!body) return; body.innerHTML = '';
+            products.forEach(p => {
+                const branchSales = sales.filter(s => s.productId === p.id).reduce((a, b) => a + b.qty, 0);
+                const mainTransfers = transfers.filter(t => t.productId === p.id).reduce((s, t) => s + t.quantity, 0);
+                const supplierIn = supplierReceivings.filter(r => r.productId === p.id).reduce((s, r) => s + r.quantity, 0);
+                const net = supplierIn - mainTransfers - branchSales;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${p.name}</td><td>${branchSales}</td><td>${mainTransfers}</td><td>${supplierIn}</td><td>${net >= 0 ? '+' : ''}${net}</td>`;
+                body.appendChild(tr);
+            });
+        }
+        function setupReports() {
+            const dr = $('#reportDateRange'); if (!dr) return;
+            dr.addEventListener('change', function () { $('#customDateRange').style.display = this.value === 'custom' ? 'flex' : 'none'; });
+            $('#btnGenerateReport').addEventListener('click', () => { renderReport(); alert('Report generated.'); });
+        }
+
+        // ===== KPIs (includes revenue) =====
+        function renderKPIs() {
+            const branchAbove = products.filter(p => p.branchStock > p.branchThreshold).length;
+            const mainAbove = products.filter(p => p.mainStock > p.mainThreshold).length;
+            const pctB = products.length ? Math.round(branchAbove / products.length * 100) : 0;
+            const pctM = products.length ? Math.round(mainAbove / products.length * 100) : 0;
+            $('#kpiBranchLevel').textContent = pctB + '%';
+            $('#kpiMainHealth').textContent = pctM + '%';
+            $('#kpiPendingTransfers').textContent = replenishments.length;
+            const lowItems = products.filter(p => p.branchStock <= p.branchThreshold || p.mainStock <= p.mainThreshold).length;
+            $('#kpiLowItems').textContent = lowItems;
+
+            // Revenue KPIs from payments
+            const now = new Date();
+            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const revToday = payments
+                .filter(p => new Date(p.approvedAt) >= startOfDay)
+                .reduce((s, p) => s + p.amount, 0);
+            const revMTD = payments
+                .filter(p => new Date(p.approvedAt) >= startOfMonth)
+                .reduce((s, p) => s + p.amount, 0);
+            $('#kpiRevToday').textContent = revToday.toFixed(2);
+            $('#kpiRevMTD').textContent = revMTD.toFixed(2);
+
+            // Pending orders count
+            $('#kpiOrdersPending').textContent = orders.filter(o => o.status === 'Pending').length;
+        }
+
+        // ===== Add/Edit Product =====
+        function setupProductModals() {
+            const addM = $('#addProductModal'); const editM = $('#editProductModal');
+            $('#addProductBtn').addEventListener('click', () => addM.style.display = 'flex');
+            $('#cancelAddProduct').addEventListener('click', () => addM.style.display = 'none');
+            $('#cancelEditProduct').addEventListener('click', () => editM.style.display = 'none');
+            $$('.modal .close').forEach(c => c.addEventListener('click', () => c.closest('.modal').style.display = 'none'));
+            window.addEventListener('click', (e) => { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; });
+
+            $('#productForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const np = {
+                    id: parseInt($('#productSKU').value, 10), name: $('#productName').value, category: $('#productCategory').value, price: parseFloat($('#productPrice').value || 0),
+                    mainStock: parseInt($('#mainStock').value || 0, 10), mainThreshold: parseInt($('#mainThreshold').value || 0, 10),
+                    branchStock: parseInt($('#branchStock').value || 0, 10), branchThreshold: parseInt($('#branchThreshold').value || 0, 10),
+                    description: $('#productDescription').value || '', hidden: false
+                };
+                if (products.some(p => p.id === np.id)) { alert('SKU already exists.'); return; }
+                products.push(np);
+                addRecentActivity('Product Added', `${np.name} (SKU ${np.id})`, 'Admin');
+                renderInventoryTables(); renderReplenishmentTables(); renderSupplierProductOptions(); renderReport(); renderKPIs();
+                e.target.reset(); addM.style.display = 'none'; alert('Product added successfully!');
+            });
+
+            $('#editProductForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = parseInt($('#editProductId').value, 10); const p = getProduct(id); if (!p) return;
+                p.name = $('#editProductName').value; p.category = $('#editProductCategory').value; p.price = parseFloat($('#editProductPrice').value || 0);
+                p.mainThreshold = parseInt($('#editMainThreshold').value || 0, 10); p.branchThreshold = parseInt($('#editBranchThreshold').value || 0, 10);
+                p.description = $('#editProductDescription').value;
+                addRecentActivity('Product Updated', `${p.name} thresholds/pricing changed`, 'Admin');
+                renderInventoryTables(); renderReplenishmentTables(); renderSupplierProductOptions(); renderReport(); renderKPIs();
+                editM.style.display = 'none'; alert('Product updated successfully!');
+            });
+        }
+
+        // ===== Init =====
+        document.addEventListener('DOMContentLoaded', () => {
+            setupNav();
+            setupProductModals();
+            setupSupplierForm();
+            setupReports();
+
+            // Orders
+            setupOrderForm();
+
+            // Initial renders
+            renderInventoryTables();
+            renderReplenishmentTables();
+            renderSupplierReceivings();
+            renderSupplierProductOptions();
+            renderReport();
+            renderPendingOrders();
+            renderApprovedOrders();
+            renderKPIs();
+
+            // Seed activity
+            addRecentActivity('System Start', 'Loaded initial data');
+            transfers.forEach(t => addRecentActivity('Stock Transfer', `${t.productName} (Qty: ${t.quantity}) ${t.from} → ${t.to}`));
+            supplierReceivings.forEach(r => addRecentActivity('Supplier Delivery', `${r.quantity} x ${r.productName}`));
         });
     </script>
 </body>

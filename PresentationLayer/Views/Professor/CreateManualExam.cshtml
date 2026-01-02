@@ -54,14 +54,14 @@
                             <input asp-for="ExamTitle" class="form-control shadow-sm" />
                             <span asp-validation-for="ExamTitle" class="text-danger"></span>
                         </div>
-                        <div class="mb-3">
+                      @*   <div class="mb-3">
                             <label class="form-label fw-bold">Category</label>
                             <select asp-for="SelectedCategoryId" asp-items="Model.Categories" class="form-select shadow-sm" id="category">
                                 <option value="" disabled selected>-- Select Category --</option>
                             </select>
                             <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
                             
-                        </div>
+                        </div> *@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Course</label>
@@ -185,7 +185,9 @@
                     <table class="table table-bordered table-hover table-sm mb-0">
                         <thead>
                             <tr>
-                                <th style="width: 5%;">Select</th>
+                                <th style="width: 5%;">
+                                    <input type="checkbox" id="selectAllQuestions" class="form-check-input" title="Select All" />
+                                </th>
                                 <th style="width: 61%;">Question Text</th>
                                 <th style="width: 10%;">Type</th>
                                 <th style="width: 8%;">Difficulty</th>
@@ -245,6 +247,35 @@
 @*     <partial name="_ValidationScriptsPartial" />
  *@
     <script>
+        document.getElementById('selectAllQuestions').addEventListener('change', function () {
+            const isChecked = this.checked;
+
+            // check all question checkboxes
+            document.querySelectorAll('.question-select').forEach(cb => cb.checked = isChecked);
+
+            // set points inputs to 1 if checked, or blank if unchecked
+            document.querySelectorAll('.points-input').forEach(input => {
+                input.value = isChecked ? 1 : '';
+            });
+
+            // *** Update summary after checking/unchecking all ***
+            updateSummary();
+        });
+
+
+        // Optional: also auto-fill 1 point for individually checked questions
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('question-select')) {
+                const row = e.target.closest('tr');
+                const pointsInput = row.querySelector('.points-input');
+
+                if (e.target.checked) {
+                    pointsInput.value = 1;
+                } else {
+                    pointsInput.value = '';
+                }
+            }
+        });
         $(document).ready(function () {
             // Initialize select all checkboxes
             bindSelectAllCheckbox("selectAllLectures", "lecture-checkbox");
@@ -448,11 +479,11 @@
                 var selectedCourseId = parseInt($("#course").val()) || null;
                 var isValid = true;
 
-                // Validation checks
-                if (!selectedCategoryId) {
-                    $("#category").closest(".mb-3").append('<p class="text-danger">Category is required.</p>');
-                    isValid = false;
-                }
+                // // Validation checks
+                // if (!selectedCategoryId) {
+                //     $("#category").closest(".mb-3").append('<p class="text-danger">Category is required.</p>');
+                //     isValid = false;
+                // }
                 if (!selectedCourseId) {
                     $("#course").closest(".mb-3").append('<p class="text-danger">Course is required.</p>');
                     isValid = false;

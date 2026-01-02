@@ -51,13 +51,13 @@
                         <span asp-validation-for="ExamTitle" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
+                   @*  <div class="mb-3">
                         <label class="form-label fw-bold">Category</label>
                         <select asp-for="SelectedCategoryId" asp-items="Model.Categories" class="form-select shadow-sm" id="category">
                             <option value="" disabled selected>-- Select Category --</option>
                         </select>
                         <span asp-validation-for="SelectedCategoryId" class="text-danger"></span>
-                    </div>
+                    </div> *@
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Course</label>
@@ -117,6 +117,7 @@
         </div>
         <div class="card-body">
             <div class="row g-3">
+
                 <!-- MCQ Card -->
                 <div class="col-md-6">
                     <div class="card shadow-sm rounded border">
@@ -126,21 +127,37 @@
                         <div class="card-body p-3">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-center d-block">Total Questions</label>
-                                <input asp-for="TotalMcq" type="number" min="0" class="form-control text-center" />
+                                <input asp-for="TotalMcq" type="number" min="0" class="form-control text-center" readonly style="background-color: white; pointer-events: none;" />
                             </div>
                             <div class="d-flex gap-3 justify-content-center">
-                                <div class="flex-fill">
-                                    <label class="form-label text-success fw-semibold text-center d-block">Easy</label>
-                                    <input asp-for="McqEasy" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Easy -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label text-success fw-semibold">Easy</label>
+                                    <input asp-for="McqEasy" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="1" data-difficulty-id="1" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
-                                <div class="flex-fill">
-                                    <label class="form-label text-warning fw-semibold text-center d-block">Medium</label>
-                                    <input asp-for="McqMedium" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Medium -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label text-warning fw-semibold">Medium</label>
+                                    <input asp-for="McqMedium" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="1" data-difficulty-id="2" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
-                                <div class="flex-fill">
-                                    <label class="form-label fw-semibold text-center d-block" style="color: #dc3545;">Hard</label>
-                                    <input asp-for="McqHard" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Hard -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label fw-semibold" style="color: #dc3545;">Hard</label>
+                                    <input asp-for="McqHard" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="1" data-difficulty-id="3" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -155,21 +172,37 @@
                         <div class="card-body p-3">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold text-center d-block">Total Questions</label>
-                                <input asp-for="TotalTf" type="number" min="0" class="form-control text-center" />
+                                <input asp-for="TotalTf" type="number" min="0" class="form-control text-center" readonly style="background-color: white; pointer-events: none;" />
                             </div>
                             <div class="d-flex gap-3 justify-content-center">
-                                <div class="flex-fill">
-                                    <label class="form-label text-success fw-semibold text-center d-block">Easy</label>
-                                    <input asp-for="TfEasy" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Easy -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label text-success fw-semibold">Easy</label>
+                                    <input asp-for="TfEasy" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="2" data-difficulty-id="1" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
-                                <div class="flex-fill">
-                                    <label class="form-label text-warning fw-semibold text-center d-block">Medium</label>
-                                    <input asp-for="TfMedium" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Medium -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label text-warning fw-semibold">Medium</label>
+                                    <input asp-for="TfMedium" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="2" data-difficulty-id="2" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
-                                <div class="flex-fill">
-                                    <label class="form-label fw-semibold text-center d-block" style="color: #dc3545;">Hard</label>
-                                    <input asp-for="TfHard" type="number" min="0" class="form-control text-center" />
+
+                                <!-- Hard -->
+                                <div class="flex-fill text-center">
+                                    <label class="form-label fw-semibold" style="color: #dc3545;">Hard</label>
+                                    <input asp-for="TfHard" type="number" min="0"
+                                           class="form-control text-center count-input"
+                                           data-questiontype-id="2" data-difficulty-id="3" />
+                                    <small class="text-muted">Available: <span class="available-count">--</span></small>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -178,6 +211,7 @@
             </div>
         </div>
     </div>
+
 
 
 
@@ -207,13 +241,16 @@
     <div class="card mt-4 mb-4">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0 text-center">Available Questions</h5>
+
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-sm mb-0">
                     <thead>
                         <tr>
-                            <th style="width: 5%;">Select</th>
+                            <th style="width: 5%;">
+                                <input type="checkbox" id="selectAllQuestions" class="form-check-input" title="Select All" />
+                            </th>
                             <th style="width: 61%;">Question Text</th>
                             <th style="width: 10%;">Type</th>
                             <th style="width: 8%;">Difficulty</th>
@@ -221,6 +258,7 @@
                             <th style="width: 8%;">Points</th>
                         </tr>
                     </thead>
+
                     <tbody id="questionsTableBody">
                         @await Html.PartialAsync("_GeneratedQuestionsPartial", Model.Questions)
                     </tbody>
@@ -276,6 +314,35 @@
 @section Scripts {
     
     <script>
+        document.getElementById('selectAllQuestions').addEventListener('change', function () {
+            const isChecked = this.checked;
+
+            // check all question checkboxes
+            document.querySelectorAll('.question-select').forEach(cb => cb.checked = isChecked);
+
+            // set points inputs to 1 if checked, or blank if unchecked
+            document.querySelectorAll('.points-input').forEach(input => {
+                input.value = isChecked ? 1 : '';
+            });
+
+            // *** Update summary after checking/unchecking all ***
+            updateSummary();
+        });
+
+
+        // Optional: also auto-fill 1 point for individually checked questions
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('question-select')) {
+                const row = e.target.closest('tr');
+                const pointsInput = row.querySelector('.points-input');
+
+                if (e.target.checked) {
+                    pointsInput.value = 1;
+                } else {
+                    pointsInput.value = '';
+                }
+            }
+        });
         $(document).ready(function () {
             // Bind Select All checkboxes
             bindSelectAllCheckbox("selectAllLectures", "lecture-checkbox");
@@ -343,14 +410,15 @@
                 type: 'GET',
                 data: { courseId: courseId },
                 beforeSend: function () {
-                    $('#lecture-checkboxes').html('<div class="text-center py-3"><div class="spinner-border text-primary" role="status"></div></div>');
+                    $('#lecture-checkboxes').html(
+                        '<div class="text-center py-3"><div class="spinner-border text-primary" role="status"></div></div>'
+                    );
                 },
                 success: function (data) {
                     var container = $('#lecture-checkboxes');
                     container.empty();
 
                     if (data && data.length > 0) {
-                        // Add the "All Lectures" checkbox
                         container.append(`
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="selectAllLectures" />
@@ -358,17 +426,14 @@
                             </div>
                         `);
 
-                        // Sort lectures by number in name
+                        // Sort lectures numerically if applicable
                         data.sort(function (a, b) {
                             const numA = parseInt(a.lectureName.match(/\d+/));
                             const numB = parseInt(b.lectureName.match(/\d+/));
                             return numA - numB;
                         });
 
-                        // Create a flex container for lecture checkboxes
                         const flexWrapper = $('<div class="d-flex flex-wrap gap-3"></div>');
-
-                        // Add each lecture checkbox to the flex container
                         $.each(data, function (i, lecture) {
                             flexWrapper.append(`
                                 <div class="form-check me-3">
@@ -378,11 +443,16 @@
                             `);
                         });
 
-                        // Append the flex container to the main lecture area
                         container.append(flexWrapper);
 
-                        // Re-bind the select all logic
+                        // Re-bind "All Lectures" checkbox
                         bindSelectAllCheckbox("selectAllLectures", "lecture-checkbox");
+
+                        // 🎯 Re-bind the availability update on any lecture change
+                        $('.lecture-checkbox').on('change', updateAvailabilityCounts);
+
+                        // 🎯 Run once initially to clear any previous availability
+                        updateAvailabilityCounts();
                     } else {
                         container.append('<div class="text-muted">No lectures available for this course.</div>');
                     }
@@ -393,159 +463,6 @@
             });
         }
 
-        /////////////////////
-    //    function adjustQuestionType(changedType, newValue) {
-    //     newValue = parseInt(newValue);
-    //     let mcq = parseInt(document.getElementById('mcqRange').value);
-    //     let tf = parseInt(document.getElementById('tfRange').value);
-
-    //     if (changedType === 'mcq') {
-    //         mcq = newValue;
-    //         tf = 100 - mcq;
-    //     } else if (changedType === 'tf') {
-    //         tf = newValue;
-    //         mcq = 100 - tf;
-    //     }
-
-    //     // Round to nearest 5 to match step size
-    //     mcq = Math.round(mcq / 5) * 5;
-    //     tf = Math.round(tf / 5) * 5;
-
-    //     // Ensure values stay within bounds
-    //     mcq = Math.max(0, Math.min(100, mcq));
-    //     tf = Math.max(0, Math.min(100, tf));
-
-    //     // Update both sliders and displays
-    //     document.getElementById('mcqRange').value = mcq;
-    //     document.getElementById('tfRange').value = tf;
-    //     document.getElementById('mcqValue').textContent = mcq;
-    //     document.getElementById('tfValue').textContent = tf;
-    // }
-
-    // function adjustDifficulty(changed, newValue) {
-    //     newValue = parseInt(newValue);
-    //     let easy = parseInt(document.getElementById('easyRange').value);
-    //     let medium = parseInt(document.getElementById('mediumRange').value);
-    //     let hard = parseInt(document.getElementById('hardRange').value);
-
-    //     if (changed === 'easy') {
-    //         easy = newValue;
-    //         const remaining = 100 - easy;
-    //         const oldTotal = medium + hard || 1; // Avoid division by zero
-    //         medium = Math.round((medium / oldTotal) * remaining / 5) * 5;
-    //         hard = remaining - medium;
-    //     } else if (changed === 'medium') {
-    //         medium = newValue;
-    //         const remaining = 100 - medium;
-    //         const oldTotal = easy + hard || 1;
-    //         easy = Math.round((easy / oldTotal) * remaining / 5) * 5;
-    //         hard = remaining - easy;
-    //     } else if (changed === 'hard') {
-    //         hard = newValue;
-    //         const remaining = 100 - hard;
-    //         const oldTotal = easy + medium || 1;
-    //         easy = Math.round((easy / oldTotal) * remaining / 5) * 5;
-    //         medium = remaining - easy;
-    //     }
-
-    //     // Round to nearest 5 to match step size
-    //     easy = Math.round(easy / 5) * 5;
-    //     medium = Math.round(medium / 5) * 5;
-    //     hard = 100 - easy - medium;
-
-    //     // Ensure values stay within bounds
-    //     easy = Math.max(0, Math.min(100, easy));
-    //     medium = Math.max(0, Math.min(100, medium));
-    //     hard = Math.max(0, Math.min(100, hard));
-
-    //     // Update all difficulty controls
-    //     document.getElementById('easyRange').value = easy;
-    //     document.getElementById('mediumRange').value = medium;
-    //     document.getElementById('hardRange').value = hard;
-    //     document.getElementById('easyValue').textContent = easy;
-    //     document.getElementById('mediumValue').textContent = medium;
-    //     document.getElementById('hardValue').textContent = hard;
-    // }
-
-    // // Initialize on load with default values
-    // window.addEventListener("DOMContentLoaded", function () {
-    //     // Set initial values
-    //     document.getElementById('easyRange').value = 40;
-    //     document.getElementById('mediumRange').value = 40;
-    //     document.getElementById('hardRange').value = 20;
-    //     document.getElementById('mcqRange').value = 60;
-    //     document.getElementById('tfRange').value = 40;
-        
-    //     // Update displays
-    //     document.getElementById('easyValue').textContent = 40;
-    //     document.getElementById('mediumValue').textContent = 40;
-    //     document.getElementById('hardValue').textContent = 20;
-    //     document.getElementById('mcqValue').textContent = 60;
-    //     document.getElementById('tfValue').textContent = 40;
-    // });
-    ////////////////////////
-        // $(document).ready(function () {
-        //     $("#filterQuestionsBtn").click(function () {
-        //         var selectedLectures = $(".lecture-checkbox:checked").map(function () { return parseInt($(this).val()); }).get();
-        //         var selectedCategoryId = parseInt($("#category").val()) || null;
-        //         var selectedCourseId = parseInt($("#course").val()) || null;
-        //         var totalQuestions = parseInt($("#totalQuestions").val()) || 10; // Default to 10
-
-        //         // Get percentage values from sliders
-        //         var easyPercentage = parseInt($("#easyRange").val()) || 40;
-        //         var mediumPercentage = parseInt($("#mediumRange").val()) || 40;
-        //         var hardPercentage = parseInt($("#hardRange").val()) || 20;
-        //         var mcqPercentage = parseInt($("#mcqRange").val()) || 60;
-        //         var tfPercentage = parseInt($("#tfRange").val()) || 40;
-
-        //         console.log({
-        //             selectedCategoryId,
-        //             selectedCourseId,
-        //             selectedLectureIds: selectedLectures,
-        //             totalQuestions,
-        //             easyPercentage,
-        //             mediumPercentage,
-        //             hardPercentage,
-        //             mcqPercentage,
-        //             tfPercentage
-        //         }); // Debugging
-
-        //         $.ajax({
-        //             url: "/Professor/CreateAutoExam",
-        //             type: "GET",
-        //             traditional: true,
-        //             data: {
-        //                 selectedCategoryId: selectedCategoryId,
-        //                 selectedCourseId: selectedCourseId,
-        //                 selectedLectureIds: selectedLectures.length ? selectedLectures : [],
-        //                 totalQuestions: totalQuestions,
-        //                 easyPercentage: easyPercentage,
-        //                 mediumPercentage: mediumPercentage,
-        //                 hardPercentage: hardPercentage,
-        //                 multipleChoicePercentage: mcqPercentage,   // FIXED
-        //                 trueFalsePercentage: tfPercentage,         // FIXED
-        //                 isAjaxRequest: true
-        //             },
-
-        //             success: function (response) {
-        //                 console.log("AJAX Response:", response); // Debugging
-        //                 $("#questionsTableBody").html(response);
-        //             },
-        //             error: function () {
-        //                 alert("An error occurred while generating exam questions.");
-        //             }
-        //         }); 
-        //     });
-
-        //     // Set initial course name if already selected
-        //     $('#SelectedCourseName').val($('#course option:selected').text());
-
-        //     // Update on change
-        //     $('#course').change(function () {
-        //         var courseName = $('#course option:selected').text();
-        //         $('#SelectedCourseName').val(courseName);
-        //     });
-        // });
         /////////////////////////////////////////////
         function setupAutoTotal(group) {
             const totalInput = document.querySelector(`[name="${group}.Total"]`) || document.querySelector(`[name="Total${group}"]`);
@@ -555,9 +472,22 @@
 
             const inputs = [easyInput, mediumInput, hardInput];
 
-            // Update total when any difficulty input changes
+            function enforceAvailability(input) {
+                const availabilitySpan = input.closest('div.text-center')?.querySelector('.available-count');
+                const maxAvailable = parseInt(availabilitySpan?.innerText) || 0;
+                const currentValue = parseInt(input.value) || 0;
+
+                if (currentValue > maxAvailable) {
+                    input.value = maxAvailable;
+                    input.classList.add('is-invalid'); // optional: add a red border
+                } else {
+                    input.classList.remove('is-invalid'); // clear red border
+                }
+            }
+
             inputs.forEach(input => {
                 input.addEventListener('input', () => {
+                    enforceAvailability(input);
                     const sum = (parseInt(easyInput.value) || 0) +
                         (parseInt(mediumInput.value) || 0) +
                         (parseInt(hardInput.value) || 0);
@@ -565,7 +495,6 @@
                 });
             });
 
-            // Update difficulties equally when total is changed manually
             totalInput.addEventListener('input', () => {
                 const total = parseInt(totalInput.value) || 0;
                 const base = Math.floor(total / 3);
@@ -574,6 +503,15 @@
                 easyInput.value = base;
                 mediumInput.value = base + (remainder > 0 ? 1 : 0);
                 hardInput.value = base + (remainder > 1 ? 1 : 0);
+
+                // Enforce availability on each
+                enforceAvailability(easyInput);
+                enforceAvailability(mediumInput);
+                enforceAvailability(hardInput);
+
+                totalInput.value = (parseInt(easyInput.value) || 0) +
+                    (parseInt(mediumInput.value) || 0) +
+                    (parseInt(hardInput.value) || 0);
             });
         }
 
@@ -581,6 +519,7 @@
             setupAutoTotal("Mcq");
             setupAutoTotal("Tf");
         });
+
         /////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////
         $(document).ready(function () {
@@ -599,10 +538,10 @@
                 var isValid = true;
 
                 // Validate Category
-                if (!selectedCategoryId) {
-                    $("#category").siblings(".text-danger").text("Category is required.");
-                    isValid = false;
-                }
+                // if (!selectedCategoryId) {
+                //     $("#category").siblings(".text-danger").text("Category is required.");
+                //     isValid = false;
+                // }
 
                 // Validate Course
                 if (!selectedCourseId) {
@@ -808,12 +747,71 @@
             });
         });
 
+        ////////
+
+        function updateAvailabilityCounts() {
+            var courseId = $("#course").val();
+            var categoryId = $("#category").val();
+
+            var lectureIds = $(".lecture-checkbox:checked").map(function () {
+                return $(this).val();
+            }).get();
+
+            // Reset all displayed availability to `--` initially
+            $('.available-count').text('--');
+
+            // Don't do anything if no lectures are selected
+            if (lectureIds.length === 0) return;
+
+            $('.count-input').each(function () {
+                var $input = $(this);
+                var questionTypeId = $input.data('questiontype-id');
+                var difficultyId = $input.data('difficulty-id');
+
+                $.ajax({
+                    url: "/Professor/GetAvailableQuestionsCount",
+                    type: "GET",
+                    traditional: true,
+                    data: {
+                        courseId: courseId,
+                        categoryId: categoryId,
+                        lectureIds: lectureIds,
+                        questionTypeId: questionTypeId,
+                        difficultyId: difficultyId
+                    },
+                    success: function (response) {
+                        $input.closest('div.text-center')
+                            .find('.available-count')
+                            .text(response.count);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(`Error loading availability: ${error}`);
+                        $input.closest('div.text-center')
+                            .find('.available-count')
+                            .text('0');
+                    }
+                });
+            });
+        }
+
+        $(document).ready(function () {
+            // Attach handler to individual lectures
+            $(document).on('change', '.lecture-checkbox', updateAvailabilityCounts);
+
+            // Attach handler to select-all checkbox
+            $(document).on('change', '#selectAllLectures', function () {
+                var isChecked = $(this).is(':checked');
+                $('.lecture-checkbox').prop('checked', isChecked);
+                updateAvailabilityCounts();
+            });
+
+            // Optional: Initial call if lectures already checked
+            updateAvailabilityCounts();
+        });
 
 
 
-
-
-
+  
 
     </script>
 }

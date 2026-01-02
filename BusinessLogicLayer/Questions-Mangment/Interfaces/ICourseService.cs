@@ -22,6 +22,11 @@ namespace BusinessLogicLayer.Interfaces
         Task<List<LectureGetDto>> GetLecturesByCourseAsync(int courseId);
         Task<int?> GetCourseIdByNameAndProfessorAsync(string name, int professorId);
         // Task<ProfessorDataDto> GetCoursesAndCategoriesByProfessorAsync(int professorId);
+        Task<IEnumerable<CourseGetDto>> GetCoursesWithAvailableLecturesByProfessorAsync(int professorId);
+
+        Task<IEnumerable<CourseGetDto>> GetCoursesWithLecturesAndFilesByProfessorAsync(int professorId);
+
+
 
 
     }

@@ -1,0 +1,1275 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two-Store Inventory System</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .logo {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+            .nav-menu li {
+                padding: 12px 20px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+                .nav-menu li:hover {
+                    background-color: #34495e;
+                }
+
+                .nav-menu li.active {
+                    background-color: #3498db;
+                }
+
+        .page {
+            display: none;
+        }
+
+            .page.active {
+                display: block;
+            }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+            .stat-card h3 {
+                margin: 0;
+                font-size: 14px;
+                color: #7f8c8d;
+            }
+
+            .stat-card p {
+                margin: 5px 0 0;
+                font-size: 24px;
+                font-weight: bold;
+                color: #2c3e50;
+            }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: 500;
+            }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .mobile-view {
+            display: none;
+            width: 375px;
+            margin: 0 auto;
+            border: 10px solid #333;
+            border-radius: 20px;
+            height: 667px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+
+        .mobile-header {
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .mobile-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: white;
+            padding: 10px 0;
+            position: sticky;
+            bottom: 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav-item {
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .mobile-nav-item.active {
+                color: #3498db;
+            }
+
+        .product-item {
+            display: flex;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            background-color: white;
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background-color: #eee;
+            margin-right: 15px;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-stock {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .out-of-stock {
+            color: #e74c3c;
+        }
+
+        .add-to-cart {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+            .tab.active {
+                border-bottom: 2px solid #3498db;
+                color: #3498db;
+                font-weight: bold;
+            }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-success {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+
+        .badge-warning {
+            background-color: #fdebd0;
+            color: #f39c12;
+        }
+
+        .badge-danger {
+            background-color: #fadbd8;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Desktop Admin Interface -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2>Inventory System</h2>
+                <small>Two-Store Management</small>
+            </div>
+            <ul class="nav-menu">
+                <li class="active" onclick="showPage('dashboard')">Dashboard</li>
+                <li onclick="showPage('inventory')">Inventory Management</li>
+                <li onclick="showPage('replenishment')">Replenishment</li>
+                <li onclick="showPage('orders')">Orders</li>
+                <li onclick="showPage('customers')">Customers</li>
+                <li onclick="showPage('reports')">Reports</li>
+                <li onclick="showMobileView()">View Mobile App</li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <h1>Dashboard Overview</h1>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <h3>Today's Sales</h3>
+                        <p>$2,450</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Monthly Sales</h3>
+                        <p>$34,780</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Pending Orders</h3>
+                        <p>12</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Low Stock Items</h3>
+                        <p>8</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Sales Overview</div>
+                    <div style="height: 300px; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center;">
+                        [Sales Chart Would Appear Here]
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Top Selling Products</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Category</th>
+                                <th>Branch Stock</th>
+                                <th>Main Stock</th>
+                                <th>Monthly Sales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Wireless Earbuds</td>
+                                <td>Electronics</td>
+                                <td>15/100</td>
+                                <td>450/1000</td>
+                                <td>142</td>
+                            </tr>
+                            <tr>
+                                <td>Blender</td>
+                                <td>Appliances</td>
+                                <td>8/100</td>
+                                <td>320/1000</td>
+                                <td>98</td>
+                            </tr>
+                            <tr>
+                                <td>Smart Watch</td>
+                                <td>Electronics</td>
+                                <td>22/100</td>
+                                <td>780/1000</td>
+                                <td>87</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Recent Orders</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-1001</td>
+                                <td>John Smith</td>
+                                <td>3</td>
+                                <td>$245.00</td>
+                                <td><span class="badge badge-success">Delivered</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-1002</td>
+                                <td>Sarah Johnson</td>
+                                <td>2</td>
+                                <td>$189.50</td>
+                                <td><span class="badge badge-warning">Processing</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-1003</td>
+                                <td>Michael Brown</td>
+                                <td>5</td>
+                                <td>$420.75</td>
+                                <td><span class="badge badge-danger">Cancelled</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Inventory Management Page -->
+            <div id="inventory" class="page">
+                <h1>Inventory Management</h1>
+
+                <div class="tab-container">
+                    <div class="tab active" onclick="showInventoryTab('branch')">Branch Store</div>
+                    <div class="tab" onclick="showInventoryTab('main')">Main Store</div>
+                    <div class="tab" onclick="showInventoryTab('add')">Add New Product</div>
+                </div>
+
+                <div id="branch-inventory" class="inventory-tab">
+                    <div class="card">
+                        <div class="card-header">Branch Store Inventory</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Branch Stock</th>
+                                    <th>Threshold</th>
+                                    <th>Status</th>
+                                    <th>Main Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#PROD-1001</td>
+                                    <td>Wireless Earbuds</td>
+                                    <td>Electronics</td>
+                                    <td>15/100</td>
+                                    <td>20</td>
+                                    <td><span class="badge badge-danger">Low Stock</span></td>
+                                    <td>450/1000</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-danger">Hide</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1002</td>
+                                    <td>Blender</td>
+                                    <td>Appliances</td>
+                                    <td>8/100</td>
+                                    <td>20</td>
+                                    <td><span class="badge badge-danger">Critical</span></td>
+                                    <td>320/1000</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-danger">Hide</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1003</td>
+                                    <td>Smart Watch</td>
+                                    <td>Electronics</td>
+                                    <td>22/100</td>
+                                    <td>20</td>
+                                    <td><span class="badge badge-warning">Warning</span></td>
+                                    <td>780/1000</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Show</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1004</td>
+                                    <td>Air Fryer</td>
+                                    <td>Appliances</td>
+                                    <td>45/100</td>
+                                    <td>20</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>920/1000</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Show</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="main-inventory" class="inventory-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">Main Store Inventory</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Main Stock</th>
+                                    <th>Threshold</th>
+                                    <th>Status</th>
+                                    <th>Branch Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#PROD-1001</td>
+                                    <td>Wireless Earbuds</td>
+                                    <td>Electronics</td>
+                                    <td>450/1000</td>
+                                    <td>200</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>15/100</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Transfer</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1002</td>
+                                    <td>Blender</td>
+                                    <td>Appliances</td>
+                                    <td>320/1000</td>
+                                    <td>200</td>
+                                    <td><span class="badge badge-success">In Stock</span></td>
+                                    <td>8/100</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Transfer</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1005</td>
+                                    <td>Rice Cooker</td>
+                                    <td>Appliances</td>
+                                    <td>120/1000</td>
+                                    <td>200</td>
+                                    <td><span class="badge badge-warning">Low Stock</span></td>
+                                    <td>35/100</td>
+                                    <td>
+                                        <button class="btn btn-primary">Edit</button>
+                                        <button class="btn btn-success">Transfer</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="add-product" class="inventory-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">Add New Product</div>
+                        <form>
+                            <div class="form-group">
+                                <label>Product Name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select class="form-control">
+                                    <option>Electronics</option>
+                                    <option>Appliances</option>
+                                    <option>Home Goods</option>
+                                    <option>Clothing</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Main Store Quantity</label>
+                                <input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Main Store Threshold</label>
+                                <input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Initial Branch Store Quantity</label>
+                                <input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Branch Store Threshold</label>
+                                <input type="number" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Price</label>
+                                <input type="number" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Replenishment Page -->
+            <div id="replenishment" class="page">
+                <h1>Replenishment Management</h1>
+
+                <div class="tab-container">
+                    <div class="tab active" onclick="showReplenishmentTab('branch')">Branch → Main Store</div>
+                    <div class="tab" onclick="showReplenishmentTab('main')">Main → Supplier</div>
+                </div>
+
+                <div id="branch-replenishment" class="replenishment-tab">
+                    <div class="card">
+                        <div class="card-header">Pending Replenishment Requests (Branch → Main Store)</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product</th>
+                                    <th>Current Stock</th>
+                                    <th>Threshold</th>
+                                    <th>Request Qty</th>
+                                    <th>Main Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#PROD-1001</td>
+                                    <td>Wireless Earbuds</td>
+                                    <td>15/100</td>
+                                    <td>20</td>
+                                    <td>50</td>
+                                    <td>450/1000</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-success">Approve</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#PROD-1002</td>
+                                    <td>Blender</td>
+                                    <td>8/100</td>
+                                    <td>20</td>
+                                    <td>50</td>
+                                    <td>320/1000</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-success">Approve</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Replenishment History</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023-05-15</td>
+                                    <td>Smart Watch</td>
+                                    <td>30</td>
+                                    <td>Main Store</td>
+                                    <td>Branch Store</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2023-05-10</td>
+                                    <td>Air Fryer</td>
+                                    <td>25</td>
+                                    <td>Main Store</td>
+                                    <td>Branch Store</td>
+                                    <td><span class="badge badge-success">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="main-replenishment" class="replenishment-tab" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">Pending Replenishment Requests (Main → Supplier)</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product</th>
+                                    <th>Current Stock</th>
+                                    <th>Threshold</th>
+                                    <th>Request Qty</th>
+                                    <th>Supplier</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#PROD-1005</td>
+                                    <td>Rice Cooker</td>
+                                    <td>120/1000</td>
+                                    <td>200</td>
+                                    <td>500</td>
+                                    <td>Home Appliances Inc.</td>
+                                    <td><span class="badge badge-warning">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-success">Approve</button>
+                                        <button class="btn btn-danger">Reject</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">Supplier Orders History</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Supplier</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2023-05-01</td>
+                                    <td>Wireless Earbuds</td>
+                                    <td>300</td>
+                                    <td>Tech Gadgets Co.</td>
+                                    <td><span class="badge badge-success">Delivered</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2023-04-25</td>
+                                    <td>Blender</td>
+                                    <td>200</td>
+                                    <td>Kitchenware Ltd.</td>
+                                    <td><span class="badge badge-success">Delivered</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Page -->
+            <div id="orders" class="page">
+                <h1>Order Management</h1>
+                <div class="card">
+                    <div class="card-header">All Orders</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Store</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-1001</td>
+                                <td>2023-05-16</td>
+                                <td>John Smith</td>
+                                <td>3</td>
+                                <td>$245.00</td>
+                                <td>Branch Store</td>
+                                <td><span class="badge badge-success">Delivered</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-1002</td>
+                                <td>2023-05-15</td>
+                                <td>Sarah Johnson</td>
+                                <td>2</td>
+                                <td>$189.50</td>
+                                <td>Branch Store</td>
+                                <td><span class="badge badge-warning">Processing</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-1003</td>
+                                <td>2023-05-14</td>
+                                <td>Michael Brown</td>
+                                <td>5</td>
+                                <td>$420.75</td>
+                                <td>Branch Store</td>
+                                <td><span class="badge badge-danger">Cancelled</span></td>
+                                <td><button class="btn btn-primary">View</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Customers Page -->
+            <div id="customers" class="page">
+                <h1>Customer Management</h1>
+                <div class="card">
+                    <div class="card-header">All Customers</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Last Order</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#CUST-1001</td>
+                                <td>John Smith</td>
+                                <td>+1234567890</td>
+                                <td>john@example.com</td>
+                                <td>5</td>
+                                <td>$1,245.00</td>
+                                <td>2023-05-16</td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1002</td>
+                                <td>Sarah Johnson</td>
+                                <td>+1987654321</td>
+                                <td>sarah@example.com</td>
+                                <td>3</td>
+                                <td>$589.50</td>
+                                <td>2023-05-15</td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1003</td>
+                                <td>Michael Brown</td>
+                                <td>+1122334455</td>
+                                <td>michael@example.com</td>
+                                <td>2</td>
+                                <td>$720.75</td>
+                                <td>2023-05-14</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div id="reports" class="page">
+                <h1>Reports</h1>
+                <div class="card">
+                    <div class="card-header">Generate Report</div>
+                    <form>
+                        <div class="form-group">
+                            <label>Report Type</label>
+                            <select class="form-control">
+                                <option>Sales Report</option>
+                                <option>Inventory Report</option>
+                                <option>Customer Report</option>
+                                <option>Replenishment Report</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date Range</label>
+                            <div style="display: flex; gap: 10px;">
+                                <input type="date" class="form-control" style="flex: 1;">
+                                <span style="align-self: center;">to</span>
+                                <input type="date" class="form-control" style="flex: 1;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Store</label>
+                            <select class="form-control">
+                                <option>All Stores</option>
+                                <option>Main Store</option>
+                                <option>Branch Store</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                        <button type="button" class="btn btn-success">Export to Excel</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Recent Reports</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Report ID</th>
+                                <th>Type</th>
+                                <th>Date Range</th>
+                                <th>Generated On</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#REP-1001</td>
+                                <td>Sales Report</td>
+                                <td>2023-05-01 to 2023-05-15</td>
+                                <td>2023-05-16</td>
+                                <td>
+                                    <button class="btn btn-primary">View</button>
+                                    <button class="btn btn-success">Download</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#REP-1002</td>
+                                <td>Inventory Report</td>
+                                <td>All Time</td>
+                                <td>2023-05-10</td>
+                                <td>
+                                    <button class="btn btn-primary">View</button>
+                                    <button class="btn btn-success">Download</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Customer Interface -->
+        <div id="mobile-view" class="mobile-view">
+            <div class="mobile-header">Branch Store</div>
+
+            <!-- Mobile Home Page -->
+            <div id="mobile-home" class="mobile-page" style="padding: 15px;">
+                <h3 style="margin-top: 0;">Available Products</h3>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Wireless Earbuds</div>
+                        <div class="product-price">$79.99</div>
+                        <div class="product-stock">15 left in stock</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Blender</div>
+                        <div class="product-price">$49.99</div>
+                        <div class="product-stock out-of-stock">Out of stock</div>
+                        <button class="add-to-cart" disabled>Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Smart Watch</div>
+                        <div class="product-price">$129.99</div>
+                        <div class="product-stock">22 left in stock</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Air Fryer</div>
+                        <div class="product-price">$89.99</div>
+                        <div class="product-stock">45 left in stock</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Cart Page -->
+            <div id="mobile-cart" class="mobile-page" style="padding: 15px; display: none;">
+                <h3 style="margin-top: 0;">Your Cart</h3>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Wireless Earbuds</div>
+                        <div class="product-price">$79.99</div>
+                        <div style="display: flex; align-items: center; margin-top: 5px;">
+                            <button style="padding: 2px 8px;">-</button>
+                            <span style="margin: 0 10px;">1</span>
+                            <button style="padding: 2px 8px;">+</button>
+                            <button style="margin-left: auto; background-color: #e74c3c; color: white; border: none; padding: 2px 8px; border-radius: 4px;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-image"></div>
+                    <div class="product-info">
+                        <div class="product-name">Smart Watch</div>
+                        <div class="product-price">$129.99</div>
+                        <div style="display: flex; align-items: center; margin-top: 5px;">
+                            <button style="padding: 2px 8px;">-</button>
+                            <span style="margin: 0 10px;">1</span>
+                            <button style="padding: 2px 8px;">+</button>
+                            <button style="margin-left: auto; background-color: #e74c3c; color: white; border: none; padding: 2px 8px; border-radius: 4px;">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 15px; background-color: white; border-radius: 8px;">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Subtotal:</span>
+                        <span>$209.98</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span>Delivery:</span>
+                        <span>$5.00</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px; font-weight: bold;">
+                        <span>Total:</span>
+                        <span>$214.98</span>
+                    </div>
+
+                    <button style="width: 100%; padding: 12px; background-color: #2ecc71; color: white; border: none; border-radius: 8px; margin-top: 15px; font-weight: bold;">Proceed to Checkout</button>
+                </div>
+            </div>
+
+            <!-- Mobile Checkout Page -->
+            <div id="mobile-checkout" class="mobile-page" style="padding: 15px; display: none;">
+                <h3 style="margin-top: 0;">Checkout</h3>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px;">Delivery Address</h4>
+                    <textarea style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; height: 100px;" placeholder="Enter your delivery address"></textarea>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px;">Payment Method</h4>
+                    <div style="background-color: white; padding: 15px; border-radius: 8px;">
+                        <label style="display: block; margin-bottom: 10px;">
+                            <input type="radio" name="payment" checked> Cash on Delivery
+                        </label>
+                        <label style="display: block;">
+                            <input type="radio" name="payment"> Credit/Debit Card
+                        </label>
+                    </div>
+                </div>
+
+                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="margin-top: 0; margin-bottom: 10px;">Order Summary</h4>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Wireless Earbuds x1</span>
+                        <span>$79.99</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span>Smart Watch x1</span>
+                        <span>$129.99</span>
+                    </div>
+                    <div style="border-top: 1px solid #eee; margin: 10px 0; padding-top: 10px;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Subtotal:</span>
+                            <span>$209.98</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                            <span>Delivery:</span>
+                            <span>$5.00</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: bold;">
+                        <span>Total:</span>
+                        <span>$214.98</span>
+                    </div>
+                </div>
+
+                <button style="width: 100%; padding: 12px; background-color: #2ecc71; color: white; border: none; border-radius: 8px; font-weight: bold;">Place Order</button>
+            </div>
+
+            <!-- Mobile Order Confirmation Page -->
+            <div id="mobile-confirmation" class="mobile-page" style="padding: 15px; display: none; text-align: center;">
+                <div style="margin-top: 50px; margin-bottom: 30px;">
+                    <div style="width: 80px; height: 80px; background-color: #2ecc71; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 20px;">
+                        <span style="color: white; font-size: 40px;">✓</span>
+                    </div>
+                    <h2 style="margin-bottom: 10px;">Order Placed!</h2>
+                    <p style="color: #7f8c8d;">Your order #ORD-1004 has been placed successfully</p>
+                </div>
+
+                <div style="background-color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="color: #7f8c8d;">Estimated Delivery:</span>
+                        <span>May 18, 2023</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="color: #7f8c8d;">Total:</span>
+                        <span style="font-weight: bold;">$214.98</span>
+                    </div>
+                </div>
+
+                <button style="width: 100%; padding: 12px; background-color: #3498db; color: white; border: none; border-radius: 8px; font-weight: bold;">Track Order</button>
+                <button style="width: 100%; padding: 12px; background-color: white; color: #3498db; border: 1px solid #3498db; border-radius: 8px; font-weight: bold; margin-top: 10px;">Back to Shopping</button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav">
+                <div class="mobile-nav-item active" onclick="showMobilePage('home')">
+                    <div>🛍️</div>
+                    <div style="font-size: 12px;">Shop</div>
+                </div>
+                <div class="mobile-nav-item" onclick="showMobilePage('cart')">
+                    <div>🛒</div>
+                    <div style="font-size: 12px;">Cart</div>
+                </div>
+                <div class="mobile-nav-item">
+                    <div>👤</div>
+                    <div style="font-size: 12px;">Account</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show/hide pages in admin interface
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            // Update active nav item
+            document.querySelectorAll('.nav-menu li').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+
+        // Show/hide inventory tabs
+        function showInventoryTab(tab) {
+            document.querySelectorAll('.inventory-tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-container .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            if (tab === 'branch') {
+                document.getElementById('branch-inventory').style.display = 'block';
+                document.querySelectorAll('.tab-container .tab')[0].classList.add('active');
+            } else if (tab === 'main') {
+                document.getElementById('main-inventory').style.display = 'block';
+                document.querySelectorAll('.tab-container .tab')[1].classList.add('active');
+            } else {
+                document.getElementById('add-product').style.display = 'block';
+                document.querySelectorAll('.tab-container .tab')[2].classList.add('active');
+            }
+        }
+
+        // Show/hide replenishment tabs
+        function showReplenishmentTab(tab) {
+            document.querySelectorAll('.replenishment-tab').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.tab-container .tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            if (tab === 'branch') {
+                document.getElementById('branch-replenishment').style.display = 'block';
+                document.querySelectorAll('.tab-container .tab')[0].classList.add('active');
+            } else {
+                document.getElementById('main-replenishment').style.display = 'block';
+                document.querySelectorAll('.tab-container .tab')[1].classList.add('active');
+            }
+        }
+
+        // Mobile view toggle
+        function showMobileView() {
+            document.querySelector('.main-content').style.display = 'none';
+            document.querySelector('.sidebar').style.display = 'none';
+            document.getElementById('mobile-view').style.display = 'block';
+        }
+
+        function hideMobileView() {
+            document.querySelector('.main-content').style.display = 'block';
+            document.querySelector('.sidebar').style.display = 'block';
+            document.getElementById('mobile-view').style.display = 'none';
+        }
+
+        // Mobile page navigation
+        function showMobilePage(page) {
+            document.querySelectorAll('.mobile-page').forEach(page => {
+                page.style.display = 'none';
+            });
+            document.getElementById('mobile-' + page).style.display = 'block';
+
+            // Update active nav item
+            document.querySelectorAll('.mobile-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            if (page === 'home') {
+                document.querySelectorAll('.mobile-nav-item')[0].classList.add('active');
+            } else if (page === 'cart') {
+                document.querySelectorAll('.mobile-nav-item')[1].classList.add('active');
+            }
+
+            // Special case for checkout flow
+            if (page === 'checkout' || page === 'confirmation') {
+                document.querySelector('.mobile-nav').style.display = 'none';
+            } else {
+                document.querySelector('.mobile-nav').style.display = 'flex';
+            }
+        }
+
+        // Simulate checkout flow
+        function proceedToCheckout() {
+            showMobilePage('checkout');
+        }
+
+        function placeOrder() {
+            showMobilePage('confirmation');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners for mobile checkout flow
+            const checkoutBtn = document.querySelector('#mobile-cart button[style*="background-color: #2ecc71"]');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', proceedToCheckout);
+            }
+
+            const placeOrderBtn = document.querySelector('#mobile-checkout button[style*="background-color: #2ecc71"]');
+            if (placeOrderBtn) {
+                placeOrderBtn.addEventListener('click', placeOrder);
+            }
+
+            const backToShoppingBtn = document.querySelector('#mobile-confirmation button[style*="Back to Shopping"]');
+            if (backToShoppingBtn) {
+                backToShoppingBtn.addEventListener('click', function() {
+                    showMobilePage('home');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

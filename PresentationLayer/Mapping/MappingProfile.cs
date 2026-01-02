@@ -85,7 +85,19 @@ namespace PresentationLayer.Mapping
             CreateMap<PreviewExamViewModel, ExamAddDto>();
 
             CreateMap<ExamDetailDtto, ExamDetailsViewModel>();
-            
+
+            CreateMap<QuestionSettingsViewModel, QuestionSetting>();
+
+            CreateMap<ParsedQuestionsDto, GeneratedQuestionsViewModel>().ReverseMap();
+            CreateMap<QuestionGroupDto, GeneratedQuestionViewModel>().ReverseMap();
+            CreateMap<QuestionAIDto, QuestionAiViewModel>().ReverseMap();
+
+
+            CreateMap<SignupNotificationDto, SignupNotificationViewModel>().ReverseMap();
+
+
+
+
         }
 
 

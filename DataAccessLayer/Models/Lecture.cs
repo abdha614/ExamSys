@@ -21,6 +21,8 @@ namespace DataAccessLayer.Models
         public Course Course { get; set; }
 
         public ICollection<Question> Questions { get; set; }
+        public ICollection<LectureFile> Files { get; set; } = new List<LectureFile>();
+
 
     }
 }

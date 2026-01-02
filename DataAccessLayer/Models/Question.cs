@@ -13,8 +13,9 @@ namespace DataAccessLayer.Models
         public int CourseId { get; set; }
         public int DifficultyLevelId { get; set; }
         public int QuestionTypeId { get; set; }
-        public int CategoryId { get; set; } // Foreign key for Category
+        public int? CategoryId { get; set; } // Foreign key for Category
         public int LectureId { get; set; }
+        public int UsageCount { get; set; } = 0;
 
         // Foreign key for Professor 
         public int ProfessorId { get; set; }

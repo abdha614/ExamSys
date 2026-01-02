@@ -12,6 +12,7 @@ using BusinessLogicLayer.Dtos.LectureDto;
 using BusinessLogicLayer.Dtos.AnswerDto;
 using DocumentFormat.OpenXml.Office2013.Excel;
 using BusinessLogicLayer.Dtos.ExamDto;
+using System.Text.RegularExpressions;
 
 namespace BusinessLogicLayer.Services
 {
@@ -50,42 +51,44 @@ namespace BusinessLogicLayer.Services
         }
         public async Task AddQuestionAsync(QuestionAddDto questionDto)
         {
-
-            // Check if the Lecture exists using _lectureRepository
-            var lecture = await _lectureRepository.GetByIdAsync(questionDto.LectureName, questionDto.CourseId);
+            // Get or create the lecture
+            var lecture = await _lectureRepository.GetByIdAsync(
+                questionDto.LectureName,
+                questionDto.CourseId,
+                questionDto.professorId);
 
             if (lecture == null || lecture.CourseId != questionDto.CourseId || lecture.ProfessorId != questionDto.professorId)
-
             {
-                // Dynamically create a new lecture if it doesn't exist
                 lecture = new Lecture
                 {
-                    //  Id = questionDto.LectureId, // Use the provided LectureId
-                    LectureName = questionDto.LectureName, // Generate name dynamically
-                    CourseId = questionDto.CourseId, // Link to the appropriate course
-                    ProfessorId = questionDto.professorId // Set the professor ID
+                    LectureName = questionDto.LectureName,
+                    CourseId = questionDto.CourseId,
+                    ProfessorId = questionDto.professorId
                 };
 
-                // Add the new lecture to the database
                 await _lectureRepository.AddAsync(lecture);
-                //  questionDto.LectureId = lecture.Id;
             }
-            else
-            {
-                // Optional: Validate that the lecture belongs to the same professor
-                if (lecture.ProfessorId != questionDto.professorId)
-                {
-                    throw new Exception("The lecture does not belong to the current professor.");
-                }
-            }
+
             questionDto.LectureId = lecture.Id;
 
-            // Map question DTO to entity
-            var question = _mapper.Map<Question>(questionDto);
+            // ✅ Duplicate check using repository method with 3 parameters
+            bool questionExists = await _questionRepository.DoesQuestionExistAsync(
+                   questionDto.Text,
+                   questionDto.LectureId,
+                   questionDto.professorId);
 
-            // Add question to the repository, now with a valid LectureId
-            await _questionRepository.AddAsync(question);
+            // 👉 If the question does NOT exist, add it
+            if (!questionExists)
+            {
+                var question = _mapper.Map<Question>(questionDto);
+                await _questionRepository.AddAsync(question);
+            }
+            // 👉 If it already exists, just continue with the rest of the method
+            // (no exception thrown, no duplicate insert)
+
         }
+
+
 
 
 
@@ -99,7 +102,7 @@ namespace BusinessLogicLayer.Services
             }
 
             // Retrieve the LectureId using LectureName
-            var lecture = await _lectureRepository.GetByIdAsync(questionDto.LectureName, questionDto.CourseId);
+            var lecture = await _lectureRepository.GetByIdAsync(questionDto.LectureName, questionDto.CourseId,questionDto.professorId);
             if (lecture == null)
             {
                 lecture = new Lecture
@@ -226,10 +229,10 @@ namespace BusinessLogicLayer.Services
             //    .DistinctBy(q => q.CourseId)
             //    .Select(q => new CourseGetDto { Id = q.CourseId, Name = q.CourseName, CategoryId = q.CategoryId, CategoryName = q.CategoryName })
             //    .ToList();
-            //var lectures = questionDtos
-            //    .DistinctBy(q => q.LectureId)
-            //    .Select(q => new LectureGetDto { Id = q.LectureId, LectureName = q.LectureName })
-            //    .ToList();
+            var lectures = questionDtos
+                .DistinctBy(q => q.LectureId)
+                .Select(q => new LectureGetDto { Id = q.LectureId, LectureName = q.LectureName })
+                .ToList();
 
 
             return new QuestionFilterDto
@@ -238,8 +241,8 @@ namespace BusinessLogicLayer.Services
                 Categories = categories,
                 QuestionTypes = questionTypes,
                 DifficultyLevels = difficultyLevels,
-                //Courses = courses,
-                //Lectures = lectures
+                Courses = courses,
+                Lectures = lectures
 
             };
         }
@@ -274,7 +277,24 @@ namespace BusinessLogicLayer.Services
                 IsCorrect = a.IsCorrect
             })).ToList();
         }
-
+        public async Task<int> CountQuestionsAsync(
+            int professorId,
+            int courseId,
+            int? categoryId,
+            List<int> lectureIds,
+            int questionTypeId,
+            int difficultyId)
+        {
+            // Simply delegate to the repository
+            return await _questionRepository.CountQuestionsAsync(
+                professorId,
+                courseId,
+                categoryId,
+                lectureIds,
+                questionTypeId,
+                difficultyId
+            );
+        }
         public async Task<QuestionFilterDto> GenerateQuestionsBasedOnCountsAsync(AutoExamGenerationRequestDto requestDto)
         {
             var allSelectedQuestions = new List<QuestionDto>();
@@ -285,23 +305,23 @@ namespace BusinessLogicLayer.Services
             var lectureIds = requestDto.SelectedLectureIds ?? new List<int>();
 
             // MCQ
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "Multiple Choice", "Easy", requestDto.McqEasy, professorId, courseId, categoryId, lectureIds));
 
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "Multiple Choice", "Medium", requestDto.McqMedium, professorId, courseId, categoryId, lectureIds));
 
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "Multiple Choice", "Hard", requestDto.McqHard, professorId, courseId, categoryId, lectureIds));
 
             // TF
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "True/False", "Easy", requestDto.TfEasy, professorId, courseId, categoryId, lectureIds));
 
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "True/False", "Medium", requestDto.TfMedium, professorId, courseId, categoryId, lectureIds));
 
-            allSelectedQuestions.AddRange(await _questionRepository.GetQuestionsByTypeAndDifficultyAsync(
+            allSelectedQuestions.AddRange(await _questionRepository.GetAutoQuestionsFilteredAsync(
                 "True/False", "Hard", requestDto.TfHard, professorId, courseId, categoryId, lectureIds));
 
             // Map to DTO
@@ -314,8 +334,114 @@ namespace BusinessLogicLayer.Services
 
         }
 
+        public async Task SaveGeneratedQuestionsAsync(ParsedQuestionsDto dto, int professorId)
+        {
+            foreach (var group in dto.QuestionGroups)
+            {
+                // Parse combined type string like "mcqEasy" or "truefalseMedium"
+                var (typeName, difficultyName) = ParseTypeAndDifficulty(group.Type);
 
+                typeName = typeName.Trim().ToLower(); // Normalize for consistency
+
+                int questionTypeId = GetQuestionTypeIdByName(typeName);
+                int difficultyLevelId = GetDifficultyLevelIdByName(difficultyName);
+
+                foreach (var aiQuestion in group.Questions)
+                {
+                    var questionDto = new QuestionAddDto
+                    {
+                        Text = CleanQuestionText(aiQuestion.QuestionText),
+                        QuestionTypeId = questionTypeId,
+                        DifficultyLevelId = difficultyLevelId,
+                        professorId = professorId,
+                        CourseId = dto.CourseId,
+                        LectureName = aiQuestion.LectureName,
+
+                        Answers = (typeName == "tf" || typeName == "truefalse")
+                            ? new List<AnswerAddDto>
+                            {
+                        new AnswerAddDto
+                        {
+                            Text = "True",
+                            IsCorrect = aiQuestion.Answer.Trim()
+                                .Equals("True", StringComparison.OrdinalIgnoreCase)
+                        },
+                        new AnswerAddDto
+                        {
+                            Text = "False",
+                            IsCorrect = aiQuestion.Answer.Trim()
+                                .Equals("False", StringComparison.OrdinalIgnoreCase)
+                        }
+                            }
+                            : aiQuestion.Choices?.Select((choice, index) => new AnswerAddDto
+                            {
+                                Text = CleanAnswerChoice(choice),
+                                IsCorrect = GetAnswerLetter(index) == aiQuestion.Answer.Trim().ToUpper()
+                            }).ToList() ?? new List<AnswerAddDto>()
+                    };
+
+                    await AddQuestionAsync(questionDto);
+                }
+            }
+        }
+
+
+        private (string type, string difficulty) ParseTypeAndDifficulty(string combined)
+    {
+        combined = combined.ToLower();
+
+        string[] types = { "mcq", "multiplechoice", "tf" };
+        string[] difficulties = { "easy", "medium", "hard" };
+
+        string type = types.FirstOrDefault(t => combined.Contains(t)) ?? "unknown";
+        string difficulty = difficulties.FirstOrDefault(d => combined.Contains(d)) ?? "easy";
+
+        return (type, difficulty);
     }
+
+    private int GetQuestionTypeIdByName(string typeName)
+    {
+        return typeName.ToLower() switch
+        {
+            "mcq" or "multiplechoice" => 1,
+            "tf" => 2,
+            _ => 0
+        };
+    }
+
+    private int GetDifficultyLevelIdByName(string difficulty)
+    {
+        return difficulty.ToLower() switch
+        {
+            "easy" => 1,
+            "medium" => 2,
+            "hard" => 3,
+            _ => 1
+        };
+    }
+
+    private string GetAnswerLetter(int index)
+    {
+        return ((char)('A' + index)).ToString(); // A, B, C...
+    }
+
+    private string CleanQuestionText(string text)
+    {
+        // Removes "Q1)", "Q2." or similar from the start
+        return Regex.Replace(text, @"^Q\d*\)?\.?\s*", "", RegexOptions.IgnoreCase).Trim();
+    }
+
+    private string CleanAnswerChoice(string choice)
+    {
+        // Removes "A)", "B.", "C:" or similar from the start
+        return Regex.Replace(choice, @"^[A-Da-d]\)?\.?\s*", "", RegexOptions.IgnoreCase).Trim();
+    }
+
+
+
+
+
+}
 
 }
 

@@ -214,12 +214,12 @@ public class DocxImportService : IQuestionImportService
                     professorId = professorId
                 };
             }
-            else if (text.StartsWith("Category:") && currentQuestion != null)
-            {
-                var categoryId = await _categoryService.GetCategoryIdByNameAndProfessorAsync(text.Substring(9).Trim(), professorId);
-                if (categoryId == null) continue;
-                currentQuestion.CategoryId = categoryId.Value;
-            }
+            //else if (text.StartsWith("Category:") && currentQuestion != null)
+            //{
+            //    var categoryId = await _categoryService.GetCategoryIdByNameAndProfessorAsync(text.Substring(9).Trim(), professorId);
+            //    if (categoryId == null) continue;
+            //    currentQuestion.CategoryId = categoryId.Value;
+            //}
             else if (text.StartsWith("Course:") && currentQuestion != null)
             {
                 var courseId = await _courseService.GetCourseIdByNameAndProfessorAsync(text.Substring(7).Trim(), professorId);
@@ -281,7 +281,7 @@ public class DocxImportService : IQuestionImportService
         if (templateType.Equals("Blank", StringComparison.OrdinalIgnoreCase))
         {
             sb.AppendLine("Question: ");
-            sb.AppendLine("Category: ");
+           // sb.AppendLine("Category: ");
             sb.AppendLine("Course: ");
             sb.AppendLine("Lecture: ");
             sb.AppendLine("QuestionType: ");
@@ -294,7 +294,7 @@ public class DocxImportService : IQuestionImportService
         else // Simple
         {
             sb.AppendLine("Question: What is the capital of France?");
-            sb.AppendLine("Category: Geography");
+          //  sb.AppendLine("Category: Geography");
             sb.AppendLine("Course: Europe Studies");
             sb.AppendLine("Lecture: Lecture 1");
             sb.AppendLine("QuestionType: Multiple Choice");
@@ -306,7 +306,7 @@ public class DocxImportService : IQuestionImportService
             sb.AppendLine("---------------");
 
             sb.AppendLine("Question: What is 2 + 2?");
-            sb.AppendLine("Category: Math");
+          //  sb.AppendLine("Category: Math");
             sb.AppendLine("Course: Algebra Basics");
             sb.AppendLine("Lecture: Lecture 1");
             sb.AppendLine("QuestionType: Multiple Choice");

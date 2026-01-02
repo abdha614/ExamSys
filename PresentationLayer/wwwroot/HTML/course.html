@@ -1,71 +1,93 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Manage Lectures</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8" />
+    <title>Product Transfer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .info-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+            .info-box p {
+                margin: 10px 0;
+                font-size: 16px;
+            }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #005ea2;
+            }
+    </style>
 </head>
-<body class="bg-slate-100 p-10">
-    <div class="max-w-4xl mx-auto space-y-8">
+<body>
 
-        <!-- Header -->
-        <div class="flex justify-between items-center">
-            <h1 class="text-3xl font-bold text-gray-800">🎓 Manage Lectures - Intro to Python</h1>
-            <a href="/Course/Manage" class="text-indigo-600 hover:underline">← Back to Courses</a>
-        </div>
+    <h2>Product Transfer</h2>
 
-        <!-- Add Lecture Form -->
-        <div class="bg-white p-6 rounded-xl shadow space-y-4">
-            <h2 class="text-xl font-semibold text-gray-700">Add New Lecture</h2>
-            <form action="/Lecture/Add" method="post" class="space-y-4">
-                <input type="hidden" name="CourseId" value="1" />
+    <div class="info-box">
+        <p><strong>Product Name:</strong> <span id="productName">Dove Soap</span></p>
+        <p><strong>Main Store:</strong> <span id="mainStore">520 / 520</span></p>
+        <p><strong>Branch Store:</strong> <span id="branchStore">0 / 0</span></p>
 
-                <div>
-                    <label class="block text-gray-600 mb-1">Lecture Title</label>
-                    <input type="text" name="Title" class="w-full border p-2 rounded-md" placeholder="e.g. Variables and Data Types" required />
-                </div>
+        <label for="threshold">Branch Threshold:</label>
+        <input type="number" id="threshold" value="0" min="0" />
 
-                <div>
-                    <label class="block text-gray-600 mb-1">Lecture Description</label>
-                    <textarea name="Description" rows="3" class="w-full border p-2 rounded-md" placeholder="Brief overview of the lecture..."></textarea>
-                </div>
+        <label for="transferQty">Quantity to Transfer:</label>
+        <input type="number" id="transferQty" value="0" min="1" />
 
-                <div>
-                    <label class="block text-gray-600 mb-1">Video URL (optional)</label>
-                    <input type="url" name="VideoUrl" class="w-full border p-2 rounded-md" placeholder="https://..." />
-                </div>
-
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
-                    ➕ Add Lecture
-                </button>
-            </form>
-        </div>
-
-        <!-- Existing Lectures -->
-        <div class="bg-white p-6 rounded-xl shadow">
-            <h2 class="text-xl font-semibold text-gray-700 mb-4">Current Lectures</h2>
-            <ul class="space-y-3">
-                <li class="flex justify-between items-center bg-slate-50 p-3 rounded-lg">
-                    <div>
-                        <div class="font-medium">Lecture 1: Variables and Data Types</div>
-                        <div class="text-sm text-gray-500">https://example.com/video1</div>
-                    </div>
-                    <form method="post" action="/Lecture/Delete/1">
-                        <button type="submit" class="text-red-500 hover:underline text-sm">Delete</button>
-                    </form>
-                </li>
-                <li class="flex justify-between items-center bg-slate-50 p-3 rounded-lg">
-                    <div>
-                        <div class="font-medium">Lecture 2: Conditional Statements</div>
-                        <div class="text-sm text-gray-500">https://example.com/video2</div>
-                    </div>
-                    <form method="post" action="/Lecture/Delete/2">
-                        <button type="submit" class="text-red-500 hover:underline text-sm">Delete</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
-
+        <button onclick="handleTransfer()">Transfer Quantity</button>
     </div>
+
+    <script>
+        const productId = 6;
+
+        function handleTransfer() {
+            const quantity = Number(document.getElementById('transferQty').value);
+            alert(`Transferring ${quantity} units of product ID ${productId} to branch store.`);
+            // TODO: Send POST to /api/product/transfer-to-branch
+        }
+    </script>
+
 </body>
 </html>

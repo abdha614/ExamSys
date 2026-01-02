@@ -11,5 +11,8 @@ namespace BusinessLogicLayer.Interfaces
     {
        
         Task<UserDto> LoginAsync(LoginDto loginDto);
+        Task SavePasswordResetTokenAsync(string email, string token);
+        Task<bool> IsResetTokenValidAsync(string token);
+        Task<bool> ResetPasswordAsync(string token, string newPassword);
     }
 }

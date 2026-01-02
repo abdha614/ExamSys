@@ -1,0 +1,43 @@
+﻿@model PresentationLayer.ViewModels.ConfirmCodeViewModel
+
+@{
+    ViewData["Title"] = "Verify Email";
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="exam-login-container">
+    <div class="exam-shared-boundary">
+        <!-- Left Side - Optional Image -->
+        <div class="exam-image">
+            <img src="~/images/exam-background.jpg" alt="Email Verification" class="img-fluid" />
+        </div>
+
+        <!-- Right Side - Code Entry Form -->
+        <div class="exam-login-card">
+            <h3 class="login-title">Email Confirmation</h3>
+            <p class="login-subtitle">Enter the code sent to <strong>@Model.Email</strong></p>
+
+            <form asp-action="VerifyCode" method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Email" />
+
+                
+
+                <div class="form-group">
+                    <label asp-for="Code" class="form-label">Confirmation Code</label>
+                    <input asp-for="Code" class="form-control" type="text" maxlength="6" placeholder="e.g. 483921" required />
+                    <span asp-validation-for="Code" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-login mt-3">Verify & Continue</button>
+
+                <footer class="login-footer mt-4 text-center">
+                    Didn't receive a code?
+                    <a asp-action="RequestSignUp" class="btn btn-link text-primary fw-bold">Resend</a>
+                </footer>
+            </form>
+        </div>
+    </div>
+</div>

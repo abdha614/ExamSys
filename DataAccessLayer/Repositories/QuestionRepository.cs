@@ -104,6 +104,11 @@ namespace DataAccessLayer.Repositories
             return await _dbSet.AnyAsync(q => q.Text == questionText && q.ProfessorId == professorId);
           
         }
+        public async Task<bool> DoesQuestionExistAsync(string questionText,  int lectureId, int professorId)
+        {
+            return await _dbSet.AnyAsync(q =>q.Text == questionText && q.LectureId == lectureId && q.ProfessorId == professorId);
+        }
+
         public async Task<IEnumerable<Question>> GetQuestionsByProfessorAsync(int professorId)
         {
             return await _dbSet
@@ -317,7 +322,7 @@ namespace DataAccessLayer.Repositories
         //      return selectedQuestions;
         //  }
 
-        public async Task<List<QuestionDto>> GetQuestionsByTypeAndDifficultyAsync(
+        public async Task<List<QuestionDto>> GetAutoQuestionsFilteredAsync(
     string type,
     string difficulty,
     int count,
@@ -344,7 +349,8 @@ namespace DataAccessLayer.Repositories
             // No lecture constraint: random selection
             if (!lectureIds.Any())
             {
-                return await baseQuery.OrderBy(q => Guid.NewGuid())
+                return await baseQuery.OrderBy(q => q.UsageCount)
+                                      .ThenBy(q => Guid.NewGuid())
                                       .Take(count)
                                       .ProjectTo<QuestionDto>(_mapper.ConfigurationProvider)
                                       .ToListAsync();
@@ -365,7 +371,8 @@ namespace DataAccessLayer.Repositories
 
                 var lectureQuestions = await baseQuery
                     .Where(q => q.LectureId == lectureId)
-                    .OrderBy(q => Guid.NewGuid())
+                    .OrderBy(q => q.UsageCount)
+                    .ThenBy(q => Guid.NewGuid())
                     .Take(questionsNeeded)
                     .ProjectTo<QuestionDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
@@ -391,6 +398,42 @@ namespace DataAccessLayer.Repositories
         }
 
 
+        public async Task<int> CountQuestionsAsync(
+        int professorId,
+        int courseId,
+        int? categoryId,
+        List<int> lectureIds,
+        int questionTypeId,
+        int difficultyId)
+        {
+            var query = _context.Questions.AsQueryable();
+
+            query = query.Where(q => q.ProfessorId == professorId);
+            query = query.Where(q => q.CourseId == courseId);
+
+            if (categoryId.HasValue)
+                query = query.Where(q => q.CategoryId == categoryId.Value);
+
+            if (lectureIds != null && lectureIds.Any())
+                query = query.Where(q => lectureIds.Contains(q.LectureId));
+
+            query = query.Where(q => q.QuestionTypeId == questionTypeId);
+            query = query.Where(q => q.DifficultyLevelId == difficultyId);
+
+            return await query.CountAsync();
+        }
+
+        public async Task IncrementUsageCountAsync(List<int> questionIds)
+        {
+            var questions = await _context.Questions
+                .Where(q => questionIds.Contains(q.Id))
+                .ToListAsync();
+
+            foreach (var q in questions)
+                q.UsageCount++;
+
+            await _context.SaveChangesAsync();
+        }
 
 
 

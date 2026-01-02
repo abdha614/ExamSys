@@ -1,20 +1,67 @@
-﻿.btn-register {
-    background-color: #007bff; /* Primary blue */
+﻿body {
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    min-height: 100vh;
+}
+
+.register-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.register-title {
+    font-size: 1.75rem;
+    color: #343a40;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.input-group-text {
+    background-color: #f1f3f5;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    transition: all 0.3s ease;
+    border-radius: 6px 0 0 6px;
+    color: #6c757d;
+}
+
+.form-control {
+    border: 1px solid #ced4da;
+    border-radius: 0 6px 6px 0;
+    background-color: #fff;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+.btn-register {
+    background-color: #343a40;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    padding: 12px;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
     .btn-register:hover {
-        background-color: #0056b3; /* Darker blue on hover */
-        transform: scale(1.05); /* Slight zoom effect */
-        color: #fff;
+        background-color: #212529;
     }
 
-    .btn-register:focus {
-        outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Focus shadow */
-    }
+.text-danger {
+    font-size: 0.85rem;
+    margin-top: -4px;
+    display: block;
+}

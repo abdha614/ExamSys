@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Invalid Token";
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="exam-login-container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="exam-login-card text-center">
+        <h3 class="login-title text-danger">⚠️ Invalid or Expired Link</h3>
+        <p class="login-subtitle">
+            Your password reset link is invalid or has expired.
+        </p>
+
+        <p class="text-muted mt-3">
+            For your security, reset links only work for a limited time. <br />
+            Please request a new link to reset your password.
+        </p>
+
+        <a asp-action="ForgotPassword" asp-controller="Auth" class="btn btn-primary mt-4">
+            Request New Link
+        </a>
+    </div>
+</div>

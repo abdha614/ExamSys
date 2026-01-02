@@ -1,4 +1,4 @@
-using DataAccessLayer.Data;
+﻿using DataAccessLayer.Data;
 using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
 using BusinessLogicLayer.Interfaces;
@@ -11,18 +11,36 @@ using DataAccessLayer.Models;
 using Rotativa.AspNetCore;
 using DocumentFormat.OpenXml.Spreadsheet;
 using BusinessLogicLayer.Questions_Mangment.Interfaces;
+using Microsoft.AspNetCore.DataProtection;
+using BusinessLogicLayer.User_Management.Interfaces;
+using BusinessLogicLayer.User_Management.Services;
+using BusinessLogicLayer.Questions_Mangment.Services;
+using PresentationLayer.Hubs;
+using StackExchange.Redis;
+using BusinessLogicLayer.RAG.Interfaces;
+using BusinessLogicLayer.RAG.Services;
+//using PresentationLayer.Hubs;
 //using Microsoft.EntityFrameworkCore.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ✅ Add Redis connection BEFORE ConfigureServices
+
 // Configure services   
 ConfigureServices(builder.Services, builder.Configuration);
+
+// ✅ Add SignalR services BEFORE builder.Build()
+builder.Services.AddSignalR();
 
 // Configure authentication and authorization
 ConfigureAuthentication(builder.Services);
 ConfigureAuthorization(builder.Services);
 
+// ✅ Build the app AFTER all services are added
 var app = builder.Build();
+
+// Map SignalR hub
+app.MapHub<AdminNotificationHub>("/adminHub");
 
 // Configure middleware (error handling, routing, etc.)
 ConfigureMiddleware(app);
@@ -31,11 +49,26 @@ app.Run();
 
 void ConfigureServices(IServiceCollection services, IConfiguration configuration)
 {
-    services.AddControllersWithViews();
-    services.AddRazorPages(); // Register Razor Pages services.
+    // Use session for server-side storage
+    services.AddSession(options =>
+    {
+        options.IdleTimeout = TimeSpan.FromMinutes(30);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
+
+    // Use session-backed TempData (instead of cookie-backed)
+    services.AddControllersWithViews()
+            .AddSessionStateTempDataProvider();
+
+    services.AddRazorPages();
 
     services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\Users\ABD HAMED\Desktop\vs\exam-man - Copy\Keys"))
+    .SetApplicationName("ExamSystem");
 
     // Add AutoMapper
     services.AddAutoMapper(typeof(BusinessLogicLayer.Mapping.MappingProfile), typeof(PresentationLayer.Mapping.MappingProfile), typeof(DataAccessLayer.Mapping.MappingProfile));
@@ -66,6 +99,36 @@ void ConfigureServices(IServiceCollection services, IConfiguration configuration
     services.AddScoped<ILectureRepository, LectureRepository>();
     services.AddScoped<IExamRepository, ExamRepository>();
     services.AddScoped<IExamService, ExamService>();
+    
+    services.AddScoped<IQuestionParser, QuestionParser>();
+    services.AddScoped<ISignupNotificationRepository, SignupNotificationRepository>();
+    services.AddScoped<ISignupNotificationService, SignupNotificationService>();
+    services.AddScoped<IResetTokenRepository, ResetTokenRepository>();
+    services.AddScoped<IConfirmationCodeService, ConfirmationCodeService>();
+    services.AddScoped<IConfirmationCodeRepository, ConfirmationCodeRepository>();
+    services.AddScoped<ILectureFileRepository, LectureFileRepository>();
+    services.AddScoped<ILectureFileService, LectureFileService>();
+    services.AddHttpClient<IRagService, RagService>(client =>
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+    });
+
+
+
+
+
+
+    builder.Services.AddTransient<IEmailService, EmailService>();
+   
+  //  services.AddHttpClient<IOpenAIService, CohereService>();
+
+
+
+
+    //builder.Services.AddSingleton<IConfirmationCodeService, ConfirmationCodeService>(); // Or scoped with EF Core
+
+
+
 
     // Register PasswordHasher
     services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
@@ -115,6 +178,7 @@ void ConfigureMiddleware(WebApplication app)
     app.UseStaticFiles(); // Serve static files
     app.UseRotativa(); // after app.UseStaticFiles();
     app.UseRouting(); // Adds routing
+    app.UseSession();
     app.UseAuthentication(); // Add authentication middleware
     app.UseAuthorization(); // Add authorization middleware
                             // Configure Rotativa
@@ -123,8 +187,9 @@ void ConfigureMiddleware(WebApplication app)
     // Configure the routes
     app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Auth}/{action=login}/{id?}");
+        pattern: "{controller=Home}/{action=index}/{id?}");
 
     // If using Razor Pages
     app.MapRazorPages();
+
 }

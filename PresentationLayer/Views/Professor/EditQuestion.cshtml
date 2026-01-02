@@ -5,7 +5,7 @@
 <form asp-action="EditQuestion" method="post" class="form-vertical-custom">
     <input type="hidden" asp-for="QuestionTypeId" value="1" />
 
-    <!-- Category Dropdown -->
+    @* <!-- Category Dropdown -->
     <div class="form-group-custom">
         <label for="category">Category:</label>
         <select id="category" asp-for="CategoryId" class="form-control">
@@ -16,7 +16,7 @@
             }
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
+    </div> *@
 
     <!-- Course Dropdown -->
     <div class="form-group-custom">
@@ -78,7 +78,17 @@
             @for (int i = 0; i < Model.Answers.Count; i++)
             {
                 <div class="input-group mb-2 answer-group align-items-center">
-                    <input asp-for="@Model.Answers[i].Text" class="form-control" />
+                    @if (Model.QuestionTypeId == 1)  // Multiple Choice
+                    {
+                        <!-- Editable textbox -->
+                        <input asp-for="@Model.Answers[i].Text" class="form-control" />
+                    }
+                    else if (Model.QuestionTypeId == 2) // True/False
+                    {
+                        <!-- Read-only textbox -->
+                        <input asp-for="@Model.Answers[i].Text" class="form-control" readonly />
+                    }
+
                     <div class="input-group-append">
                         <!-- Correct Option -->
                         <div class="input-group-text d-flex justify-content-center align-items-center">
@@ -93,10 +103,12 @@
             }
         </div>
     </div>
+
     <span asp-validation-for="CorrectAnswerIndex" class="text-danger"></span>
-    <br>
+    <br />
 
     <button type="submit" class="btn btn-primary-custom">Save</button>
+
 </form>
 
 @section Scripts {

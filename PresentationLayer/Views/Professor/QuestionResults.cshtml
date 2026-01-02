@@ -1,0 +1,140 @@
+﻿@model PresentationLayer.ViewModels.GeneratedQuestionsViewModel
+
+<h2 class="mb-4 text-center">📄 Generated Questions</h2>
+
+<div class="d-flex justify-content-end mb-3 gap-2">
+    <form asp-action="SaveGeneratedQuestions" method="post" id="questions-form">
+        <!-- Hidden metadata -->
+        @Html.HiddenFor(m => m.CourseId)
+
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save me-1"></i> Save All to Database
+        </button>
+
+        <div id="questions-container">
+            @for (int i = 0; i < Model.QuestionGroups.Count; i++)
+            {
+                var group = Model.QuestionGroups[i];
+                <div class="mb-5 question-group" data-group="@group.Type" data-group-index="@i">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="bi bi-layers text-primary fs-4 me-2"></i>
+                        <h4 class="text-uppercase text-secondary m-0">@group.Type</h4>
+                    </div>
+                    <hr />
+
+                    <input type="hidden" name="QuestionGroups[@i].Type" value="@group.Type" />
+
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        @for (int j = 0; j < group.Questions.Count; j++)
+                        {
+                            var question = group.Questions[j];
+                            <div class="col question-card" data-group-index="@i" data-question-index="@j">
+                                <div class="card h-100 shadow-sm border-start border-4 border-primary">
+                                    <div class="card-body d-flex flex-column justify-content-between">
+
+                                        <div>
+
+                                            <!-- ✏️ Question Text (preserve line breaks) -->
+                                            <p class="fw-bold text-dark mb-1" style="white-space: pre-wrap;">@question.QuestionText</p>
+
+                                            <!-- Hidden LectureId + show only LectureName -->
+                                            <input type="hidden" name="QuestionGroups[@i].Questions[@j].LectureId" value="@question.LectureId" />
+                                            <input type="hidden" name="QuestionGroups[@i].Questions[@j].LectureName" value="@question.LectureName" />
+
+                                            <!-- Hidden fields -->
+                                            <input type="hidden" name="QuestionGroups[@i].Questions[@j].QuestionText" value="@question.QuestionText" />
+                                            <input type="hidden" name="QuestionGroups[@i].Questions[@j].Answer" value="@question.Answer" />
+
+                                            <!-- Choices -->
+                                            @if (question.Choices != null && question.Choices.Any())
+                                            {
+                                                <ul class="list-unstyled ms-3 mb-3">
+                                                    @for (int k = 0; k < question.Choices.Count; k++)
+                                                    {
+                                                        <li style="white-space: pre-wrap;">@question.Choices[k]</li>
+                                                        <input type="hidden" name="QuestionGroups[@i].Questions[@j].Choices[@k]" value="@question.Choices[k]" />
+                                                    }
+                                                </ul>
+                                            }
+
+                                            <!-- Correct Answer (own line) -->
+                                            @if (!string.IsNullOrWhiteSpace(question.Answer))
+                                            {
+                                                <p class="mb-1">
+                                                    <span class="text-success fw-semibold">Correct Answer:</span> @question.Answer
+                                                </p>
+                                            }
+
+                                            <!-- Lecture + Delete (same line) -->
+                                            <div class="d-flex justify-content-between align-items-center mt-1">
+
+                                                <!-- Lecture Name (left) -->
+                                                @if (!string.IsNullOrWhiteSpace(question.LectureName))
+                                                {
+                                                    <span class="text-muted small">(Lecture: @question.LectureName)</span>
+                                                }
+                                                else
+                                                {
+                                                    <span></span>
+                                                }
+
+                                                <!-- Delete Button (right) -->
+                                                <button type="button" class="btn btn-outline-danger btn-sm delete-btn">
+                                                    <i class="bi bi-trash me-1"></i> Delete
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </form>
+</div>
+
+@if (Model.QuestionGroups == null || !Model.QuestionGroups.Any())
+{
+    <div class="alert alert-info text-center">No questions were generated.</div>
+}
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".delete-btn").on("click", function () {
+                const card = $(this).closest(".question-card");
+                card.fadeOut(300, function () {
+                    card.remove();
+                    reindexInputs();
+                });
+            });
+
+            function reindexInputs() {
+                $("#questions-container .question-group").each(function (groupIndex) {
+                    $(this).attr("data-group-index", groupIndex);
+
+                    // Fix group-level names
+                    $(this).find('input[name^="QuestionGroups["]').each(function () {
+                        const oldName = $(this).attr("name");
+                        const newName = oldName.replace(/QuestionGroups\[\d+\]/, `QuestionGroups[${groupIndex}]`);
+                        $(this).attr("name", newName);
+                    });
+
+                    // Fix question-level names
+                    $(this).find(".question-card").each(function (questionIndex) {
+                        $(this).attr("data-question-index", questionIndex);
+                        $(this).find('input[name^="QuestionGroups["]').each(function () {
+                            const oldName = $(this).attr("name");
+                            const newName = oldName.replace(/Questions\[\d+\]/, `Questions[${questionIndex}]`);
+                            $(this).attr("name", newName);
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+}

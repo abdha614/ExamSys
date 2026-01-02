@@ -5,7 +5,7 @@
 <form asp-action="AddTrueFalseQuestion" method="post" class="form-vertical-custom">
     <input type="hidden" asp-for="QuestionTypeId" value="2" />
 
-    <!-- Category Dropdown -->
+   @*  <!-- Category Dropdown -->
     <div class="form-group-custom">
         <label for="category">Category:</label>
         <select id="category" asp-for="CategoryId" class="form-control" onchange="loadCourses(this.value)">
@@ -16,17 +16,21 @@
             }
         </select>
         <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
+    </div> *@
 
     <!-- Course Dropdown -->
     <div class="form-group-custom">
         <label for="course">Course:</label>
         <select id="course" asp-for="CourseId" class="form-control">
             <option value="" disabled selected>--Select Course--</option>
-            <!-- Courses loaded dynamically via AJAX -->
+            @foreach (var course in Model.Courses)
+            {
+                <option value="@course.Id">@course.Name</option>
+            }
         </select>
         <span asp-validation-for="CourseId" class="text-danger"></span>
     </div>
+
 
     <!-- Lecture Spinner -->
     <div class="form-group-custom">

@@ -3,9 +3,11 @@ using BusinessLogicLayer.Dtos;
 using BusinessLogicLayer.Dtos.CategoryDto;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
+using BusinessLogicLayer.User_Management.Interfaces;
 using DataAccessLayer.Models;
 using DataAccessLayer.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.ViewModels;
@@ -24,15 +26,21 @@ namespace PresentationLayer.Controllers
         private readonly IHistoryService _historyService;
         private readonly IRoleService _roleService;
         private readonly ICategoryService _categoryService;
+        private readonly IEmailService _emailService;
+        private readonly ISignupNotificationService _signupNotificationService;
 
-        public AdminController(IUserService userService, IMapper mapper, IHistoryService historyService, IRoleService roleService, ICategoryService categoryService
- )
+
+        public AdminController(IUserService userService,IEmailService emailService ,IMapper mapper, 
+                               IHistoryService historyService, IRoleService roleService, ICategoryService categoryService,
+                               ISignupNotificationService signupNotificationService)
         {
             _userService = userService;
             _mapper = mapper;
             _historyService = historyService;
             _roleService = roleService;
             _categoryService = categoryService;
+            _emailService = emailService;
+            _signupNotificationService = signupNotificationService;
 
 
         }
@@ -65,12 +73,29 @@ namespace PresentationLayer.Controllers
             return View(viewModel);
         }
         // Create user (GET)
-        public async Task<IActionResult> Register()
+        //public async Task<IActionResult> Register()
+        //{
+        //    var roles = await _roleService.GetAllRolesAsync(); // returns List<Role> or similar
+
+        //    var viewModel = new RegisterViewModel
+        //    {
+        //        Roles = roles.Select(r => new SelectListItem
+        //        {
+        //            Value = r.Id.ToString(),
+        //            Text = r.Name
+        //        })
+        //    };
+
+        //    return View(viewModel);
+        //}
+        [HttpGet]
+        public async Task<IActionResult> Register(string email)
         {
-            var roles = await _roleService.GetAllRolesAsync(); // returns List<Role> or similar
+            var roles = await _roleService.GetAllRolesAsync();
 
             var viewModel = new RegisterViewModel
             {
+                Email = email, // pre-fill the email field
                 Roles = roles.Select(r => new SelectListItem
                 {
                     Value = r.Id.ToString(),
@@ -96,15 +121,27 @@ namespace PresentationLayer.Controllers
             try
             {
                 var result = await _userService.RegisterUserAsync(registrationDto);
+
                 TempData["SuccessMessage"] = $"Professor with email {result.Email} added successfully.";
 
-                // If role is professor (e.g., roleId == 1), redirect to EditProfessorCategories
-                if (result.RoleId == 1)
+                // ✅ Mark the signup request as handled
+                await _signupNotificationService.MarkAsHandledByEmailAsync(result.Email);
+
+                if (result.RoleId == 1) // Professor role
                 {
+                    var loginUrl = "https://yourdomain.com/Login"; // Ideally from config
+
+                    var emailBody = _emailService.ComposeProfessorWelcomeEmail(
+                        result.Email,
+                        registerViewModel.Password,
+                        loginUrl
+                    );
+
+                    await _emailService.SendEmailAsync(result.Email, "Welcome to the Qbanker System", emailBody);
+
                     return RedirectToAction("EditProfessorCategories", new { professorId = result.Id });
                 }
 
-                // Otherwise, go to the general user management page
                 return RedirectToAction("UserManagement");
             }
             catch (InvalidOperationException ex)
@@ -114,6 +151,9 @@ namespace PresentationLayer.Controllers
                 return RedirectToAction("Register");
             }
         }
+
+
+
 
         //Action to list the history
         [HttpGet]
@@ -188,7 +228,13 @@ namespace PresentationLayer.Controllers
             await _categoryService.RemoveCategoryFromProfessorAsync(professorId, categoryId);
             return RedirectToAction("EditProfessorCategories", new { professorId });
         }
-
+        [HttpGet]
+        public async Task<IActionResult> SignupNotifications()
+        {
+            var notifications = await _signupNotificationService.GetAllRequestsAsync(); // Correct method name
+            var viewModel = _mapper.Map<IEnumerable<SignupNotificationViewModel>>(notifications);
+            return View(viewModel);
+        }
 
     }
 }

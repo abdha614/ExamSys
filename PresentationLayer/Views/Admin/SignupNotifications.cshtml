@@ -1,0 +1,180 @@
+﻿@model IEnumerable<PresentationLayer.ViewModels.SignupNotificationViewModel>
+
+@{
+    ViewData["Title"] = "Signup Requests";
+}
+
+<div class="signup-requests-container">
+    <div class="header-section">
+        <h1><i class="fas fa-user-clock"></i> @ViewData["Title"]</h1>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <h3>No pending requests</h3>
+            <p>All signup requests will appear here when received</p>
+        </div>
+    }
+    else
+    {
+        <div class="requests-grid">
+            <div class="grid-header">
+                <div class="grid-cell">Email</div>
+                <div class="grid-cell">Request Time</div>
+                <div class="grid-cell">Status</div>
+                <div class="grid-cell">Actions</div>
+            </div>
+            
+            @foreach (var request in Model)
+            {
+                <div class="grid-row">
+                    <div class="grid-cell">
+                        <i class="fas fa-envelope"></i>
+                        <span>@request.Email</span>
+                    </div>
+                    <div class="grid-cell">
+                        <i class="fas fa-clock"></i>
+                        <span>@request.RequestedAt</span>
+                    </div>
+                    <div class="grid-cell">
+                        @if (request.IsHandled)
+                        {
+                            <span class="status-badge completed">
+                                <i class="fas fa-check-circle"></i> Completed
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="status-badge pending">
+                                <i class="fas fa-hourglass-half"></i> Pending
+                            </span>
+                        }
+                    </div>
+                    <div class="grid-cell">
+                        @if (!request.IsHandled)
+                        {
+                            <a asp-controller="admin" asp-action="Register" asp-route-email="@request.Email" 
+                               class="action-button register">
+                                <i class="fas fa-user-plus"></i> Register
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="action-button disabled">
+                                <i class="fas fa-user-check"></i> Registered
+                            </span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div id="notificationToast" class="notification-toast">
+        <div class="toast-header">
+            <i class="fas fa-bell"></i>
+            <h4>New Signup Request</h4>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="toast-body">
+            <p id="notificationMessage"></p>
+            <div class="toast-actions">
+                <button class="toast-action" id="refreshNow">Refresh Now</button>
+                <button class="toast-action secondary" id="dismissToast">Dismiss</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/signup-requests.css" />
+
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    
+    <script>
+        // // Toast elements
+        // const toast = document.getElementById('notificationToast');
+        // const toastMessage = document.getElementById('notificationMessage');
+        // const closeBtn = document.querySelector('.close-btn');
+        // const refreshNowBtn = document.getElementById('refreshNow');
+        // const dismissToastBtn = document.getElementById('dismissToast');
+        // const connectionBadge = document.getElementById('connectionBadge');
+        
+        // // Show/hide toast
+        // function showToast(message) {
+        //     toastMessage.textContent = message;
+        //     toast.classList.add('show');
+        // }
+        
+        // function hideToast() {
+        //     toast.classList.remove('show');
+        // }
+        
+        // closeBtn.addEventListener('click', hideToast);
+        // dismissToastBtn.addEventListener('click', hideToast);
+        // refreshNowBtn.addEventListener('click', function() {
+        //     location.reload();
+        // });
+        
+        // // SignalR connection
+        // const connection = new signalR.HubConnectionBuilder()
+        //     .withUrl("/adminHub")
+        //     .configureLogging(signalR.LogLevel.Information)
+        //     .build();
+        
+        // connection.on("NewSignupRequest", function(email) {
+        //     showToast(`New signup request received from: ${email}`);
+        // });
+        
+        // connection.onclose(() => {
+        //     connectionBadge.className = 'badge disconnected';
+        //     connectionBadge.innerHTML = '<i class="fas fa-unlink"></i> Disconnected';
+        //     setTimeout(() => startConnection(), 5000);
+        // });
+        
+        // async function startConnection() {
+        //     try {
+        //         connectionBadge.className = 'badge connecting';
+        //         connectionBadge.innerHTML = '<span class="pulse"></span> Connecting...';
+        //         await connection.start();
+        //         connectionBadge.className = 'badge connected';
+        //         connectionBadge.innerHTML = '<i class="fas fa-link"></i> Connected';
+        //     } catch (err) {
+        //         connectionBadge.className = 'badge disconnected';
+        //         connectionBadge.innerHTML = '<i class="fas fa-unlink"></i> Connection Failed';
+        //         console.error(err);
+        //     }
+        // }
+        
+        // // Start connection
+        // startConnection();
+        
+        // // Refresh button
+        // document.getElementById('refreshBtn').addEventListener('click', function() {
+        //     this.classList.add('rotating');
+        //     setTimeout(() => {
+        //         this.classList.remove('rotating');
+        //         location.reload();
+        //     }, 500);
+        // });
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/adminHub")
+            .build();
+
+        connection.on("NewSignupRequest", function (email) {
+            alert("📨 New signup request from: " + email);
+            // You can also trigger reload or fetch new data
+            location.reload(); // Or update the table dynamically
+        });
+
+        connection.start().catch(err => console.error(err));
+    </script>
+}

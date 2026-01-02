@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Sign-Up Requested";
+    var email = ViewBag.Email as string;
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="exam-login-container">
+    <div class="exam-shared-boundary">
+        <!-- Optional image for reassurance -->
+        <div class="exam-image">
+            <img src="~/images/exam-background.jpg" alt="Exam Background" class="img-fluid" />
+        </div>
+
+        <div class="exam-login-card text-center">
+            <h3 class="login-title">You're Almost In!</h3>
+            <p class="login-subtitle">
+                Your email <strong>@email</strong> has been received.
+            </p>
+
+            <div class="alert alert-success mt-3">
+                ✅ Your registration request has been submitted successfully.
+            </div>
+
+            <p class="mt-3">
+                🔐 An administrator will complete your account setup and email you a temporary password.
+            </p>
+
+            <p>
+                Once received, you can log in and update your password.
+            </p>
+
+            <a asp-action="Login" class="btn btn-primary mt-4">Return to Login</a>
+        </div>
+    </div>
+</div>

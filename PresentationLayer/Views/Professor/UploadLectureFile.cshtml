@@ -1,0 +1,168 @@
+﻿@model PresentationLayer.ViewModels.LectureUploadViewModel
+
+<h2 class="mb-4">Upload Lecture File</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form id="lectureUploadForm" asp-action="UploadLectureFile" method="post" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="SelectedCourseName" id="courseNameHidden" />
+            <input type="hidden" asp-for="SelectedLectureName" id="lectureNameHidden" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Select Course</label>
+                    <select asp-for="SelectedCourseId" class="form-select" id="courseSelect" required>
+                        <option value="">-- Select Course --</option>
+                        @foreach (var course in Model.Courses)
+                        {
+                            if (Model.SelectedCourseId == course.Id)
+                            {
+                                <option value="@course.Id" selected="selected">@course.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@course.Id">@course.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Select Lecture</label>
+                    <select asp-for="SelectedLectureId" class="form-select" id="lectureSelect" required>
+                        <option value="">-- Select Lecture --</option>
+                    </select>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Upload File</label>
+                    <input asp-for="File" type="file" class="form-control" id="fileInput" required />
+                    <span id="fileError" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-12 text-end">
+                    <button type="submit" class="btn btn-primary">
+                        Upload <i class="bi bi-upload ms-1"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Assuming Model.Courses structure includes { Id, Name, Lectures: Array<{ Id, LectureName, FileNames: Array<string> }> }
+        var courseData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Courses));
+
+        var courseSelect = document.getElementById("courseSelect");
+        var lectureDropdown = document.getElementById("lectureSelect");
+        var fileInput = document.getElementById("fileInput");
+        var fileError = document.getElementById("fileError");
+        var form = document.getElementById("lectureUploadForm");
+
+        // Helper function to update the course hidden field
+        function updateCourseNameHidden() {
+            if (courseSelect.selectedIndex >= 0) {
+                document.getElementById("courseNameHidden").value = courseSelect.options[courseSelect.selectedIndex].textContent;
+            }
+        }
+
+        // Helper function to update the lecture hidden field
+        function updateLectureNameHidden() {
+            if (lectureDropdown.selectedIndex >= 0) {
+                document.getElementById("lectureNameHidden").value = lectureDropdown.options[lectureDropdown.selectedIndex].textContent;
+            }
+        }
+
+        // Populate lecture dropdown when course changes
+        courseSelect.addEventListener("change", function () {
+            var selectedCourseId = parseInt(this.value);
+            updateCourseNameHidden();
+
+            lectureDropdown.innerHTML = '<option value="">-- Select Lecture --</option>';
+            if (!selectedCourseId) return;
+
+            var selectedCourse = courseData.find(c => c.Id === selectedCourseId);
+
+            // Only include lectures without files
+            selectedCourse?.Lectures
+                .filter(lec => !lec.FileNames || lec.FileNames.length === 0)
+                .forEach(function (lec) {
+                    var opt = document.createElement("option");
+                    opt.value = lec.Id;
+                    opt.textContent = lec.LectureName;
+                    lectureDropdown.appendChild(opt);
+                });
+        });
+
+        // Save lecture name on change
+        lectureDropdown.addEventListener("change", function () {
+            updateLectureNameHidden();
+            fileError.textContent = ""; // reset error when changing lecture
+        });
+
+        // Client-side validation for duplicate file across all lectures
+        form.addEventListener("submit", function (e) {
+            var fileName = fileInput.value.split('\\').pop(); // get only filename
+            if (!fileName) return;
+
+            let duplicateInfo = null;
+
+            // Search for the lecture that already has this file
+            for (const course of courseData) {
+                for (const lec of course.Lectures) {
+                    // Check if this lecture has a list of file names and if the uploaded file is in that list
+                    if (lec.FileNames && lec.FileNames.includes(fileName)) {
+                        duplicateInfo = {
+                            courseName: course.Name,
+                            lectureName: lec.LectureName
+                        };
+                        break; // Found the file, stop searching lectures
+                    }
+                }
+                if (duplicateInfo) break; // Found the file, stop searching courses
+            }
+
+            if (duplicateInfo) {
+                e.preventDefault(); // stop form submission
+
+                // Construct the enhanced error message
+                fileError.textContent = `This file has already been uploaded in lecture: ${duplicateInfo.lectureName} (Course: ${duplicateInfo.courseName}).`;
+            } else {
+                fileError.textContent = ""; // Clear error if validation passes
+            }
+        });
+
+        // Restore lecture dropdown and hidden inputs on page load (for validation errors)
+        window.addEventListener('DOMContentLoaded', function () {
+            var selectedCourseId = parseInt(courseSelect.value);
+            var selectedLectureId = @Model.SelectedLectureId;
+
+            if (selectedCourseId) {
+                var selectedCourse = courseData.find(c => c.Id === selectedCourseId);
+                lectureDropdown.innerHTML = '<option value="">-- Select Lecture --</option>';
+
+                selectedCourse?.Lectures
+                    .filter(lec => !lec.FileNames || lec.FileNames.length === 0)
+                    .forEach(function (lec) {
+                        var opt = document.createElement("option");
+                        opt.value = lec.Id;
+                        opt.textContent = lec.LectureName;
+                        if (lec.Id === selectedLectureId) opt.selected = true;
+                        lectureDropdown.appendChild(opt);
+                    });
+
+                // Restore hidden inputs
+                updateCourseNameHidden();
+                updateLectureNameHidden();
+            }
+        });
+    </script>
+}

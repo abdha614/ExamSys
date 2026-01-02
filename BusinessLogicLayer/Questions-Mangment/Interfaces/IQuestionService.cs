@@ -13,6 +13,8 @@ namespace BusinessLogicLayer.Interfaces
     public interface IQuestionService
     {
         Task<QuestionGetDto> GetQuestionByIdAsync(int questionId);
+        Task SaveGeneratedQuestionsAsync(ParsedQuestionsDto dto, int professorId);
+
         Task AddQuestionAsync(QuestionAddDto questionDto);
         Task UpdateQuestionAsync( QuestionUpdateDto questionDto);
         Task DeleteQuestionAsync(int questionId);
@@ -34,6 +36,13 @@ namespace BusinessLogicLayer.Interfaces
         Task<List<AnswerGetDto>> GetAnswersForQuestionsAsync(List<int> questionIds);
         //Task<QuestionAutoFilterDto> GenerateQuestionsBasedOnPercentagesAsync(AutoExamGenerationRequestDto requestDto);
         Task<QuestionFilterDto> GenerateQuestionsBasedOnCountsAsync(AutoExamGenerationRequestDto requestDto);
+        Task<int> CountQuestionsAsync(
+        int professorId,
+        int courseId,
+        int? categoryId,
+        List<int> lectureIds,
+        int questionTypeId,
+        int difficultyId);
 
     }
 }

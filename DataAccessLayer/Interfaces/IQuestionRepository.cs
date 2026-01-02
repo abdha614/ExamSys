@@ -12,6 +12,8 @@ namespace DataAccessLayer.Interfaces
 
         Task<bool> DoesQuestionExistAsync(string questionText, int professorId);
 
+        Task<bool> DoesQuestionExistAsync(string questionText, int lectureId, int professorId);
+
         Task<QuestionDto> GetQuestionByIdAsync(int id); // Get a question by its ID
         Task<Question> GetQuestionByyIdAsync(int id); // Get a question by its ID
 
@@ -35,6 +37,8 @@ namespace DataAccessLayer.Interfaces
            int? courseId,
            List<int> lectureIds);
         Task<List<Question>> GetQuestionsByIdsAsync(List<int> questionIds);
+        Task IncrementUsageCountAsync(List<int> questionIds);
+
         Task DeleteQuestionAndAnswersAsync(int questionId);
         //    Task<List<Question>> GetFilteredQuestionsAsync(
         //int professorId,
@@ -46,7 +50,7 @@ namespace DataAccessLayer.Interfaces
         //int hardCount,
         //int mcqCount,
         //int tfCount);
-        Task<List<QuestionDto>> GetQuestionsByTypeAndDifficultyAsync(
+        Task<List<QuestionDto>> GetAutoQuestionsFilteredAsync(
             string type,
             string difficulty,
             int count,
@@ -55,7 +59,13 @@ namespace DataAccessLayer.Interfaces
             int? categoryId,
             List<int> lectureIds
         );
-
+        Task<int> CountQuestionsAsync(
+        int professorId,
+        int courseId,
+        int? categoryId,
+        List<int> lectureIds,
+        int questionTypeId,
+        int difficultyId);
     }
 
 }

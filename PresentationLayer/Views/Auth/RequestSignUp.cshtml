@@ -1,0 +1,40 @@
+﻿@model PresentationLayer.ViewModels.RequestConfirmationViewModel
+
+@{
+    ViewData["Title"] = "Sign-Up";
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+<div class="exam-login-container">
+    <div class="exam-shared-boundary">
+        <!-- Left Side - Optional Image -->
+        <div class="exam-image">
+            <img src="~/images/exam-background.jpg" alt="Sign-Up Background" class="img-fluid" />
+        </div>
+
+        <!-- Right Side - Email Entry Form -->
+        <div class="exam-login-card">
+            <h3 class="login-title">Sign Up</h3>
+            <p class="login-subtitle">Enter your email to begin registration</p>
+
+            <form asp-action="RequestSignUp" method="post" novalidate>
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label">Enter Email Address</label>
+                    <input asp-for="Email" class="form-control" type="email" placeholder="name@university.edu" required />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-login mt-3">Send Confirmation Code</button>
+
+                <footer class="login-footer text-center" style="display: flex; justify-content: center; gap: 0.25rem;">
+                    <span>Already have an account?</span>
+                    <a asp-action="Login" class="fw-bold" style="color: #25d0ea; text-decoration: none;">Login</a>
+                </footer>
+
+            </form>
+        </div>
+    </div>
+</div>

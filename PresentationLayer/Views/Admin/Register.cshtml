@@ -2,54 +2,232 @@
 
 @if (TempData["ErrorMessage"] != null)
 {
-    <div class="alert alert-danger">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
         @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
 
-<link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+<div class="registration-wrapper">
+    <div class="registration-card">
+        <div class="card-header">
+            <h2 class="card-title">
+                <i class="fas fa-user-plus me-2"></i>Create New Account
+            </h2>
+            <p class="card-subtitle">Register a new user to the system</p>
+        </div>
 
-<div class="register-container">
-    <div class="register-card">
-        <h3 class="register-title">Register Here:</h3>
-        <br />
+        <div class="card-body">
+            <form asp-action="Register" method="post" class="needs-validation" novalidate>
+                <div class="mb-4">
+                    <label asp-for="Email" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email Address
+                    </label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input asp-for="Email" class="form-control"
+                               placeholder="Enter valid email" required />
+                        <div class="invalid-feedback">
+                            Please provide a valid email address
+                        </div>
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
 
-        <form asp-action="Register" method="post" novalidate>
-            <!-- Validation summary for model errors -->
-          @*   <div asp-validation-summary="All" class="text-danger text-center mb-3"></div> *@
+                <div class="mb-4">
+                    <label asp-for="Password" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="Password" class="form-control"
+                               placeholder="At least 6 characters"
+                               minlength="6" required />
+                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="invalid-feedback">
+                            Password must be at least 6 characters
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
 
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                <input asp-for="Email" class="form-control" type="email" placeholder="Email" required  />
-            </div>
-            <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="mb-4">
+                    <label asp-for="RoleId" class="form-label">
+                        <i class="fas fa-user-tag me-2"></i>User Role
+                    </label>
+                    <select asp-for="RoleId" asp-items="Model.Roles"
+                            class="form-select" required>
+                        <option value="" disabled selected>Select a role</option>
+                    </select>
+                    <span asp-validation-for="RoleId" class="text-danger small"></span>
+                </div>
 
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                <input asp-for="Password" class="form-control" type="password" placeholder="Password" minlength="6" required />
-              
-            </div>
-            <span asp-validation-for="Password" class="text-danger" style="margin-top: 5px;"></span>
-
-            <div class="input-group mb-4">
-                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                <select asp-for="RoleId" asp-items="Model.Roles" class="form-control" required>
-                    <option value="">Select a role</option>
-                </select>
-                <span asp-validation-for="RoleId" class="text-danger"></span>
-
-            </div>
-            <span asp-validation-for="RoleId" class="text-danger"></span>
-
-            <br />
-            <br />
-
-            <button type="submit" class="btn btn-register">Register</button>
-        </form>
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Register User
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #f8f9fc;
+            --text-color: #5a5c69;
+        }
+
+        body {
+            background-color: #f8f9fc;
+        }
+
+        .registration-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .registration-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-subtitle {
+            opacity: 0.8;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group-text {
+            background-color: var(--secondary-color);
+        }
+
+        .form-control, .form-select {
+            padding: 0.75rem 1rem;
+            border-radius: 0.35rem;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            padding: 0.75rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #3a5bc7;
+                transform: translateY(-1px);
+            }
+
+        .invalid-feedback {
+            font-size: 0.85rem;
+        }
+
+        .text-danger.small {
+            font-size: 0.85rem;
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 576px) {
+            .registration-wrapper {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+}
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        // Form validation
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+        // Toggle password visibility
+        document.querySelectorAll('.toggle-password').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const passwordInput = this.closest('.input-group').querySelector('input');
+                const icon = this.querySelector('i');
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
 }

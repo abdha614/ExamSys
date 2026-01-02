@@ -87,7 +87,7 @@ public class AccountController : Controller
         // ✅ Redirect based on user role
         return user.RoleId switch
         {
-            1 => RedirectToAction("ManageQuestions", "Professor"),
+            1 => RedirectToAction("ManageCourses", "Professor"),
             2 => RedirectToAction("Dashboard", "Student"),
             3 => RedirectToAction("UserManagement", "Admin"),
             _ => RedirectToAction("Login", "Auth") // Default case

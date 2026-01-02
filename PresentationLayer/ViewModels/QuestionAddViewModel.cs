@@ -22,8 +22,8 @@ namespace PresentationLayer.ViewModels
         [Required(ErrorMessage = "Professor ID is required.")]
         public int professorId { get; set; }
 
-        [Required(ErrorMessage = "Please enter a Category name.")]
-        public int CategoryId { get; set; } // Selected Category ID
+       
+        public int? CategoryId { get; set; } // Selected Category ID
 
         [Required(ErrorMessage = "Please enter a course name.")]
         public int CourseId { get; set; } // Selected Course ID

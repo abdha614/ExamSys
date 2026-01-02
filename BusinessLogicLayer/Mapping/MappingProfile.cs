@@ -89,6 +89,8 @@ namespace BusinessLogicLayer.Mapping
                .ForMember(dest => dest.Courses, opt => opt.MapFrom(src => src.Courses));
 
 
+            CreateMap<SignupNotification, SignupNotificationDto>().ReverseMap();
+
 
 
         }

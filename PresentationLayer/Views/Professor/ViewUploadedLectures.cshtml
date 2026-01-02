@@ -1,0 +1,115 @@
+﻿@model List<PresentationLayer.ViewModels.CourseOptionViewModel>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Uploaded Lecture Files</h2>
+    <a asp-action="UploadLectureFile" class="btn btn-primary">
+        Upload New File
+    </a>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">No uploaded lectures found.</div>
+}
+else
+{
+    foreach (var course in Model)
+    {
+        <div class="mb-4">
+            <h3 class="text-primary">@course.Name</h3>
+            <hr />
+
+            @if (course.Lectures == null || !course.Lectures.Any())
+            {
+                <p class="text-muted">No uploaded lectures for this course.</p>
+            }
+            else
+            {
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                    @foreach (var lecture in course.Lectures)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm h-100 d-flex flex-column">
+                                <div class="card-header bg-secondary text-white">
+                                    <strong>@lecture.LectureName</strong>
+                                </div>
+
+                                <div class="card-body flex-grow-1">
+                                    <h6 class="fw-bold">File Name:</h6>
+                                    @if (lecture.Files != null && lecture.Files.Any())
+                                    {
+                                        <ul class="list-unstyled mb-0">
+                                            @foreach (var file in lecture.Files)
+                                            {
+                                                <li class="mb-2">@file.FileName</li>
+                                            }
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-muted">No files uploaded.</p>
+                                    }
+                                </div>
+
+                                <div class="card-footer d-flex justify-content-between">
+                                    <a href="@lecture.Files.FirstOrDefault()?.FilePath" target="_blank" class="btn btn-outline-primary btn-sm">
+                                        Open
+                                    </a>
+
+                                    @{
+                                        var fileId = lecture.Files.FirstOrDefault()?.Id;
+                                    }
+
+                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                            onclick="confirmDelete('@fileId', '@lecture.LectureName')">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="bi bi-exclamation-triangle text-warning" style="font-size: 2rem;"></i>
+                <p class="mt-3">Are you sure you want to delete the file for <strong><span id="lectureTitleDisplay"></span></strong>?</p>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center border-top-0">
+                <form asp-action="DeleteLectureFile" method="post">
+                    <input type="hidden" name="lectureFileId" id="modalFileId" />
+                    @* Set value="true" if you want to delete questions by default,
+                    or "false" if you only want to delete the file metadata.
+                    *@
+                    <input type="hidden" name="deleteQuestions" value="true" />
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmDelete(fileId, lectureName) {
+            document.getElementById('lectureTitleDisplay').innerText = lectureName;
+            document.getElementById('modalFileId').value = fileId;
+
+            var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            myModal.show();
+        }
+    </script>
+}

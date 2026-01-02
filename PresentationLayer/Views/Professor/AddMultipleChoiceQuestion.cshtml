@@ -1,34 +1,21 @@
 ﻿@model PresentationLayer.ViewModels.QuestionAddViewModel
 
-
 <h2>Add Multiple Choice Question</h2>
 <form asp-action="AddMultipleChoiceQuestion" method="post" class="form-vertical-custom">
     <input type="hidden" asp-for="QuestionTypeId" value="1" />
-
-    <!-- Category Dropdown -->
-    <div class="form-group-custom">
-        <label for="category">Category:</label>
-        <select id="category" asp-for="CategoryId" class="form-control" onchange="loadCourses(this.value)">
-            <option value="" disabled selected>--Select Category--</option>
-            @foreach (var category in Model.Categories)
-            {
-                <option value="@category.Id">@category.Name</option>
-            }
-        </select>
-        <span asp-validation-for="CategoryId" class="text-danger"></span>
-    </div>
 
     <!-- Course Dropdown -->
     <div class="form-group-custom">
         <label for="course">Course:</label>
         <select id="course" asp-for="CourseId" class="form-control">
             <option value="" disabled selected>--Select Course--</option>
-            <!-- Courses will be dynamically populated via AJAX -->
+            @foreach (var course in Model.Courses)
+            {
+                <option value="@course.Id">@course.Name</option>
+            }
         </select>
         <span asp-validation-for="CourseId" class="text-danger"></span>
     </div>
-
-
 
     <!-- Lecture Spinner -->
     <div class="form-group-custom">
@@ -48,8 +35,6 @@
         <span asp-validation-for="LectureName" class="text-danger"></span>
     </div>
 
-
-
     <!-- Question Text -->
     <div class="form-group-custom">
         <label for="questionText">Question Text:</label>
@@ -65,7 +50,6 @@
         </select>
         <span asp-validation-for="DifficultyLevelId" class="text-danger"></span>
     </div>
-
 
     <!-- Answers -->
     <div class="form-group-custom">

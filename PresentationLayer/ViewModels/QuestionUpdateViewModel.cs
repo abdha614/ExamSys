@@ -21,8 +21,8 @@ namespace PresentationLayer.ViewModels
         [Required]
         public int professorId { get; set; }
 
-        [Required]
-        public int CategoryId { get; set; }
+        
+        public int? CategoryId { get; set; }
 
         [Required]
         public int CourseId { get; set; }

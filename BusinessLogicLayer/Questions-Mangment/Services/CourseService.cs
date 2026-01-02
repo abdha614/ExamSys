@@ -115,5 +115,50 @@ namespace BusinessLogicLayer.Services
         {
             return await _courseRepository.GetCourseIdByNameAndProfessorAsync(name, professorId);
         }
+
+        public async Task<IEnumerable<CourseGetDto>> GetCoursesWithAvailableLecturesByProfessorAsync(int professorId)
+        {
+            var courses = await _courseRepository.GetCoursesWithAvailableLecturesAsync(professorId);
+
+            var courseDtos = courses.Select(c => new CourseGetDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Lectures = c.Lectures.Select(l => new LectureGetDto
+                {
+                    Id = l.Id,
+                    LectureName = l.LectureName,
+                    FileNames = l.Files.Select(f => f.FileName).ToList() // include existing file names
+                }).ToList()
+            });
+
+            return courseDtos;
+        }
+
+        public async Task<IEnumerable<CourseGetDto>> GetCoursesWithLecturesAndFilesByProfessorAsync(int professorId)
+        {
+            var courses = await _courseRepository.GetCoursesWithLecturesAndFilesAsync(professorId);
+
+            // Map to DTOs
+            var courseDtos = courses.Select(c => new CourseGetDto
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Lectures = c.Lectures.Select(l => new LectureGetDto
+                {
+                    Id = l.Id,
+                    LectureName = l.LectureName,
+                    Files = l.Files.Select(f => new LectureFileGetDto
+                    {
+                        Id = f.Id,
+                        FileName = f.FileName,
+                        FilePath = f.FilePath
+                    }).ToList()
+                }).ToList()
+            });
+
+            return courseDtos;
+        }
+
     }
 }

@@ -140,6 +140,34 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.EmailConfirmationCode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code");
+
+                    b.HasIndex("Email");
+
+                    b.ToTable("EmailConfirmationCodes");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Exam", b =>
                 {
                     b.Property<int>("Id")
@@ -302,6 +330,80 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("lectures");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.LectureFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LectureId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("Size")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StoredFileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LectureId");
+
+                    b.ToTable("LectureFiles");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.PasswordResetToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expiration")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordResetTokens");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
                 {
                     b.Property<int>("Id")
@@ -310,7 +412,7 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<int>("CourseId")
@@ -336,6 +438,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UsageCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -418,7 +523,7 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.SampleEntity", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.SignupNotification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -426,13 +531,23 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsHandled")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("RequestedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
+
                     b.HasKey("Id");
 
-                    b.ToTable("SampleEntities");
+                    b.ToTable("SignupNotifications", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
@@ -469,7 +584,7 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             Email = "Admin@admin.com",
                             MustChangePassword = false,
-                            PasswordHash = "AQAAAAIAAYagAAAAELHwM59ak2PqYX6QWkbJBiWTWGnA7fr4agH0bzcGq7UV74nJTbaxYotXggSpwB7gQA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFO211JZyKdT/zYnXfq3b1KyTZ92KOl2pAdVWh1avNOobiWE3A8ku20Gh37Cglc2/g==",
                             RoleId = 3
                         });
                 });
@@ -594,13 +709,34 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Professor");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.LectureFile", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Lecture", "Lecture")
+                        .WithMany("Files")
+                        .HasForeignKey("LectureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lecture");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.PasswordResetToken", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Category", "Category")
                         .WithMany("Questions")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("DataAccessLayer.Models.Course", "Course")
                         .WithMany("Questions")
@@ -687,6 +823,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.Lecture", b =>
                 {
+                    b.Navigation("Files");
+
                     b.Navigation("Questions");
                 });
 

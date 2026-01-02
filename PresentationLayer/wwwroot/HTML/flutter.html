@@ -1,0 +1,783 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر البقالة الإلكتروني</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            background: white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+
+        /* تنسيق الهيدر */
+        .app-header {
+            background: linear-gradient(to left, #4CAF50, #2E7D32);
+            color: white;
+            padding: 15px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+            .logo i {
+                margin-left: 10px;
+                font-size: 24px;
+            }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+            .user-actions button {
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                font-weight: 600;
+                cursor: pointer;
+            }
+
+            .user-actions i {
+                margin-left: 5px;
+            }
+
+        /* شريط البحث */
+        .search-bar {
+            margin-top: 15px;
+            position: relative;
+        }
+
+            .search-bar input {
+                width: 100%;
+                padding: 12px 45px 12px 15px;
+                border: none;
+                border-radius: 25px;
+                background: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+
+            .search-bar i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #4CAF50;
+            }
+
+        /* منطقة المحتوى الرئيسية */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            padding-bottom: 70px;
+        }
+
+        .section-title {
+            color: #2E7D32;
+            margin: 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E8F5E9;
+            font-size: 18px;
+        }
+
+        /* التصنيفات الرئيسية */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+            .category-card:active {
+                transform: scale(0.97);
+            }
+
+        .category-icon {
+            height: 80px;
+            background-color: #E8F5E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4CAF50;
+            font-size: 32px;
+        }
+
+        .category-name {
+            padding: 12px 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* التصنيفات الفرعية */
+        .subcategories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .subcategory-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+            .subcategory-card:active {
+                transform: scale(0.97);
+            }
+
+        .subcategory-icon {
+            height: 70px;
+            background-color: #F1F8E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4CAF50;
+            font-size: 28px;
+        }
+
+        .subcategory-name {
+            padding: 10px 5px;
+            font-weight: 600;
+            color: #333;
+            font-size: 13px;
+        }
+
+        /* المنتجات */
+        .products-list {
+            margin-top: 15px;
+        }
+
+        .product-card {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            transition: transform 0.3s;
+        }
+
+            .product-card:active {
+                transform: scale(0.98);
+            }
+
+        .product-img {
+            width: 100px;
+            background-color: #F1F8E9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4CAF50;
+            font-size: 32px;
+        }
+
+        .product-content {
+            padding: 12px;
+            flex: 1;
+        }
+
+            .product-content h3 {
+                margin-bottom: 5px;
+                color: #2E7D32;
+                font-size: 16px;
+            }
+
+        .product-desc {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            color: #E65100;
+            font-weight: bold;
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+            .add-to-cart i {
+                margin-left: 5px;
+            }
+
+        /* القائمة السفلية */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .bottom-nav-item {
+            padding: 10px 0;
+            text-align: center;
+            flex: 1;
+            color: #777;
+            font-size: 12px;
+            transition: color 0.3s;
+        }
+
+            .bottom-nav-item.active {
+                color: #4CAF50;
+            }
+
+            .bottom-nav-item i {
+                display: block;
+                margin-bottom: 4px;
+                font-size: 20px;
+            }
+
+        /* صفحات التطبيق */
+        .app-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 20;
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            overflow-y: auto;
+            padding: 15px;
+            padding-top: 60px;
+            padding-bottom: 70px;
+        }
+
+            .app-page.active {
+                transform: translateX(0);
+            }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            margin-right: 15px;
+            color: #4CAF50;
+            cursor: pointer;
+        }
+
+        .page-title {
+            font-size: 20px;
+            color: #2E7D32;
+            font-weight: 700;
+        }
+
+        /* تأثيرات التطبيق */
+        .hide {
+            display: none;
+        }
+
+        .breadcrumb {
+            display: flex;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+            .breadcrumb span {
+                margin: 0 5px;
+            }
+
+            .breadcrumb .active {
+                color: #4CAF50;
+                font-weight: 600;
+            }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- الهيدر -->
+        <div class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-store"></i>
+                    <span>متجر البقالة</span>
+                </div>
+                <div class="user-actions">
+                    <button>
+                        <i class="fas fa-user"></i>
+                        <span>حسابي</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" placeholder="ابحث عن منتج...">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="app-content">
+            <h2 class="section-title">التصنيفات الرئيسية</h2>
+
+            <div class="categories-grid">
+                <div class="category-card" data-category="منظفات">
+                    <div class="category-icon">
+                        <i class="fas fa-pump-soap"></i>
+                    </div>
+                    <div class="category-name">منظفات</div>
+                </div>
+
+                <div class="category-card" data-category="معلبات">
+                    <div class="category-icon">
+                        <i class="fas fa-can-food"></i>
+                    </div>
+                    <div class="category-name">معلبات</div>
+                </div>
+
+                <div class="category-card" data-category="زيت">
+                    <div class="category-icon">
+                        <i class="fas fa-oil-can"></i>
+                    </div>
+                    <div class="category-name">زيت</div>
+                </div>
+
+                <div class="category-card" data-category="سمنة">
+                    <div class="category-icon">
+                        <i class="fas fa-mortar-pestle"></i>
+                    </div>
+                    <div class="category-name">سمنة</div>
+                </div>
+
+                <div class="category-card" data-category="أجبان">
+                    <div class="category-icon">
+                        <i class="fas fa-cheese"></i>
+                    </div>
+                    <div class="category-name">أجبان</div>
+                </div>
+
+                <div class="category-card" data-category="مشروبات">
+                    <div class="category-icon">
+                        <i class="fas fa-wine-bottle"></i>
+                    </div>
+                    <div class="category-name">مشروبات</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">المنتجات الأكثر مبيعاً</h2>
+
+            <div class="products-list">
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-toilet-paper"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>محارم ديما</h3>
+                        <div class="product-desc">محارم ورقية ناعمة - 3 طبقات</div>
+                        <div class="product-price">15.00 ر.س</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-cart-plus"></i>
+                            إضافة إلى السلة
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-img">
+                        <i class="fas fa-soap"></i>
+                    </div>
+                    <div class="product-content">
+                        <h3>صابون دوف</h3>
+                        <div class="product-desc">صابون طبيعي للبشرة الحساسة</div>
+                        <div class="product-price">8.00 ر.س</div>
+                        <button class="add-to-cart">
+                            <i class="fas fa-cart-plus"></i>
+                            إضافة إلى السلة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- صفحة التصنيفات الفرعية -->
+        <div class="app-page" id="subcategoriesPage">
+            <div class="page-header">
+                <button class="back-button" data-page="home">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="page-title" id="subcategoryTitle">التصنيفات الفرعية</h2>
+            </div>
+
+            <div class="breadcrumb">
+                <span class="active">الرئيسية</span>
+                <span>></span>
+                <span id="currentCategory">منظفات</span>
+            </div>
+
+            <div class="subcategories-grid" id="subcategoriesContainer">
+                <!-- سيتم ملؤها بالتصنيفات الفرعية عبر JavaScript -->
+            </div>
+        </div>
+
+        <!-- صفحة المنتجات -->
+        <div class="app-page" id="productsPage">
+            <div class="page-header">
+                <button class="back-button" data-page="subcategories">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <h2 class="page-title" id="productsTitle">المنتجات</h2>
+            </div>
+
+            <div class="breadcrumb">
+                <span class="active">الرئيسية</span>
+                <span>></span>
+                <span id="breadcrumbCategory">منظفات</span>
+                <span>></span>
+                <span id="breadcrumbSubcategory">محارم</span>
+            </div>
+
+            <div class="products-list" id="productsContainer">
+                <!-- سيتم ملؤها بالمنتجات عبر JavaScript -->
+            </div>
+        </div>
+
+        <!-- القائمة السفلية -->
+        <div class="bottom-nav">
+            <div class="bottom-nav-item active" data-page="home">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </div>
+            <div class="bottom-nav-item" data-page="cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>السلة</span>
+            </div>
+            <div class="bottom-nav-item" data-page="orders">
+                <i class="fas fa-clipboard-list"></i>
+                <span>الطلبات</span>
+            </div>
+            <div class="bottom-nav-item" data-page="favorites">
+                <i class="fas fa-heart"></i>
+                <span>المفضلة</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات التصنيفات والمنتجات
+        const categoriesData = {
+            "منظفات": {
+                "subcategories": {
+                    "محارم": {
+                        "products": [
+                            { name: "محارم ديما", description: "محارم ورقية ناعمة - 3 طبقات", price: "15.00", icon: "toilet-paper" },
+                            { name: "محارم مروة", description: "محارم فائقة النعومة - 4 طبقات", price: "18.00", icon: "toilet-paper" },
+                            { name: "محارم كومفورت", description: "محارم عالية الامتصاص", price: "16.50", icon: "toilet-paper" }
+                        ]
+                    },
+                    "صابون": {
+                        "products": [
+                            { name: "صابون دوف", description: "صابون طبيعي للبشرة الحساسة", price: "8.00", icon: "soap" },
+                            { name: "صابون لوكس", description: "صابون مغذي للبشرة الجافة", price: "9.50", icon: "soap" },
+                            { name: "صابون نيفيا", description: "صابون للعناية اليومية", price: "7.00", icon: "soap" }
+                        ]
+                    },
+                    "مسحوق غسيل": {
+                        "products": [
+                            { name: "مسحوق تايد", description: "مسحوق غسيل للملابس الملونة", price: "25.00", icon: "pump-soap" },
+                            { name: "مسحوق أريال", description: "مسحوق غسيل للبياضات", price: "27.00", icon: "pump-soap" },
+                            { name: "مسحوق بيرسيل", description: "مسحوق غسيل للبقع الصعبة", price: "30.00", icon: "pump-soap" }
+                        ]
+                    },
+                    "سائل جلي": {
+                        "products": [
+                            { name: "سائل بريل", description: "سائل جلي للصحون الدهنية", price: "12.00", icon: "hand-sparkles" },
+                            { name: "سائل فايير", description: "سائل جلي يعطي بريقاً للصحون", price: "14.00", icon: "hand-sparkles" },
+                            { name: "سائل dawn", description: "سائل جلي لطيف على اليدين", price: "13.50", icon: "hand-sparkles" }
+                        ]
+                    }
+                }
+            },
+            "معلبات": {
+                "subcategories": {
+                    "معجون طماطم": {
+                        "products": [
+                            { name: "معجون عبدالقادر", description: "معجون طماطم مركز", price: "6.00", icon: "jar" },
+                            { name: "معجون الفراشة", description: "معجون طماطم طبيعي", price: "5.50", icon: "jar" }
+                        ]
+                    },
+                    "فول مدمس": {
+                        "products": [
+                            { name: "فول الصباح", description: "فول مدمس جاهز للأكل", price: "7.00", icon: "jar" },
+                            { name: "فول العزيزية", description: "فول مدمس معلب", price: "6.50", icon: "jar" }
+                        ]
+                    }
+                }
+            },
+            "زيت": {
+                "subcategories": {
+                    "زيت زيتون": {
+                        "products": [
+                            { name: "زيت الزيتون البكر", description: "زيت زيتون بكر ممتاز", price: "40.00", icon: "oil-can" },
+                            { name: "زيت كوروني", description: "زيت زيتون نقي", price: "35.00", icon: "oil-can" }
+                        ]
+                    },
+                    "زيت طهي": {
+                        "products": [
+                            { name: "زيت الذرة", description: "زيت ذرة للقلي والخبز", price: "18.00", icon: "oil-can" },
+                            { name: "زيت عباد الشمس", description: "زيت صحي للطهي", price: "20.00", icon: "oil-can" }
+                        ]
+                    }
+                }
+            },
+            "سمنة": {
+                "subcategories": {
+                    "سمنة بلدية": {
+                        "products": [
+                            { name: "سمنة العزيزية", description: "سمنة بلدية طبيعية", price: "30.00", icon: "mortar-pestle" },
+                            { name: "سمنة البدوية", description: "سمنة من حليب البقر", price: "32.00", icon: "mortar-pestle" }
+                        ]
+                    },
+                    "سمنة نباتية": {
+                        "products": [
+                            { name: "سمنة نباتية", description: "سمنة نباتية للخبز", price: "12.00", icon: "mortar-pestle" },
+                            { name: "سمنة المائدة", description: "سمنة نباتية معبأة", price: "10.00", icon: "mortar-pestle" }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // عناصر DOM
+        const categoryCards = document.querySelectorAll('.category-card');
+        const subcategoriesPage = document.getElementById('subcategoriesPage');
+        const subcategoryTitle = document.getElementById('subcategoryTitle');
+        const currentCategory = document.getElementById('currentCategory');
+        const subcategoriesContainer = document.getElementById('subcategoriesContainer');
+        const productsPage = document.getElementById('productsPage');
+        const productsTitle = document.getElementById('productsTitle');
+        const breadcrumbCategory = document.getElementById('breadcrumbCategory');
+        const breadcrumbSubcategory = document.getElementById('breadcrumbSubcategory');
+        const productsContainer = document.getElementById('productsContainer');
+        const backButtons = document.querySelectorAll('.back-button');
+        const navItems = document.querySelectorAll('.bottom-nav-item');
+
+        // إضافة event listeners للتصنيفات الرئيسية
+        categoryCards.forEach(card => {
+            card.addEventListener('click', function () {
+                const category = this.getAttribute('data-category');
+                showSubcategories(category);
+            });
+        });
+
+        // عرض التصنيفات الفرعية
+        function showSubcategories(category) {
+            if (categoriesData[category]) {
+                subcategoryTitle.textContent = `التصنيفات الفرعية - ${category}`;
+                currentCategory.textContent = category;
+
+                // مسح المحتوى السابق
+                subcategoriesContainer.innerHTML = '';
+
+                // إضافة التصنيفات الفرعية
+                for (const subcategory in categoriesData[category].subcategories) {
+                    const subcategoryCard = document.createElement('div');
+                    subcategoryCard.className = 'subcategory-card';
+                    subcategoryCard.setAttribute('data-category', category);
+                    subcategoryCard.setAttribute('data-subcategory', subcategory);
+
+                    subcategoryCard.innerHTML = `
+                            <div class="subcategory-icon">
+                                <i class="fas fa-${getSubcategoryIcon(subcategory)}"></i>
+                            </div>
+                            <div class="subcategory-name">${subcategory}</div>
+                        `;
+
+                    subcategoryCard.addEventListener('click', function () {
+                        const cat = this.getAttribute('data-category');
+                        const subcat = this.getAttribute('data-subcategory');
+                        showProducts(cat, subcat);
+                    });
+
+                    subcategoriesContainer.appendChild(subcategoryCard);
+                }
+
+                // إظهار صفحة التصنيفات الفرعية
+                showPage('subcategories');
+            }
+        }
+
+        // عرض المنتجات
+        function showProducts(category, subcategory) {
+            if (categoriesData[category] && categoriesData[category].subcategories[subcategory]) {
+                productsTitle.textContent = `المنتجات - ${subcategory}`;
+                breadcrumbCategory.textContent = category;
+                breadcrumbSubcategory.textContent = subcategory;
+
+                // مسح المحتوى السابق
+                productsContainer.innerHTML = '';
+
+                // إضافة المنتجات
+                categoriesData[category].subcategories[subcategory].products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+
+                    productCard.innerHTML = `
+                            <div class="product-img">
+                                <i class="fas fa-${product.icon}"></i>
+                            </div>
+                            <div class="product-content">
+                                <h3>${product.name}</h3>
+                                <div class="product-desc">${product.description}</div>
+                                <div class="product-price">${product.price} ر.س</div>
+                                <button class="add-to-cart">
+                                    <i class="fas fa-cart-plus"></i>
+                                    إضافة إلى السلة
+                                </button>
+                            </div>
+                        `;
+
+                    productsContainer.appendChild(productCard);
+                });
+
+                // إظهار صفحة المنتجات
+                showPage('products');
+            }
+        }
+
+        // الحصول على أيقونة للتصنيف الفرعي
+        function getSubcategoryIcon(subcategory) {
+            const icons = {
+                "محارم": "toilet-paper",
+                "صابون": "soap",
+                "مسحوق غسيل": "pump-soap",
+                "سائل جلي": "hand-sparkles",
+                "معجون طماطم": "jar",
+                "فول مدمس": "jar",
+                "زيت زيتون": "oil-can",
+                "زيت طهي": "oil-can",
+                "سمنة بلدية": "mortar-pestle",
+                "سمنة نباتية": "mortar-pestle"
+            };
+
+            return icons[subcategory] || "shopping-basket";
+        }
+
+        // إظهار صفحة محددة
+        function showPage(pageId) {
+            // إخفاء جميع الصفحات
+            document.querySelectorAll('.app-page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // إظهار الصفحة المطلوبة
+            if (pageId === 'subcategories') {
+                subcategoriesPage.classList.add('active');
+            } else if (pageId === 'products') {
+                productsPage.classList.add('active');
+            } else if (pageId === 'home') {
+                // العودة للصفحة الرئيسية
+                subcategoriesPage.classList.remove('active');
+                productsPage.classList.remove('active');
+            }
+        }
+
+        // أزرار العودة
+        backButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const targetPage = this.getAttribute('data-page');
+                showPage(targetPage);
+            });
+        });
+
+        // إضافة منتج إلى السلة
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+                const button = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
+
+                // تأثير عند النقر
+                button.style.backgroundColor = '#2E7D32';
+                button.innerHTML = '<i class="fas fa-check"></i> تمت الإضافة';
+
+                setTimeout(() => {
+                    button.style.backgroundColor = '#4CAF50';
+                    button.innerHTML = '<i class="fas fa-cart-plus"></i> إضافة إلى السلة';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

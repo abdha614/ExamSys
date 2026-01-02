@@ -1,0 +1,231 @@
+@model PresentationLayer.ViewModels.ExamViewModel.ExamDetailsViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Exam - @Model.CourseName</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 2;
+        }
+
+        .header {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .header-left, .header-center, .header-right {
+            display: table-cell;
+            vertical-align: middle;
+            width: 33.33%;
+        }
+
+        .header-left {
+            text-align: left;
+        }
+
+        .header-center {
+            text-align: center;
+        }
+
+            .header-center img {
+                height: 50px;
+            }
+
+        .header-right {
+            text-align: right;
+            direction: rtl;
+        }
+
+        .exam-info {
+            margin: 20px 0;
+            width: 100%;
+            display: table;
+        }
+
+        .info-row {
+            display: table-row;
+        }
+
+        .info-col-left, .info-col-right {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+            vertical-align: middle;
+            font-size: 10pt;
+            direction: rtl;
+        }
+
+        .info-col-left {
+            padding-right: 80px;
+        }
+
+        .dotted-line {
+            border-bottom: 1px dotted #000;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 20px 0;
+        }
+
+        .questions-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 11pt;
+        }
+
+        .questions-grid {
+            width: 100%;
+        }
+
+        .question-pair {
+            width: 100%;
+            overflow: hidden; /* contain floats */
+            page-break-inside: avoid; /* keep both together */
+            margin-bottom: 20px;
+        }
+
+        .question-item {
+            width: 48%;
+            float: left;
+            margin-bottom: 0;
+        }
+
+            .question-item:nth-child(odd) {
+                margin-right: 4%;
+            }
+
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .answers {
+            margin-left: 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+            .answers li {
+                margin: 3px 0;
+                font-size: 10pt;
+            }
+
+        .answer-letter {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">Syrian Private University</div>
+        <div class="header-center"><img src="@Url.Content("~/images/spu-logo.jpg")" alt="SPU Logo" /></div>
+        <div class="header-right">الجامعة السورية الخاصة</div>
+    </div>
+
+    <div class="exam-info">
+        <div class="info-row">
+            <div class="info-col-left">
+                <strong>اسم الطالب:</strong> <span class="dotted-line"></span>
+            </div>
+            <div class="info-col-right">
+                <strong>الكلية :</strong> هندسة الحاسوب والمعلوماتية
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-col-left">
+                <strong>رقم الطالب:</strong> <span class="dotted-line"></span>
+            </div>
+            <div class="info-col-right">
+                <strong>المادة :</strong> @Model.CourseName
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-col-left">
+                <strong>الفصل الدراسي:</strong> @Model.Semester
+            </div>
+            <div class="info-col-right">
+                <strong>اسم مدرس المادة:</strong> @Model.TeacherName
+            </div>
+        </div>
+    </div>
+
+
+    <hr />
+
+    @if (Model.Questions != null && Model.Questions.Any())
+    {
+        <div class="questions-title">
+            Q1) Choose the correct answer (@Model.Questions.Sum(q => q.Points) m ):
+        </div>
+
+        <div class="questions-grid">
+            @for (int i = 0; i < Model.Questions.Count; i += 2)
+            {
+                <div class="question-pair">
+                    <div class="question-item">
+                        <div class="question-number">
+                            <pre style="font-family: inherit; white-space: pre-wrap; display: inline;">@(i + 1)) @Model.Questions[i].QuestionText</pre>
+                        </div>
+                        <ul class="answers">
+                            @if (Model.Questions[i].QuestionType == "True/False")
+                            {
+                                <li><span class="answer-letter">A)</span> True</li>
+                                <li><span class="answer-letter">B)</span> False</li>
+                            }
+                            else
+                            {
+                                @for (int j = 0; j < Model.Questions[i].Answers.Count; j++)
+                                {
+                                    <li><span class="answer-letter">@((char)('A' + j)))</span> @Model.Questions[i].Answers[j].Text</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                    @if (i + 1 < Model.Questions.Count)
+                    {
+                        <div class="question-item">
+                            <div class="question-number">
+                                <pre style="font-family: inherit; white-space: pre-wrap; display: inline;">@(i + 2)) @Model.Questions[i + 1].QuestionText</pre>
+                            </div>
+                            <ul class="answers">
+                                @if (Model.Questions[i + 1].QuestionType == "True/False")
+                                {
+                                    <li><span class="answer-letter">A)</span> True</li>
+                                    <li><span class="answer-letter">B)</span> False</li>
+                                }
+                                else
+                                {
+                                    @for (int j = 0; j < Model.Questions[i + 1].Answers.Count; j++)
+                                    {
+                                        <li><span class="answer-letter">@((char)('A' + j)))</span> @Model.Questions[i + 1].Answers[j].Text</li>
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</body>
+</html>

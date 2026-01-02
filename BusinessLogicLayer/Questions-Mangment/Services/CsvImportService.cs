@@ -178,11 +178,11 @@ public class CsvImportService : IQuestionImportService
                 }
 
                 // Get existing category - skip if not found
-                var categoryId = await _categoryService.GetCategoryIdByNameAndProfessorAsync(dict["Category"].ToString(), professorId);
-                if (categoryId == null)
-                {
-                    continue; // Skip if category doesn't exist
-                }
+                //var categoryId = await _categoryService.GetCategoryIdByNameAndProfessorAsync(dict["Category"].ToString(), professorId);
+                //if (categoryId == null)
+                //{
+                //    continue; // Skip if category doesn't exist
+                //}
 
                 // Get existing course - skip if not found
                 var courseId = await _courseService.GetCourseIdByNameAndProfessorAsync(dict["Course"].ToString(), professorId);
@@ -203,7 +203,7 @@ public class CsvImportService : IQuestionImportService
                 var model = new QuestionAddDto
                 {
                     Text = questionText,
-                    CategoryId = categoryId.Value,
+                  //  CategoryId = categoryId.Value,
                     CourseId = courseId.Value,
                     DifficultyLevelId = difficultyLevelId, 
                     QuestionTypeId = questionTypeId,
@@ -226,15 +226,15 @@ public class CsvImportService : IQuestionImportService
         // Define the headers
         var headers = new List<string>
         {
-            "QuestionText", "Category", "Course","Lecture","QuestionType", "DifficultyLevel",
+            "QuestionText", "Course","Lecture","QuestionType", "DifficultyLevel",
             "Answer1", "Answer2", "Answer3", "Answer4", "CorrectAnswer"
         };
 
         // Define example rows for Simple Template
         var sampleData = new List<string[]>
         {
-            new[] { "What is the capital of France?", "Geography", "Europe Studies", "Lecture 1", "Multiple Choice", "Easy", "Paris", "London", "Berlin", "Paris" },
-            new[] { "What is 2 + 2?", "Math", "Algebra Basics", "Lecture 1", "Multiple Choice", "Easy", "3", "4", "5", "4" }
+            new[] { "What is the capital of France?", "Europe Studies", "Lecture 1", "Multiple Choice", "Easy", "Paris", "London", "Berlin", "Paris" },
+            new[] { "What is 2 + 2?", "Algebra Basics", "Lecture 1", "Multiple Choice", "Easy", "3", "4", "5", "4" }
         };
 
         // Generate CSV based on template type

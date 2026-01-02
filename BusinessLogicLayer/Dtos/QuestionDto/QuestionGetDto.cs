@@ -17,8 +17,8 @@ namespace BusinessLogicLayer.Dtos.QuestionDto
         public string DifficultyLevelName { get; set; } // Enriched with the corresponding name
         public int professorId { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; } // Enriched with the corresponding name
+        public int? CategoryId { get; set; }
+        public string? CategoryName { get; set; } // Enriched with the corresponding name
         public int CourseId { get; set; }
         public string CourseName { get; set; } // Enriched with the corresponding name
         public string LectureName { get; set; }

@@ -17,11 +17,13 @@ namespace BusinessLogicLayer.Services
     public class ExamService : IExamService
     {
         private readonly IExamRepository _examRepository;
+        private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
 
-        public ExamService(IExamRepository examRepository, IMapper mapper)
+        public ExamService(IExamRepository examRepository, IMapper mapper, IQuestionRepository questionRepository)
         {
             _examRepository = examRepository;
+            _questionRepository = questionRepository;
             _mapper = mapper;
         }
 
@@ -57,6 +59,9 @@ namespace BusinessLogicLayer.Services
             exam.TotalQuestions = examDto.SelectedQuestions.Count;
 
             await _examRepository.AddAsync(exam);
+
+            var questionIds = examDto.SelectedQuestions.Select(q => q.QuestionId).ToList();
+            await _questionRepository.IncrementUsageCountAsync(questionIds);
         }
 
         //public async Task UpdateExamAsync(ExamUpdateDto examDto)

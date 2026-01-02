@@ -1,0 +1,243 @@
+@model PresentationLayer.ViewModels.ExamViewModel.ExamDetailsViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Answer Key - @Model.CourseName</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            font-size: 11pt;
+            line-height: 2;
+        }
+
+        /* Header */
+        .header {
+            display: table;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .header-left,
+        .header-center,
+        .header-right {
+            display: table-cell;
+            vertical-align: middle;
+            width: 33.33%;
+        }
+
+        .header-left {
+            text-align: left;
+            font-size: 11pt;
+        }
+
+        .header-center {
+            text-align: center;
+        }
+
+        .header-center img {
+            height: 50px;
+        }
+
+        .header-right {
+            text-align: right;
+            direction: rtl;
+            font-size: 11pt;
+        }
+
+        /* Exam Info */
+        .exam-info {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            display: table;
+        }
+
+        .info-row {
+            display: table-row;
+        }
+
+        .info-col-left {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+            vertical-align: middle;
+            font-size: 10pt;
+            direction: rtl;
+            padding-right: 80px;
+        }
+
+        .info-col-right {
+            display: table-cell;
+            width: 50%;
+            text-align: right;
+            vertical-align: middle;
+            font-size: 10pt;
+            direction: rtl;
+        }
+
+        /* Separator */
+        hr {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 20px 0;
+        }
+
+        /* Answer Key Banner */
+        .answer-key-banner {
+            /* background-color: #28a745; */
+            color: black;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 12pt;
+        }
+
+        /* Questions */
+        .questions-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 11pt;
+        }
+
+        .questions-grid {
+            width: 100%;
+        }
+
+        .question-item {
+            width: 48%;
+            float: left;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+        .question-item:nth-child(odd) {
+            margin-right: 4%;
+        }
+
+        .question-item:nth-child(even) {
+            margin-right: 0;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .question-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 5px;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-left">
+            Syrian Private University
+        </div>
+        <div class="header-center">
+            <img src="@Url.Content("~/images/spu-logo.jpg")" alt="SPU Logo" />
+        </div>
+        <div class="header-right">
+            الجامعة السورية الخاصة
+        </div>
+    </div>
+
+    <!-- Exam Info -->
+    <div class="exam-info">
+        <div class="info-row">
+            <div class="info-col-left">
+                <!-- Empty or Date? -->
+            </div>
+            <div class="info-col-right">
+                الكلية : هندسة الحاسوب والمعلوماتية
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="info-col-left">
+               <!-- Empty -->
+            </div>
+            <div class="info-col-right">
+                المادة : @Model.CourseName
+            </div>
+        </div>
+        <div class="info-row">
+            <div class="info-col-left">
+                الفصل الدراسي: @Model.Semester
+            </div>
+            <div class="info-col-right">
+                اسم مدرس المادة: @Model.TeacherName
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Answer Key Banner -->
+    <div class="answer-key-banner">
+        - ANSWER KEY -
+    </div>
+
+    <!-- Questions with Answers -->
+    @if (Model.Questions != null && Model.Questions.Any())
+    {
+        <div class="questions-title">
+            Q1) Choose the correct answer (@Model.Questions.Sum(q => q.Points) m):
+        </div>
+
+        <div class="questions-grid">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                var question = Model.Questions[i];
+                var correctAnswer = "";
+                
+                if (question.QuestionType == "True/False")
+                {
+                    var correct = question.Answers.FirstOrDefault(a => a.IsCorrect);
+                    correctAnswer = correct != null ? (correct.Text == "True" ? "A) True" : "B) False") : "";
+                }
+                else
+                {
+                    var correct = question.Answers.FirstOrDefault(a => a.IsCorrect);
+                    if (correct != null)
+                    {
+                        var index = question.Answers.IndexOf(correct);
+                        var letter = (char)('A' + index);
+                        correctAnswer = $"{letter}) {correct.Text}";
+                    }
+                }
+
+                <div class="question-item">
+                    <div class="question-number">
+                        @(i + 1)) @question.QuestionText
+                    </div>
+                    <div class="correct-answer">
+                        ✓ Correct Answer: @correctAnswer
+                    </div>
+                </div>
+            }
+            <div class="clear"></div>
+        </div>
+    }
+</body>
+</html>

@@ -18,6 +18,9 @@ namespace DataAccessLayer.Interfaces
         Task<bool> DeleteCourseWithDependenciesAsync(int courseId);
         Task<List<Lecture>> GetLecturesByCourseAsync(int courseId);
         Task<int?> GetCourseIdByNameAndProfessorAsync(string name, int professorId);
+        ///
+        Task<List<Course>> GetCoursesWithAvailableLecturesAsync(int professorId);
+        Task<List<Course>> GetCoursesWithLecturesAndFilesAsync(int professorId);
 
     }
 }

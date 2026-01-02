@@ -10,6 +10,8 @@ namespace BusinessLogicLayer.Dtos.LectureDto
     {
         public int Id { get; set; }
         public string LectureName { get; set; }
+        public List<string> FileNames { get; set; } = new List<string>();
+        public List<LectureFileGetDto> Files { get; set; } = new();
     }
 
 }

@@ -1,0 +1,535 @@
+﻿@model List<PresentationLayer.ViewModels.CourseOptionViewModel>
+
+<h2 class="mb-4">AI Auto Question Generation</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <!-- Bootstrap Alert Container -->
+        <div id="generationAlertContainer"></div>
+
+        <div class="row g-3">
+
+            <div class="col-md-12">
+                <label class="form-label"><strong>Select Course</strong></label>
+                <select id="courseSelect" class="form-select">
+                    <option value="">-- Select Course --</option>
+                    @foreach (var c in Model)
+                    {
+                        <option value="@c.Id">@c.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-12">
+                <hr class="mt-3 mb-3" />
+            </div>
+
+            <div class="col-md-12">
+                <div id="courseTitleContainer"></div>
+                <hr class="mb-4" id="courseHr" style="display:none;" />
+
+                <div id="lecturesFilesContainer">
+                    <p class="text-muted">Select a course to see all associated lectures and files, then choose a generation mode below.</p>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-4">
+
+                <h5 class="mb-3"><i class="bi bi-gear-fill me-2 text-primary"></i> Question Generation Mode</h5>
+
+                <div class="btn-group w-100 mb-3" role="group" aria-label="Question Generation Mode">
+                    <button type="button" class="btn btn-outline-primary active question-mode-btn" data-mode="distribution" id="distribBtn">
+                        <i class="bi bi-list-ol me-2"></i> Question Distribution
+                    </button>
+                    <button type="button" class="btn btn-outline-primary question-mode-btn" data-mode="semantic" id="semanticBtn">
+                        <i class="bi bi-search me-2"></i> Semantic Search / Focus
+                    </button>
+                </div>
+
+                <div class="card shadow-sm p-3 border-secondary">
+
+                    <div id="distributionContainer" class="question-mode-content">
+                        <label class="mb-3"><strong>Specify Question Numbers:</strong></label>
+
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label for="mcqEasyInput">MCQ Easy</label>
+                                <input id="mcqEasyInput" name="mcqEasy" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="mcqMediumInput">MCQ Medium</label>
+                                <input id="mcqMediumInput" name="mcqMedium" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="mcqHardInput">MCQ Hard</label>
+                                <input id="mcqHardInput" name="mcqHard" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 g-2">
+                            <div class="col-md-4">
+                                <label for="tfEasyInput">T/F Easy</label>
+                                <input id="tfEasyInput" name="tfEasy" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tfMediumInput">T/F Medium</label>
+                                <input id="tfMediumInput" name="tfMedium" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tfHardInput">T/F Hard</label>
+                                <input id="tfHardInput" name="tfHard" type="number" min="0" value="0" class="form-control form-control-sm question-distribution-input" />
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2 bg-light rounded text-center">
+                            Total Questions to Generate: <strong id="totalQuestionsDisplay" class="fs-5 text-success">0</strong>
+                        </div>
+                    </div>
+
+                    <div id="semanticSearchContainer" class="question-mode-content" style="display: none;">
+                        <label for="semanticSearchInput"><strong>Enter Focus Topic / Semantic Query:</strong></label>
+                        <textarea id="semanticSearchInput" class="form-control" rows="3" placeholder="e.g., Generate 5 questions specifically about the economic impact of WWII based on the selected lectures."></textarea>
+                        <small class="form-text text-muted">The AI will use this query to perform a semantic search within the selected lectures and generate relevant questions.</small>
+
+                        <hr class="mt-4 mb-3" />
+
+                        <label class="mb-3"><strong>Specify Question Numbers (Semantic Targeting):</strong></label>
+
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label for="mcqEasySemanticInput">MCQ Easy</label>
+                                <input id="mcqEasySemanticInput" name="mcqEasy" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="mcqMediumSemanticInput">MCQ Medium</label>
+                                <input id="mcqMediumSemanticInput" name="mcqMedium" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="mcqHardSemanticInput">MCQ Hard</label>
+                                <input id="mcqHardSemanticInput" name="mcqHard" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-3 g-2">
+                            <div class="col-md-4">
+                                <label for="tfEasySemanticInput">T/F Easy</label>
+                                <input id="tfEasySemanticInput" name="tfEasy" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tfMediumSemanticInput">T/F Medium</label>
+                                <input id="tfMediumSemanticInput" name="tfMedium" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="tfHardSemanticInput">T/F Hard</label>
+                                <input id="tfHardSemanticInput" name="tfHard" type="number" min="0" value="0" class="form-control form-control-sm semantic-number-input" />
+                            </div>
+                        </div>
+
+                        <div class="mt-3 p-2 bg-light rounded text-center">
+                            Total Semantic Questions: <strong id="semanticTotalDisplay" class="fs-5 text-success">0</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <button id="generateQuestionsButton" class="btn btn-secondary text-white mt-4 w-100" style="display: block;" disabled>
+                    <i class="bi bi-robot me-2"></i> Select Lectures and Options
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // --- DOM Elements ---
+        // Assuming Newtonsoft.Json is available for server-side JSON serialization to JavaScript.
+        var courseData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+        var courseSelect = document.getElementById("courseSelect");
+        var lecturesFilesContainer = document.getElementById("lecturesFilesContainer");
+        var generateQuestionsButton = document.getElementById("generateQuestionsButton");
+
+        // Distribution inputs (existing)
+        var distributionInputs = document.querySelectorAll('.question-distribution-input');
+        var totalQuestionsDisplay = document.getElementById("totalQuestionsDisplay");
+
+        // Semantic inputs (new)
+        var semanticSearchInput = document.getElementById("semanticSearchInput");
+        var semanticInputs = document.querySelectorAll('.semantic-number-input');
+        var semanticTotalDisplay = document.getElementById("semanticTotalDisplay");
+
+        // NEW MODE ELEMENTS
+        var distributionContainer = document.getElementById("distributionContainer");
+        var semanticSearchContainer = document.getElementById("semanticSearchContainer");
+        var modeButtons = document.querySelectorAll('.question-mode-btn');
+
+        // Global state to track active mode
+        let currentMode = 'distribution';
+
+        // --- Core Functions ---
+
+        function toggleQuestionMode(mode) {
+            currentMode = mode;
+
+            // 1. Toggle Button Styles (using Bootstrap's 'active' and 'btn-outline-primary' classes)
+            modeButtons.forEach(btn => {
+                btn.classList.remove('active', 'btn-primary');
+                btn.classList.add('btn-outline-primary');
+                if (btn.dataset.mode === mode) {
+                    btn.classList.add('active', 'btn-primary');
+                    btn.classList.remove('btn-outline-primary');
+                }
+            });
+
+            // 2. Toggle Content Visibility
+            distributionContainer.style.display = mode === 'distribution' ? 'block' : 'none';
+            semanticSearchContainer.style.display = mode === 'semantic' ? 'block' : 'none';
+
+            // 3. Clear the *inactive* input field to prevent accidental submission of unused data
+            if (mode === 'distribution') {
+                // Clear semantic inputs & textarea
+                semanticSearchInput.value = '';
+                semanticInputs.forEach(i => i.value = 0);
+                semanticTotalDisplay.textContent = '0';
+            } else {
+                // Clear distribution inputs & total display
+                distributionInputs.forEach(i => i.value = 0);
+                totalQuestionsDisplay.textContent = '0';
+            }
+
+            updateGenerateButtonState();
+        }
+
+        // Calculates total questions for Distribution mode
+        function calculateTotalQuestions() {
+            let total = 0;
+            // Iterate over all distribution-related inputs, but only count if in distribution mode for display update
+            if (currentMode === 'distribution') {
+                distributionInputs.forEach(input => {
+                    const value = parseInt(input.value) || 0;
+                    total += value;
+                });
+                totalQuestionsDisplay.textContent = total;
+            } else {
+                // For the state check (if mode is semantic, still calculate in the background to ensure data isn't missing)
+                distributionInputs.forEach(input => {
+                    const value = parseInt(input.value) || 0;
+                    total += value;
+                });
+            }
+
+            return total;
+        }
+
+        // Calculates total questions for Semantic mode
+        function calculateSemanticTotal() {
+            let total = 0;
+            semanticInputs.forEach(input => {
+                const value = parseInt(input.value) || 0;
+                total += value;
+            });
+            semanticTotalDisplay.textContent = total;
+            return total;
+        }
+
+        // Helper function to update the state of the main generation button
+        function updateGenerateButtonState() {
+            const checkedLectures = lecturesFilesContainer.querySelectorAll('.lecture-checkbox:checked');
+            const lecturesSelected = checkedLectures.length > 0;
+
+            let isReadyToGenerate = false;
+            let buttonText = `<i class="bi bi-robot me-2"></i> Select Lectures and Options`;
+
+            if (lecturesSelected) {
+                if (currentMode === 'distribution') {
+                    const totalQuestions = calculateTotalQuestions();
+                    if (totalQuestions > 0) {
+                        isReadyToGenerate = true;
+                        buttonText = `<i class="bi bi-robot me-2"></i> Generate ${totalQuestions} Question(s) from ${checkedLectures.length} Lecture(s)`;
+                    } else {
+                        buttonText = `<i class="bi bi-robot me-2"></i> Specify Question Distribution (Total: 0)`;
+                    }
+                } else if (currentMode === 'semantic') {
+                    const semanticQuery = semanticSearchInput.value.trim();
+                    const semanticTotal = calculateSemanticTotal();
+
+                    if (semanticQuery.length > 0 && semanticTotal > 0) {
+                        isReadyToGenerate = true;
+                        buttonText = `<i class="bi bi-robot me-2"></i> Generate ${semanticTotal} Semantic Question(s) from ${checkedLectures.length} Lecture(s)`;
+                    } else if (semanticQuery.length === 0) {
+                        buttonText = `<i class="bi bi-robot me-2"></i> Enter Semantic Search Query`;
+                    } else {
+                        buttonText = `<i class="bi bi-robot me-2"></i> Specify Question Numbers`;
+                    }
+                }
+            }
+
+            generateQuestionsButton.disabled = !isReadyToGenerate;
+            generateQuestionsButton.innerHTML = buttonText;
+        }
+
+        // Collects all required data for the API call
+        function collectGenerationData() {
+            const selectedCourseId = parseInt(courseSelect.value);
+            const lecturesToProcess = [];
+
+            // 1. Collect Selected Lectures
+            lecturesFilesContainer.querySelectorAll('.lecture-checkbox:checked').forEach(checkbox => {
+                lecturesToProcess.push({
+                    LectureId: parseInt(checkbox.dataset.lectureId),
+                    // Ensure FileIds is an array of integers, handling empty string case
+                    FileIds: checkbox.dataset.fileIds ? checkbox.dataset.fileIds.split(',').map(id => parseInt(id)) : []
+                });
+            });
+            const filesToProcess = [];
+
+            lecturesFilesContainer.querySelectorAll('.lecture-checkbox:checked').forEach(checkbox => {
+
+                // Extract array of file IDs from dataset
+                const fileIds = checkbox.dataset.fileIds
+                    ? checkbox.dataset.fileIds.split(',').map(id => parseInt(id))
+                    : [];
+
+                // Convert each file ID into the object your backend expects
+                fileIds.forEach(id => {
+                    filesToProcess.push({
+                        FileId: id
+                    });
+                });
+            });
+
+            // 2. Collect Mode-specific Data
+            let distribution = {};
+            let semanticQuery = '';
+            let inputsToCollect = [];
+
+            if (currentMode === 'distribution') {
+                inputsToCollect = distributionInputs;
+            } else if (currentMode === 'semantic') {
+                inputsToCollect = semanticInputs;
+                semanticQuery = semanticSearchInput.value.trim();
+            }
+
+            // Collect numeric inputs for the Distribution dictionary
+            inputsToCollect.forEach(input => {
+                // input.name will be 'McqEasy', 'SemanticMcqEasy', etc.
+                distribution[input.name] = parseInt(input.value) || 0;
+            });
+
+
+            return {
+                CourseId: selectedCourseId,
+                Distribution: distribution,
+                LecturesToProcess: lecturesToProcess,
+                FilesToProcess: filesToProcess,
+                SemanticQuery: semanticQuery
+            };
+        }
+
+        // Helper function to render the full lecture/file structure
+        function renderCourseContent(course) {
+
+            document.getElementById("courseTitleContainer").innerHTML = "";
+            document.getElementById("courseHr").style.display = 'none';
+            lecturesFilesContainer.innerHTML = "";
+
+            if (!course || course.Lectures.length === 0) {
+                lecturesFilesContainer.innerHTML = `<p class="text-info">No lectures found for this course.</p>`;
+                updateGenerateButtonState();
+                return;
+            }
+
+            document.getElementById("courseTitleContainer").innerHTML = `<h3 class="text-primary">${course.Name}</h3>`;
+            document.getElementById("courseHr").style.display = 'block';
+
+            let html = '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">';
+            let hasAnyFiles = false;
+
+            course.Lectures.forEach(lecture => {
+                const filesExist = lecture.Files && lecture.Files.length > 0;
+                if (filesExist) hasAnyFiles = true;
+
+                // Create a comma-separated string of file IDs for the data attribute
+                const fileIds = filesExist ? lecture.Files.map(f => f.Id).join(',') : '';
+
+                // --- Start Lecture Card ---
+                html += `<div class="col">
+                                    <div class="card shadow-sm h-100 d-flex flex-column ${filesExist ? '' : 'border-danger'}">
+                                        <div class="card-header bg-secondary text-white"><strong>${lecture.LectureName}</strong></div>
+                                        <div class="card-body flex-grow-1">
+                                            <h6 class="fw-bold">File Name(s):</h6>
+                                            ${filesExist
+                        ? `<ul class="list-unstyled mb-0">${lecture.Files.map(f => `<li class="mb-2">${f.FileName}</li>`).join('')}</ul>`
+                        : `<p class="text-danger mb-0">Cannot be selected: No files uploaded.</p>`
+                    }
+                                        </div>
+                                        <div class="card-footer d-flex justify-content-center">
+                                            <label class="btn btn-block w-100 ${filesExist ? 'btn-outline-primary' : 'btn-secondary disabled'}"
+                                                for="lecture-select-${lecture.Id}">
+                                                <input class="lecture-checkbox" type="checkbox" id="lecture-select-${lecture.Id}"
+                                                    data-lecture-id="${lecture.Id}" data-file-ids="${fileIds}" ${filesExist ? '' : 'disabled'}
+                                                    style="display: none;">
+                                                <span class="checkbox-text">${filesExist ? 'Select for AI Generation' : 'Not Available'}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>`;
+                // --- End Lecture Card ---
+            });
+
+            html += '</div>';
+            lecturesFilesContainer.innerHTML = html;
+
+            // Attach event listener to all new selection controls
+            lecturesFilesContainer.querySelectorAll('.lecture-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    const label = this.closest('label');
+                    const textSpan = label.querySelector('.checkbox-text');
+
+                    if (this.checked) {
+                        label.classList.remove('btn-outline-primary');
+                        label.classList.add('btn-primary');
+                        textSpan.textContent = 'Selected (Click to Unselect)';
+                    } else {
+                        label.classList.remove('btn-primary');
+                        label.classList.add('btn-outline-primary');
+                        textSpan.textContent = 'Select for AI Generation';
+                    }
+
+                    updateGenerateButtonState();
+                });
+            });
+
+            updateGenerateButtonState();
+        }
+
+        // --- Event Listeners ---
+
+        // 1. Course Selection Event
+        courseSelect.addEventListener("change", function () {
+            // Reset state
+            lecturesFilesContainer.innerHTML = `<p class="text-muted">Select a course to see all associated lectures and files, then choose a generation mode below.</p>`;
+            document.getElementById("courseTitleContainer").innerHTML = "";
+            document.getElementById("courseHr").style.display = 'none';
+
+            var courseId = parseInt(this.value);
+            if (isNaN(courseId)) {
+                updateGenerateButtonState();
+                return;
+            }
+
+            var course = courseData.find(c => c.Id === courseId);
+            if (!course) return;
+
+            renderCourseContent(course);
+        });
+
+        // 2. Question Distribution Input Events
+        // The same function handles both distribution and semantic number inputs
+        const allNumberInputs = [...distributionInputs, ...semanticInputs];
+        allNumberInputs.forEach(input => {
+            input.addEventListener('input', updateGenerateButtonState);
+            // Ensure values are not negative
+            input.addEventListener('change', function () {
+                if (parseInt(this.value) < 0) this.value = 0;
+            });
+        });
+
+        // 3. Semantic Search Input Event
+        semanticSearchInput.addEventListener('input', updateGenerateButtonState);
+
+        // 4. Mode Toggle Buttons
+        modeButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Ensure only one mode is active and perform cleanup/setup
+                toggleQuestionMode(this.dataset.mode);
+            });
+        });
+
+        // 5. Final Action: Add listener for the main button
+        generateQuestionsButton.addEventListener("click", function () {
+            const data = collectGenerationData();
+
+            // Final validation based on the active mode
+            if (data.LecturesToProcess.length === 0) {
+                showAlert('Please select at least one lecture.');
+                return;
+            }
+            const currentTotalQuestions = currentMode === 'distribution'
+                ? calculateTotalQuestions()
+                : calculateSemanticTotal();
+
+            if (currentTotalQuestions === 0) {
+                showAlert('Please specify at least one question number in the active mode.');
+                return;
+            }
+
+            if (currentMode === 'semantic' && data.SemanticQuery.length === 0) {
+                showAlert('Please provide a semantic search query in Semantic mode.');
+                return;
+            }
+
+            // API call preparation...
+            this.disabled = true;
+            this.innerHTML =
+                `<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Processing...`;
+
+            console.log("Submitting AI Generation Request:", data);
+
+            // AJAX Call to the C# Controller
+            fetch('/Professor/GenerateQuestions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(async response => {
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Unknown error occurred');
+                    }
+
+                    return result;
+                })
+                .then(result => {
+                    window.location.href = result.redirectUrl;
+                })
+                .catch(async error => {
+                    console.error(error);
+
+                    let message = 'An unexpected error occurred. Please try again.';
+
+                    // Map semantic no-match errors to a user-friendly message
+                    if (error.message.includes('404') || error.message.includes('No semantic matches') || error.message.includes('RAG error')) {
+                        message = 'No content in the selected lectures matches your semantic query. Try a different keyword or select more lectures.';
+                    }
+
+                    showAlert(message, 'danger'); // you can use 'warning' instead of 'danger' for semantic warnings
+                });
+
+        });
+
+
+
+        function showAlert(message, type = 'danger') {
+            const alertContainer = document.getElementById('generationAlertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            alertContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+
+
+        // Set initial state
+        toggleQuestionMode('distribution'); // Initialize mode and event listeners
+    </script>
+}
