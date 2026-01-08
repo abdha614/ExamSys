@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+python-dotenv
+python-multipart
+openai
+chromadb
+pymupdf
+pytesseract
+pillow
+requests
+numpy
+scikit-learn
+sentence-transformers
+tqdm
