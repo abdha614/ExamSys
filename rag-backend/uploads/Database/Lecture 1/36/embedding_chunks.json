@@ -1,0 +1,57 @@
+[
+  {
+    "chunk_index": 1,
+    "title": "Layered Architecture",
+    "text": "Layered Architecture\nتايجمربلا ناينب ررقم\nةثلاثلا ةرضاحملا\nةيتامولعملا ةسدنهلا ةيلك\nد. لبنس ضاير\n1\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n\n\nQuick Review\n▪Software Architecture.\n▪Design Goals. \n▪Subsystem.\n▪Service.\n▪Subsystem interface.\n▪Application programmer’s interface (API).\n▪Layers and Partitions.\n▪Layer relationships: “depends on”  vs “calls”.\n▪Separation of Concerns (SoC).\n▪Coupling and Coherence of Subsystems\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n2\n\n\nSoftware Architecture Style\n▪A software architecture style is a solution to a recurring problem \nthat is well understood, in a particular context. \n▪Each pattern consists of a context, a problem, and a solution. \n▪Using patterns simplifies design and allows us to gain the benefits \nof using a solution that is proven to solve a particular design \nproblem.\n▪More than one software architecture pattern can be used in a \nsingle software system. These patterns can be combined to solve \nproblems.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n3"
+  },
+  {
+    "chunk_index": 2,
+    "title": "Layered Architecture",
+    "text": "Layered Architecture\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n4\nIn this Lecture\n\n\nThe Problem!\n▪You are designing a system that needs to handle a mix of low-level \nand high-level issues\n▪High-level operations rely on lower-level ones\n▪The system is large, and a methodical approach to organizing it is \nneeded to keep it understandable\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n5\n\n\nSolution\n▪Structure the system into an appropriate \nnumber of layers, and place them on top of \neach other\n▪Each layer represents a level of abstraction\n▪Classes are placed in layers based on their \nlevels of abstraction\n▪Layer 1 is at the bottom and contains classes \nclosest to the hardware/OS\n▪Layer N is at the top and contains classes that \ninteract directly with the system's clients\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n6\nClient\nLayer N\nLayer N-1\nLayer 2\nLayer 1"
+  },
+  {
+    "chunk_index": 3,
+    "title": "Solution",
+    "text": "Solution\n▪Layer J uses the services of Layer J-1 \nand provides services to Layer J+1\n▪Most of Layer J's services are \nimplemented by composing Layer J-\n1's services in meaningful ways\n▪Layer J raises the level of abstraction \nby one level\n▪Classes in Layer J may also use each \nother\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n7\nLayer 3\nComponent\nComponent\nComponent\nComponent\nLayer 2\nComponent\nComponent\nComponent\nComponent\nLayer 1\nComponent\nComponent\nComponent\nComponent\n\n\nDynamic Behavior (The most common case)\n▪Request at Layer N travels down through each \nsuccessive layer, finally reaching Layer 1\n▪The top-level request results in a tree of \nrequests that travel down through the layers \n(each request at Layer J is translated into \nmultiple requests to Layer J-1)\n▪Results from below are combined to produce a \nhigher-level result that is passed to the layer \nabove\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n8\nClient\nLayer N\nLayer N-1\nLayer 2\nLayer 1\n\n\nExample\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n9"
+  },
+  {
+    "chunk_index": 4,
+    "title": "Example",
+    "text": "Example\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n9\n\n\nImplementation\n▪Determine the number of layers (i.e., abstraction levels)\n▪Name the layers and assign responsibilities to them\n▪Define the interface for each layer\n▪Error handling strategy\n◦Errors received from the layer below should be mapped \ninto higher-level errors that are appropriate for the layer \nabove\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n10\n\n\nRelaxed (Open) vs. strict (Closed) Layers\nRELAXED (OPEN) \n▪Layer J can call directly into any \nlayer below it, not just Layer J-1.\n▪Pros: More flexible and efficient \nthan strict layers:\n▪Cons: Increases complexity, less \nunderstandable and \nmaintainable than strict layers\nSTRICT (CLOSED)\n▪Layer J can ONLY call Layer J-1\n▪Pros: makes code easier to \nchange, write, and understand.\n▪Cons: unnecessary traffic can \nresult\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n11\nIt is not necessary to make all of the layers open or closed. \nYou may selectively choose which layers, if any, are open."
+  },
+  {
+    "chunk_index": 5,
+    "title": "Relaxed (Open) vs. strict (Closed) Layers",
+    "text": "Relaxed (Open) vs. strict (Closed) Layers\nRELAXED (OPEN) \nSTRICT (CLOSED)\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n12\n\n\nKnown Uses: Virtual machines - Java\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n13\nHardware A\nOperating System A\nJava Virtual\nMachine A\nNative\nApplication A\nJava Libraries\nHardware B\nOperating System B\nJava Virtual\nMachine B\nNative\nApplication B\nJava\nApplication\nJava Libraries\nJava\nApplication\n\n\nClient-server architecture (2-tier architecture)\n▪In a distributed application that uses a client-\nserver architecture, also known as a two-tier \narchitecture, clients and servers communicate \nwith each other directly. \n▪A client requests some resource or calls some \nservice provided by a server and the server \nresponds to the requests of clients. \n▪There can be multiple clients connected to a \nsingle server.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n14\ncontains the user \ninterface code \nContains the relational database \nmanagement system (RDBMS)\nThe majority of \napplication logic"
+  },
+  {
+    "chunk_index": 6,
+    "title": "Client-server architecture (2-tier architecture)",
+    "text": "Client-server architecture (2-tier architecture)\n▪When the client contains a significant portion of the logic and is \nhandling a large share of the workload, it is known as a thick, or fat, \nclient. When the server is doing that instead, the client is known as \na thin client.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n15\na) Thick client architecture                                                 b) Thin client architecture\n\n\n3-Tier architecture\n▪One of the most widely-used variations of this type \nof layered architecture is the three-tier architecture. \n▪The rise of the web coincided with a shift from two-\ntier (client-server) architectures to three-tier \narchitectures. \n▪With web applications and the use of web browsers, \nrich client applications containing business logic were \nnot ideal. \n▪The three-tier architecture separates logic into \npresentation, business, and data layers\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n16"
+  },
+  {
+    "chunk_index": 7,
+    "title": "3-Tier architecture - Presentation tier ",
+    "text": "3-Tier architecture - Presentation tier \n▪The logic in the presentation tier should focus on \nuser interface concerns.\n◦Data is presented to the user and input is received from users \nin this tier.\n◦Logic to render the user interface, including the placement of \ndata, formatting the data, and hiding/showing UI \ncomponents as required\n▪Basic validation.\n◦Developers should be careful not to introduce business logic \ninto the validation, which should be handled by the business \ntier.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n17"
+  },
+  {
+    "chunk_index": 8,
+    "title": "3-Tier architecture - Business tier",
+    "text": "3-Tier architecture - Business tier\n▪Provides the implementation for the business logic of \nthe application, including such things as business \nrules, validations, and calculation logic. \n▪Business entities for the application's domain are \nplaced in this tier.\n▪The business tier is the center of the application and \nserves as an intermediary between the presentation \nand data tiers. \n◦It provides the presentation tier with services, commands, \nand data that it can use, \n◦and it interacts with the data tier to retrieve and manipulate \ndata.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n18"
+  },
+  {
+    "chunk_index": 9,
+    "title": "3-Tier architecture - Data tier",
+    "text": "3-Tier architecture - Data tier\n▪The data tier provides functionality to access and \nmanage data. \n▪In some systems, there is a data access or persistence \nlayer in addition to a data or database layer.\n◦The persistence layer contains components for data access, \nsuch as an object relational mapping (ORM) tool,\n◦and the database layer contains the actual data store, such as \nan RDBMS.\n▪ One reason to separate these into two distinct layers \nis if you wanted the ability to switch out your data \naccess or database technology for a different one.\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n19"
+  },
+  {
+    "chunk_index": 10,
+    "title": "Advantages",
+    "text": "Advantages\n▪This pattern reduces complexity by achieving a Separation of \nConcerns (SoC). \n◦Dependencies are organized in an understandable way\n▪This architecture pattern increases the testability quality attribute \nof software application\n◦For example, you can perform unit testing on classes in your business layer \nwithout the presentation and data layers. \n▪Individual layers can be reused, modified, or replaced\n◦Peel off UI layer, replace with different style of UI\n◦Modify data storage layer to use a different database\n◦Lower layers can be reused in an entirely different application\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n20"
+  },
+  {
+    "chunk_index": 11,
+    "title": "Disadvantages",
+    "text": "Disadvantages\n▪Lower efficiency\n◦Overhead involved in moving between layers\n▪A requirement change may require changes in multiple layers. This \ntype of coupling lowers the overall agility of the software \napplication.\n◦For example, adding a new field will require changes to multiple layers\n▪Dependencies between layers can cause problems when a layer \nneeds to be modified.\n◦See next slid!\nRIAD SONBOL - SOFTWARE ARCHITECTURE\n21\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCustomer Customer\n\nPresentation Layer Screen Delegate\n\nBusiness Layer\n\nPersistence Layer =) CE)\n| I\n! ١\nDatabase Layer L @ a!\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPresentation Layer\n\nBusiness Layer\n\nPersistence Layer\n\n(CLOSED)\n\n\n\n\n\n\n\nClient\n\nLf\n\nServer\n\n\n\n\n\nWeb Server\n\nWeb Server\n\nAY Gent\n\nWeb Browser\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPresentation Tier\n\niness\n\nلا\n‎Data Tier‏\n\n\n\n\n\nPresentation Tier\n\niness\n\nلا\n‎Data Tier‏\n\n\n\n\n\nPresentation Tier\n\niness\n\nلا\n‎Data Tier‏\n\n\n\n\n\nPresentation Tier\n\niness\n\nلا\n‎Data Tier‏"
+  }
+]

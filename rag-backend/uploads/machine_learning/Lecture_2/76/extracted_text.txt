@@ -1,0 +1,623 @@
+ أشجار القرار1
+Decision Tree 1
+د .رياض سنبل
+1
+RIAD SONBOL - ML COURSE
+مقرر تعلم اآللة
+المحاضرة الثانية
+كلية الهندسة المعلوماتية
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+2
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+3
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+4
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+Instance
+Features
+Class (Output)
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+5
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+6
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+Sepal Length: 5.1 ,
+Sepal Width=3.5,
+Petal Length = 0.8,
+Petal Width = 0.2,
+Class = ???
+Class = Setosa
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+7
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+RIAD SONBOL - ML COURSE
+8
+Example: Predict When This Player Will Play Tennis?
+
+
+Decision Tree Hypothesis Space
+▪Internal nodes test the value of particular features xi and branch according to the results of 
+the test.
+▪Leaf nodes specify the class.
+RIAD SONBOL - ML COURSE
+9
+
+
+If the features are Continuous…
+RIAD SONBOL - ML COURSE
+10
+
+
+Decision Tree Decision Boundaries
+▪Decision trees divide the feature space into axis-parallel rectangles, and label each rectangle 
+with one of the K class.
+RIAD SONBOL - ML COURSE
+11
+▪Advantages:
+◦explicit relationship among features
+◦human interpretable model
+▪Limitations?
+
+
+Learning Algorithm for Decision Trees
+RIAD SONBOL - ML COURSE
+12
+
+
+Which Attribute is "best"?
+RIAD SONBOL - ML COURSE
+13
+A1=?
+True
+False
+[21+, 5-]
+[8+, 30-]
+[29+,35-]
+A2=?
+True
+False
+[18+, 33-]
+[11+, 2-]
+[29+,35-]
+
+
+Which Attribute is "best"?
+RIAD SONBOL - ML COURSE
+14
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+al_length,sepal_width,petal_ length, petal width,class
+
+ANM SIN OD ‏مه‎
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+petal length
+
+petal width
+
+> 1.75 cm, >= 75 0
+
+Versicolor Virginica
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+petal length
+
+petal width
+
+> 1.75 cm, >= 75 0
+
+Versicolor Virginica
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+petal length
+
+petal width
+
+> 1.75 cm, >= 75 0
+
+Versicolor Virginica
+
+
+
+
+
+PlayTennis
+No
+No
+Yes
+Yes
+Yes
+
+PlayTennis: training examples
+
+Wind
+Weak
+Strong
+Weak
+Weak
+Weak
+Strong
+Strong
+Weak
+Weak
+Weak
+Strong
+Strong
+Weak
+
+Strong,
+
+Humidity
+
+High
+High
+High
+High
+Normal
+Normal
+Normal
+High
+Normal
+Normal
+Normal
+High
+Normal
+High
+
+Temperature
+
+Hot
+
+Hot
+
+Hot
+
+Mild
+Cool
+Cool
+Cool
+Mild
+Cool
+Mild
+Mild
+Mild
+Hot
+Mild
+
+Outlook
+Sunny
+Sunny
+
+Overcast
+
+Rain
+Rain
+Rain
+
+Overcast
+Sunny
+Sunny
+
+Rain
+Sunny
+Overcast
+Overcast
+
+Rain
+
+Day
+
+D12
+D13
+D14
+
+
+
+
+
+Wind
+
+Rain
+
+Strong Weak
+
+\
+
+Yes
+
+2
+
+No
+
+Outlook
+
+Sunny Overcast
+
+\
+
+Yes
+
+Normal
+
+\
+
+Yes
+
+Humidity
+
+High
+
+2
+
+No
+
+Suppose the features are Outlook (1r:), Temperature (2), Humidity (3), and Wind
+(2s). Then the feature vector x = (Sunny, Hot, High, Strong) will be classified as No. The
+
+Temperature feature is irrelevant.
+
+
+
+
+
+Outlook
+
+Sunny Overcast Rain
+Humidity Yes Wind
+>75% <= 75% <20 >20
+
+2 > 2 >
+
+No Yes No Yes
+
+
+
+
+
+
+
+x2
+
+
+
+
+
+GrowTREE(S) Poe
+if (y = 0 for all (x,y) 6 S) return new leaf(0)
+else if (y = 1 for all (x,y) € S) return new leaf(1)
+else
+choose best attribute x;
+So = all (x,y) 6 S with ‏رع‎ = 0;
+S; =all (x,y) 6 S with ‏رع‎ = 1,
+return new node(x;, GROWTREE(Sp), GROWTREE(S}))
+
+
+
+
+
+
+Tree 2
+
+ce ee
+Outlook
+
+‎[Overcast] [Rain‏ الس
+
+‎Humidity Wind
+
+‎diy” gp
+
+‎Dr. Bassam Kurdy
+
+
+
+| Overcast | fea
+Yes
+[Strong || Weak | ee
+Dr. Bassam K|
+No
+
+
+
+Coo!
+
+
+Mild
+
+

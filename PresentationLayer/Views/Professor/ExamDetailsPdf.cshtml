@@ -24,6 +24,7 @@
             display: table;
             width: 100%;
             margin-bottom: 15px;
+            font-size: 14pt;
         }
 
         .header-left, .header-center, .header-right {
@@ -41,7 +42,7 @@
         }
 
             .header-center img {
-                height: 50px;
+                height: 60px;
             }
 
         .header-right {
@@ -64,7 +65,7 @@
             width: 50%;
             text-align: right;
             vertical-align: middle;
-            font-size: 10pt;
+            font-size: 11pt;
             direction: rtl;
         }
 
@@ -142,7 +143,8 @@
     <div class="exam-info">
         <div class="info-row">
             <div class="info-col-left">
-                <strong>اسم الطالب:</strong> <span class="dotted-line"></span>
+                <p class="mb-1"><strong> اسم الطالب&nbsp;:</strong> .............................................</p>
+
             </div>
             <div class="info-col-right">
                 <strong>الكلية :</strong> هندسة الحاسوب والمعلوماتية
@@ -151,7 +153,8 @@
 
         <div class="info-row">
             <div class="info-col-left">
-                <strong>رقم الطالب:</strong> <span class="dotted-line"></span>
+                <p class="mb-1"><strong> رقم الطالب&nbsp;:</strong> .............................................</p>
+
             </div>
             <div class="info-col-right">
                 <strong>المادة :</strong> @Model.CourseName
@@ -160,10 +163,12 @@
 
         <div class="info-row">
             <div class="info-col-left">
-                <strong>الفصل الدراسي:</strong> @Model.Semester
+                <strong>الفصل الدراسي&nbsp;:</strong> @Model.Semester
+
             </div>
             <div class="info-col-right">
-                <strong>اسم مدرس المادة:</strong> @Model.TeacherName
+                <strong>اسم مدرس المادة&nbsp;:</strong> @Model.TeacherName
+
             </div>
         </div>
     </div>

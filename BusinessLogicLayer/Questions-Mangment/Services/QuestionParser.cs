@@ -28,7 +28,7 @@ namespace BusinessLogicLayer.Questions_Mangment.Services
                 var type = match.Groups["type"].Value.Trim().ToLower();
                 var content = match.Groups["content"].Value;
 
-                // Split lines but preserve formatting (do not trim)
+                // Split lines but preserve formatting
                 var lines = content.Split('\n')
                                    .Where(l => !string.IsNullOrWhiteSpace(l))
                                    .ToList();
@@ -53,7 +53,7 @@ namespace BusinessLogicLayer.Questions_Mangment.Services
                         };
                         i++;
 
-                        // Collect all lines that are part of the question text until the first choice (A-D) or "correct answer" or lecture info
+                        // Collect question text lines until first choice/correct answer/lecture info
                         var questionTextLines = new List<string> { q.QuestionText };
                         while (i < lines.Count &&
                                !Regex.IsMatch(lines[i], @"^[A-Da-d]\)", RegexOptions.IgnoreCase) &&
@@ -107,6 +107,9 @@ namespace BusinessLogicLayer.Questions_Mangment.Services
 
                             break;
                         }
+
+                        // Shuffle MCQ choices to randomize correct answer position
+                        ShuffleMcqChoices(q);
 
                         questions.Add(q);
                         continue;
@@ -184,6 +187,55 @@ namespace BusinessLogicLayer.Questions_Mangment.Services
             }
 
             return result;
+        }
+
+        // -------------------------
+        // Helper: Shuffle MCQ choices
+        // -------------------------
+        private void ShuffleMcqChoices(QuestionAIDto question)
+        {
+            if (question.Choices == null || question.Choices.Count != 4 || string.IsNullOrEmpty(question.Answer))
+                return;
+
+            // Map current answer to index
+            int correctIndex = question.Answer switch
+            {
+                "A" => 0,
+                "B" => 1,
+                "C" => 2,
+                "D" => 3,
+                _ => -1
+            };
+
+            if (correctIndex == -1) return;
+
+            var correctChoice = question.Choices[correctIndex];
+
+            // Remove correct choice temporarily
+            var otherChoices = question.Choices.Where((c, idx) => idx != correctIndex).ToList();
+
+            // Shuffle other choices
+            var rng = new Random();
+            otherChoices = otherChoices.OrderBy(x => rng.Next()).ToList();
+
+            // Pick a new random index for the correct answer
+            int newIndex = rng.Next(0, 4);
+
+            // Insert correct choice at new index
+            otherChoices.Insert(newIndex, correctChoice);
+
+            // Update question choices
+            question.Choices = otherChoices;
+
+            // Update Answer property (A, B, C, D)
+            question.Answer = newIndex switch
+            {
+                0 => "A",
+                1 => "B",
+                2 => "C",
+                3 => "D",
+                _ => question.Answer
+            };
         }
     }
 }

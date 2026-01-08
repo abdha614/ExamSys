@@ -1,0 +1,72 @@
+[
+  {
+    "chunk_index": 1,
+    "title": "Design Patterns: ",
+    "text": "Design Patterns: \nTemplate Method Pattern, State Pattern\nمقرر تصميم نظم البرمجيات\nالمحاضرة الرابعة\nكلية الهندسة المعلوماتية\nد .رياض سنبل\n1\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n\n\nDesign Patterns \n▪Creational Patterns \n(abstracting the object-instantiation process)\n   Factory Method \nAbstract Factory \nSingleton\n   Builder    \nPrototype\n▪Structural Patterns \n(how objects/classes can be combined)\n   Adapter                               Bridge \nComposite\n   Decorator \nFacade \nFlyweight\n   Proxy\n▪Behavioral Patterns \n(communication between objects)\n   Command \nInterpreter \nIterator\n   Mediator \nObserver \nState\n   Strategy  \nChain of Responsibility \nVisitor\n   Template Method\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n2\n\n\nTemplate Method Pattern\nTEMPLATE METHOD PATTERN\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n3\n\n\nStrategy Pattern\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n4"
+  },
+  {
+    "chunk_index": 2,
+    "title": "Strategy Pattern",
+    "text": "Strategy Pattern\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n4\n\n\nStrategy Pattern.. What if?\n▪In Strategy patter, IStrategy is an Interface\n▪i.e. each concreate Stategy has its own implementation..\n▪What if these strategies have some common (“shared”) steps!\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n5\n\n\nExample\n▪Imagine that you’re \ncreating a data mining \napplication that \nanalyzes corporate \ndocuments. Users feed \nthe app documents in \nvarious formats (PDF, \nDOC, CSV), and it tries \nto extract meaningful \ndata from these docs in \na uniform format.\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n6\n\n\nTemplate Method Pattern\n▪Template Method is a \nbehavioral design pattern that \ndefines the skeleton of an \nalgorithm in the superclass but \nlets subclasses override \nspecific steps of the algorithm \nwithout changing its structure.\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n7\n\n\nState Pattern\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n8"
+  },
+  {
+    "chunk_index": 3,
+    "title": "State Pattern",
+    "text": "State Pattern\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n8\n\n\nThe Problem\n▪An object's behavior changes based on its internal state!\n▪Operations have large, multipart conditional statements that \ndepend on the object’s state.\n▪This state is usually represented by one or more enumerated \nconstants.\n▪Often, several operations will contain this same conditional \nstructure. \n▪The State pattern puts each branch of the conditional in a separate \nclass\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n9\n\n\nExample\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n10\n\n\nExample\n▪Imagine that we have a Document class. \nA document can be in one of three \nstates: Draft, Moderation and Published. \nThe publish method of the document \nworks a little bit differently in each state:\n▪In Draft, it moves the document to \nmoderation.\n▪In Moderation, it makes the document \npublic, but only if the current user is an \nadministrator.\n▪In Published, it doesn’t do anything at \nall.\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n11"
+  },
+  {
+    "chunk_index": 4,
+    "title": "State Pattern",
+    "text": "State Pattern\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n12\n\n\nComparison\n▪Template varies specific \nparts of the algorithm by \nsubclasses.\n▪Template Method is \nbased on inheritance\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n13\n▪Strategy varies the entire \nalgorithm via its \nstrategies.\n▪Strategy is based on \ncomposition\n▪State encapsulates state-\nspecific behavior into \nseparate objects\n▪State pattern is based on \ncomposition.\n\n\nExamples\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n14\n\n\nExample 1\n▪You are designing a system for processing online orders in \nan e-commerce platform. The system needs to handle \nvarious payment methods (e.g., credit card, PayPal, bank \ntransfer) with specific validation and transaction processing \nlogic. How would you design the payment processing \nsystem to accommodate different payment methods while \nensuring flexibility and maintainability?\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n15\n\n\nSolution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n16"
+  },
+  {
+    "chunk_index": 5,
+    "title": "Solution",
+    "text": "Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n16\n\n\nDetailed Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n17\npublic interface PaymentStrategy {\n \npublic void pay(int amount);\n}\npublic class CreditCardStrategy implements PaymentStrategy {\n \nprivate String name;\n \nprivate String cardNumber;\n \nprivate String cvv;\n \nprivate String dateOfExpiry;\n \n \npublic CreditCardStrategy(String nm, String ccNum, String cvv, String \nexpiryDate){\n \n \nthis.name=nm;\n \n \nthis.cardNumber=ccNum;\n \n \nthis.cvv=cvv;\n \n \nthis.dateOfExpiry=expiryDate;\n \n}\n \n@Override\n \npublic void pay(int amount) {\n \n \nSystem.out.println(amount +\" paid with credit/debit card\");\n \n}\n}"
+  },
+  {
+    "chunk_index": 6,
+    "title": "Detailed Solution",
+    "text": "Detailed Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n18\npublic class PaypalStrategy implements PaymentStrategy {\n \nprivate String emailId;\n \nprivate String password;\n \n \npublic PaypalStrategy(String email, String pwd){\n \n \nthis.emailId=email;\n \n \nthis.password=pwd;\n \n}\n \n \n@Override\n \npublic void pay(int amount) {\n \n \nSystem.out.println(amount + \" paid using Paypal.\");\n \n}\n}\npublic interface PaymentStrategy {\n \npublic void pay(int amount);\n}"
+  },
+  {
+    "chunk_index": 7,
+    "title": "Detailed Solution",
+    "text": "Detailed Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n19\npublic class Item {\n \nprivate String upcCode;\n \nprivate int price;\n \n \npublic Item(String upc, int cost){\n \n \nthis.upcCode=upc;\n \n \nthis.price=cost;\n \n}\n \npublic String getUpcCode() {\n \n \nreturn upcCode;\n \n}\n \npublic int getPrice() {\n \n \nreturn price;\n \n}\n}\npublic class ShoppingCart {\n \nList<Item> items; \n \npublic ShoppingCart(){\n \n \nthis.items=new ArrayList<Item>();\n \n}\n \npublic void addItem(Item item){\n \n \nthis.items.add(item);\n \n}\n \npublic void removeItem(Item item){\n \n \nthis.items.remove(item);\n \n}\n \npublic int calculateTotal(){\n \n \nint sum = 0;\n \n \nfor(Item item : items){\n \n \n \nsum += item.getPrice();\n \n \n}\n \n \nreturn sum;\n \n}\n \npublic void pay(PaymentStrategy paymentMethod){\n \n \nint amount = calculateTotal();\n \n \npaymentMethod.pay(amount);\n \n}\n}"
+  },
+  {
+    "chunk_index": 8,
+    "title": "Detailed Solution",
+    "text": "Detailed Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n20\npublic class ShoppingCartTest {\n \npublic static void main(String[] args) {\n \n \nShoppingCart cart = new ShoppingCart();\n \n \n \n \nItem item1 = new Item(\"1234\",10);\n \n \nItem item2 = new Item(\"5678\",40);\n \n \n \n \ncart.addItem(item1);\n \n \ncart.addItem(item2);\n \n \n \n \n//pay by paypal\n \n \ncart.pay(new PaypalStrategy(\"myemail@example.com\", \"mypwd\"));\n \n \n \n \n//pay by credit card\n \n \ncart.pay(new CreditCardStrategy(\"Pankaj Kumar\", \"1234567890123456\", \"786\", \"12/15\"));\n \n}\n}\n\n\nExample 2\n▪You are developing a video editing application where users \ncan apply different filters and effects to their videos. Each \nfilter or effect may have its own unique implementation, \nbut they all follow a common sequence of steps for \nprocessing the video frames. How would you design the \napplication to support the addition of new filters and \neffects while maintaining a consistent processing workflow?\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n21"
+  },
+  {
+    "chunk_index": 9,
+    "title": "Solution",
+    "text": "Solution\n▪You can define a template method in a base class that outlines the \ncommon sequence of steps for processing video frames, with \nspecific methods that subclasses can override to implement \nindividual filters or effects. \n▪This allows for the addition of new filters and effects while ensuring \nconsistency in the processing workflow across different \nimplementations.\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n22"
+  },
+  {
+    "chunk_index": 10,
+    "title": "Example 3",
+    "text": "Example 3\n▪One day you decided to create a navigation app for casual \ntravelers. The app was centered around a beautiful map which \nhelped users quickly orient themselves in any city.\n▪One of the most requested features for the app was automatic \nroute planning. A user should be able to enter an address and \nsee the fastest route to that destination displayed on the map.\n▪The app could build the routes over roads, build walking routes. \n▪Right after that, you added another option to let people use \npublic transport in their routes.\n▪And even later, another option for building routes through all of \na city’s tourist attractions.    etc\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n23\n\n\nSolution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n24"
+  },
+  {
+    "chunk_index": 11,
+    "title": "Solution",
+    "text": "Solution\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n24\n\n\nExample 4\n▪You are designing a game where characters can have \ndifferent behaviors based on their current state (e.g., idle, \nattacking, defending). The behavior of each character may \nchange dynamically based on game events and player \nactions. How would you design the game system to handle \ncharacter behaviors while ensuring flexibility and \nextensibility?\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n25\n\n\nSolution\n▪The State pattern would be an appropriate choice for designing the \ncharacter behavior system. Each behavior of the character (e.g., \nidle, attacking, defending) could be implemented as a separate \nstate object, encapsulating its specific logic. The system can \ntransition between states dynamically based on game events and \nplayer actions, allowing for flexibility and extensibility in managing \ncharacter behaviors.\nRIAD SONBOL - SOFTWARE SYSTEM DESIGN\n26\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nimplements\n\n= ConcreteStrategy"
+  },
+  {
+    "chunk_index": 12,
+    "title": "implements",
+    "text": "implements\n\n= ConcreteStrategy\n\nexecute()\n\nIStrategy\n\nexecute()\n\nimplements\n\naggregation\n\nc\n\n2 ConcreteStrategy\n\nexecute()\n\na Context\n\n+ strategy\n\nsetStrategy(strategy)\ndoSomething()\n\n\n\n\n\n\n\nimplements\n\n= ConcreteStrategy\n\nexecute()\n\nIStrategy\n\nexecute()\n\nimplements\n\naggregation\n\nc\n\n2 ConcreteStrategy\n\nexecute()\n\na Context\n\n+ strategy\n\nsetStrategy(strategy)\ndoSomething()\n\n\n\n\n\ng\n\n7 93 7\n\nCSVDataMiner PDFDataMiner\n:\n\nfile pay file pathy file = openFile(pathy\n\nrawData = extractDocDatatile) rawData = extractCSVData(fle) rawData = extractPDFData(file)\narseDocData(rawData) data = parseCSVData(rawData) data = parsePDFData(rawData)\nanaly, ‏كا‎ = analyzeData(data) a analyzeData(data)\n\nort(analysis) ort(analysis) ort(analysis)\n6 file)\n\n\n\n\nConcreteClass1.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n01610\nconnection: Connection\n[-connect\n\n|+disconnect()\n\n[rreceive(): int\n\n[rsend(in data : int)\n\nDisconnectedState\nCONNECT - Event\nsocket : Socket\n[-connect()\n\n|+disconnect()\n\nirreceive(): int"
+  },
+  {
+    "chunk_index": 13,
+    "title": "DisconnectedState",
+    "text": "DisconnectedState\nCONNECT - Event\nsocket : Socket\n[-connect()\n\n|+disconnect()\n\nirreceive(): int\n\n|6080 data : int)\n\nConnectedState\n\nDISCONNECT - Event\n[socket : Socket\nF-connectt)\nI+disconnect)\nIrreceive(): int\n[Esend{in data : int)\n\nSocket\n\nFreonnect(y\nlraisconnect()\nbrreceive(): int\nf+send(in data : int)\n\nConnection\n\nIFconnect\n\nI+disconnect()\nlsreceive(): int\nl+send(in data : int)\n\n[rcreateAutomaton(in socket : Socket}\n\n\n\n\n\nDraft\n\n\n\n\n\nstate\n\nEe + Context(initialState)\n+ changeState(state)\n+ doThis()\n+ doThat()\n\n+ setContext(\n+ doThis()\n+ doThat()\n\nstate = new OtherState\nt.chat\n\n\n\n\n\n\n\n\n\n\n\n\n\n<<Java Class>>\n\n©PaypalStrategy\n\ncomjoumaldev.design.strategy\n= emailld: Sting\n\n8 password: Sting\n\nF PaypalStrategy(Sting Sting)\n© pay(int)void\n\n“<<Java interface>>\n@PaymentStrategy\n\n comjoumaldev.design.stategy|\n\n© pay(int)void\n\n1"
+  },
+  {
+    "chunk_index": 14,
+    "title": "“<<Java interface>>",
+    "text": "“<<Java interface>>\n@PaymentStrategy\n\n comjoumaldev.design.stategy|\n\n© pay(int)void\n\n1\n\n‎Class>>‏ مله\n801160503169 ©\n‎comjoumaldev.desgn.stategy‏\n‎name: Sting‏ =\n‎cardNumber: String‏ »\n‎ew: String‏ 8\n‎dateOrExpiry: String‏ 8\n‎F CreditCardStrategy(String Sting String Sting)‏\n‎pay(int)void‏ ©\n\n‎~<<Java Class>>\n@ShoppingCart\n\n‏ا\n\n‎500009010\n\n‎© addltem(tem):void\n\n‎© removeltemittem}void\n\n‎© calculateTotal()nt\n\n‎© pay(PaymentStrategy):vold\n\n‎~items | 0.\"\n\n‎<<Java Class>>\n\n‎@ltem\n\n‎Jcomjoumaldev.design.stategy\n‎© upeGode: String\n® pice: int\nFitem(String int)\n© getUpcCode():Sting\n© getPrice()int\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\neStrate RouteStrategy\n\n+ buildRoute(A, B)\n\nroute = routeStrategy.buildRoute(A, B)\n\nRoad PublicTransport\nStrategy Strategy\n\nWatking\nStrategy"
+  }
+]

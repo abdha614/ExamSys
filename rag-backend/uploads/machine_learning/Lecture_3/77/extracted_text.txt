@@ -1,0 +1,563 @@
+ أشجار القرار2
+Decision Tree 2
+د .رياض سنبل
+1
+RIAD SONBOL - ML COURSE
+مقرر تعلم اآللة
+المحاضرة الثالثة
+كلية الهندسة المعلوماتية
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+2
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+Decision Tree Hypothesis Space
+▪Internal nodes test the value of particular features xi and branch according to the results of 
+the test.
+▪Leaf nodes specify the class.
+RIAD SONBOL - ML COURSE
+3
+
+
+Decision Tree Decision Boundaries
+▪Decision trees divide the feature space into axis-parallel rectangles, and label each rectangle 
+with one of the K class.
+RIAD SONBOL - ML COURSE
+4
+▪Advantages:
+◦explicit relationship among features
+◦human interpretable model
+▪Limitations?
+
+
+Learning Algorithm for Decision Trees
+RIAD SONBOL - ML COURSE
+5
+
+
+Which Attribute is "best"?
+RIAD SONBOL - ML COURSE
+6
+
+
+Which Attribute is "best"?
+RIAD SONBOL - ML COURSE
+7
+A1=?
+True
+False
+[21+, 5-]
+[8+, 30-]
+[29+,35-]
+A2=?
+True
+False
+[18+, 33-]
+[11+, 2-]
+[29+,35-]
+
+
+Using Absolute error
+RIAD SONBOL - ML COURSE
+8
+
+
+Using Absolute error
+RIAD SONBOL - ML COURSE
+9
+BUT…
+
+
+Entropy
+▪S is a sample of training examples
+▪p+ is the proportion of positive examples
+▪p- is the proportion of negative examples
+▪Entropy measures the impurity of S
+Entropy(S) = -p+ log2 p+ - p- log2 p-
+
+
+Information Gain
+Entropy([21+,5-])   = 0.71
+Entropy([8+,30-]) = 0.74
+Gain(S,A1)=Entropy(S)
+-26/64*Entropy([21+,5-]) 
+-38/64*Entropy([8+,30-])
+=0.27
+Entropy([18+,33-]) = 0.94
+Entropy([8+,30-]) = 0.62
+Gain(S,A2)=Entropy(S)
+-51/64*Entropy([18+,33-]) 
+-13/64*Entropy([11+,2-])
+=0.12
+A1=?
+True
+False
+[21+, 5-]
+[8+, 30-]
+[29+,35-]
+A2=?
+True
+False
+[18+, 33-]
+[11+, 2-]
+[29+,35-]
+
+
+Training Examples
+No
+Strong
+High
+Mild
+Rain
+D14
+Yes
+Weak
+Normal
+Hot
+Overcast
+D13
+Yes
+Strong
+High
+Mild
+Overcast
+D12
+Yes
+Strong
+Normal
+Mild
+Sunny
+D11
+Yes
+Strong
+Normal
+Mild
+Rain
+D10
+Yes
+Weak
+Normal
+Cool
+Sunny
+D9
+No
+Weak
+High
+Mild
+Sunny
+D8
+Yes
+Weak
+Normal
+Cool
+Overcast
+D7
+No
+Strong
+Normal
+Cool
+Rain
+D6
+Yes
+Weak
+Normal
+Cool
+Rain
+D5
+Yes
+Weak
+High
+Mild
+Rain 
+D4 
+Yes
+Weak
+High
+Hot
+Overcast
+D3
+No
+Strong
+High
+Hot
+Sunny
+D2
+No
+Weak
+High
+Hot
+Sunny
+D1
+Play Tennis
+Wind
+Humidity
+Temp.
+Outlook
+Day
+
+
+Selecting the Next Attribute
+Humidity
+High
+Normal
+[3+, 4-]
+[6+, 1-]
+S=[9+,5-]
+E=0.940
+Gain(S,Humidity)
+=0.940-(7/14)*0.985 
+– (7/14)*0.592
+=0.151
+E=0.985
+E=0.592
+Wind
+Weak
+Strong
+[6+, 2-]
+[3+, 3-]
+S=[9+,5-]
+E=0.940
+E=0.811
+E=1.0
+Gain(S,Wind)
+=0.940-(8/14)*0.811 
+– (6/14)*1.0
+=0.048
+
+
+Selecting the Next Attribute
+Outlook
+Sunny
+Rain
+[2+, 3-]
+[3+, 2-]
+S=[9+,5-]
+E=0.940
+Gain(S,Outlook)
+=0.940-(5/14)*0.971 
+-(4/14)*0.0 – (5/14)*0.0971
+=0.247
+E=0.971
+E=0.971
+Over
+cast
+[4+, 0]
+E=0.0
+
+
+ID3 Algorithm
+Outlook
+Sunny
+Overcast
+Rain
+Yes
+[D1,D2,…,D14]
+[9+,5-]
+Ssunny=[D1,D2,D8,D9,D11]
+[2+,3-]
+?    
+?    
+[D3,D7,D12,D13]
+[4+,0-]
+[D4,D5,D6,D10,D14]
+[3+,2-]
+Gain(Ssunny , Humidity)=0.970-(3/5)0.0 – 2/5(0.0) = 0.970
+Gain(Ssunny , Temp.)=0.970-(2/5)0.0 –2/5(1.0)-(1/5)0.0 = 0.570
+Gain(Ssunny , Wind)=0.970= -(2/5)1.0 – 3/5(0.918) = 0.019
+
+
+When should we stop
+▪All samples for a given node belong to the same class.
+▪There are no remaining attributes for further partitioning.
+▪There are no samples left
+RIAD SONBOL - ML COURSE
+16
+
+
+Converting a Tree to Rules
+Outlook
+Sunny
+Overcast
+Rain
+Humidity
+High
+Normal
+Wind
+Strong
+Weak
+No
+Yes
+Yes
+Yes
+No
+R1: If (Outlook=Sunny) (Humidity=High) Then PlayTennis=No 
+R2: If (Outlook=Sunny) (Humidity=Normal) Then PlayTennis=Yes
+R3: If (Outlook=Overcast) Then PlayTennis=Yes
+R4: If (Outlook=Rain) (Wind=Strong) Then PlayTennis=No
+R5: If (Outlook=Rain) (Wind=Weak) Then PlayTennis=Yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wind
+
+Rain
+
+Strong Weak
+
+\
+
+Yes
+
+2
+
+No
+
+Outlook
+
+Sunny Overcast
+
+\
+
+Yes
+
+Normal
+
+\
+
+Yes
+
+Humidity
+
+High
+
+2
+
+No
+
+Suppose the features are Outlook (1r:), Temperature (2), Humidity (3), and Wind
+(2s). Then the feature vector x = (Sunny, Hot, High, Strong) will be classified as No. The
+
+Temperature feature is irrelevant.
+
+
+
+
+
+
+
+
+
+
+
+x2
+
+
+
+
+
+
+
+
+
+GrowTREE(S) Poe
+if (y = 0 for all (x,y) 6 S) return new leaf(0)
+else if (y = 1 for all (x,y) € S) return new leaf(1)
+else
+choose best attribute x;
+So = all (x,y) 6 S with ‏رع‎ = 0;
+S; =all (x,y) 6 S with ‏رع‎ = 1,
+return new node(x;, GROWTREE(Sp), GROWTREE(S}))
+
+
+
+
+
+
+
+
+Tree 2
+
+ce ee
+Outlook
+
+‎[Overcast] [Rain‏ الس
+
+‎Humidity Wind
+
+‎diy” gp
+
+‎Dr. Bassam Kurdy
+
+
+
+| Overcast | fea
+Yes
+[Strong || Weak | ee
+Dr. Bassam K|
+No
+
+
+
+Coo!
+
+
+Mild
+
+
+
+
+
+
+
+
+
+
+
+
+CHOOSEBESTATTRIBUTE(S)
+
+choose j to minimize J;, computed as follows:
+‏وق‎ = all (x,y) 6 5 with xj = 0;
+‏رق‎ =all (x,y) € 9 with ‏ره‎ =1;
+yo = the most common value of y in Sp
+
+an = the most common value of y in
+
+Jo = number of examples (x,y) € So with ‏ن‎ # vo
+
++h = number of examples (x,y) € ‏ري‎ with y Ay:
+
+Jj = Jo + Jj (total errors if wo split on this feature)
+return j
+
+
+J=4
+
+J=4
+
+J=2
+
+x3
+
+x2
+
+xl
+
+0
+
+0 00
+
+1
+
+0
+
+1
+
+0 0
+
+0 0 1
+
+ل
+
+2 29 wy
+
+
+
+
+x3
+
+xl
+
+
+
+
+
+Entropy
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

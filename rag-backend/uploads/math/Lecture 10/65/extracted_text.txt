@@ -1,0 +1,777 @@
+Design Patterns: 
+Template Method Pattern, State Pattern
+مقرر تصميم نظم البرمجيات
+المحاضرة الرابعة
+كلية الهندسة المعلوماتية
+د .رياض سنبل
+1
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+
+
+Design Patterns 
+▪Creational Patterns 
+(abstracting the object-instantiation process)
+   Factory Method 
+Abstract Factory 
+Singleton
+   Builder    
+Prototype
+▪Structural Patterns 
+(how objects/classes can be combined)
+   Adapter                               Bridge 
+Composite
+   Decorator 
+Facade 
+Flyweight
+   Proxy
+▪Behavioral Patterns 
+(communication between objects)
+   Command 
+Interpreter 
+Iterator
+   Mediator 
+Observer 
+State
+   Strategy  
+Chain of Responsibility 
+Visitor
+   Template Method
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+2
+
+
+Template Method Pattern
+TEMPLATE METHOD PATTERN
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+3
+
+
+Strategy Pattern
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+4
+
+
+Strategy Pattern.. What if?
+▪In Strategy patter, IStrategy is an Interface
+▪i.e. each concreate Stategy has its own implementation..
+▪What if these strategies have some common (“shared”) steps!
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+5
+
+
+Example
+▪Imagine that you’re 
+creating a data mining 
+application that 
+analyzes corporate 
+documents. Users feed 
+the app documents in 
+various formats (PDF, 
+DOC, CSV), and it tries 
+to extract meaningful 
+data from these docs in 
+a uniform format.
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+6
+
+
+Template Method Pattern
+▪Template Method is a 
+behavioral design pattern that 
+defines the skeleton of an 
+algorithm in the superclass but 
+lets subclasses override 
+specific steps of the algorithm 
+without changing its structure.
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+7
+
+
+State Pattern
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+8
+
+
+The Problem
+▪An object's behavior changes based on its internal state!
+▪Operations have large, multipart conditional statements that 
+depend on the object’s state.
+▪This state is usually represented by one or more enumerated 
+constants.
+▪Often, several operations will contain this same conditional 
+structure. 
+▪The State pattern puts each branch of the conditional in a separate 
+class
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+9
+
+
+Example
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+10
+
+
+Example
+▪Imagine that we have a Document class. 
+A document can be in one of three 
+states: Draft, Moderation and Published. 
+The publish method of the document 
+works a little bit differently in each state:
+▪In Draft, it moves the document to 
+moderation.
+▪In Moderation, it makes the document 
+public, but only if the current user is an 
+administrator.
+▪In Published, it doesn’t do anything at 
+all.
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+11
+
+
+State Pattern
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+12
+
+
+Comparison
+▪Template varies specific 
+parts of the algorithm by 
+subclasses.
+▪Template Method is 
+based on inheritance
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+13
+▪Strategy varies the entire 
+algorithm via its 
+strategies.
+▪Strategy is based on 
+composition
+▪State encapsulates state-
+specific behavior into 
+separate objects
+▪State pattern is based on 
+composition.
+
+
+Examples
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+14
+
+
+Example 1
+▪You are designing a system for processing online orders in 
+an e-commerce platform. The system needs to handle 
+various payment methods (e.g., credit card, PayPal, bank 
+transfer) with specific validation and transaction processing 
+logic. How would you design the payment processing 
+system to accommodate different payment methods while 
+ensuring flexibility and maintainability?
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+15
+
+
+Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+16
+
+
+Detailed Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+17
+public interface PaymentStrategy {
+ 
+public void pay(int amount);
+}
+public class CreditCardStrategy implements PaymentStrategy {
+ 
+private String name;
+ 
+private String cardNumber;
+ 
+private String cvv;
+ 
+private String dateOfExpiry;
+ 
+ 
+public CreditCardStrategy(String nm, String ccNum, String cvv, String 
+expiryDate){
+ 
+ 
+this.name=nm;
+ 
+ 
+this.cardNumber=ccNum;
+ 
+ 
+this.cvv=cvv;
+ 
+ 
+this.dateOfExpiry=expiryDate;
+ 
+}
+ 
+@Override
+ 
+public void pay(int amount) {
+ 
+ 
+System.out.println(amount +" paid with credit/debit card");
+ 
+}
+}
+
+
+Detailed Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+18
+public class PaypalStrategy implements PaymentStrategy {
+ 
+private String emailId;
+ 
+private String password;
+ 
+ 
+public PaypalStrategy(String email, String pwd){
+ 
+ 
+this.emailId=email;
+ 
+ 
+this.password=pwd;
+ 
+}
+ 
+ 
+@Override
+ 
+public void pay(int amount) {
+ 
+ 
+System.out.println(amount + " paid using Paypal.");
+ 
+}
+}
+public interface PaymentStrategy {
+ 
+public void pay(int amount);
+}
+
+
+Detailed Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+19
+public class Item {
+ 
+private String upcCode;
+ 
+private int price;
+ 
+ 
+public Item(String upc, int cost){
+ 
+ 
+this.upcCode=upc;
+ 
+ 
+this.price=cost;
+ 
+}
+ 
+public String getUpcCode() {
+ 
+ 
+return upcCode;
+ 
+}
+ 
+public int getPrice() {
+ 
+ 
+return price;
+ 
+}
+}
+public class ShoppingCart {
+ 
+List<Item> items; 
+ 
+public ShoppingCart(){
+ 
+ 
+this.items=new ArrayList<Item>();
+ 
+}
+ 
+public void addItem(Item item){
+ 
+ 
+this.items.add(item);
+ 
+}
+ 
+public void removeItem(Item item){
+ 
+ 
+this.items.remove(item);
+ 
+}
+ 
+public int calculateTotal(){
+ 
+ 
+int sum = 0;
+ 
+ 
+for(Item item : items){
+ 
+ 
+ 
+sum += item.getPrice();
+ 
+ 
+}
+ 
+ 
+return sum;
+ 
+}
+ 
+public void pay(PaymentStrategy paymentMethod){
+ 
+ 
+int amount = calculateTotal();
+ 
+ 
+paymentMethod.pay(amount);
+ 
+}
+}
+
+
+Detailed Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+20
+public class ShoppingCartTest {
+ 
+public static void main(String[] args) {
+ 
+ 
+ShoppingCart cart = new ShoppingCart();
+ 
+ 
+ 
+ 
+Item item1 = new Item("1234",10);
+ 
+ 
+Item item2 = new Item("5678",40);
+ 
+ 
+ 
+ 
+cart.addItem(item1);
+ 
+ 
+cart.addItem(item2);
+ 
+ 
+ 
+ 
+//pay by paypal
+ 
+ 
+cart.pay(new PaypalStrategy("myemail@example.com", "mypwd"));
+ 
+ 
+ 
+ 
+//pay by credit card
+ 
+ 
+cart.pay(new CreditCardStrategy("Pankaj Kumar", "1234567890123456", "786", "12/15"));
+ 
+}
+}
+
+
+Example 2
+▪You are developing a video editing application where users 
+can apply different filters and effects to their videos. Each 
+filter or effect may have its own unique implementation, 
+but they all follow a common sequence of steps for 
+processing the video frames. How would you design the 
+application to support the addition of new filters and 
+effects while maintaining a consistent processing workflow?
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+21
+
+
+Solution
+▪You can define a template method in a base class that outlines the 
+common sequence of steps for processing video frames, with 
+specific methods that subclasses can override to implement 
+individual filters or effects. 
+▪This allows for the addition of new filters and effects while ensuring 
+consistency in the processing workflow across different 
+implementations.
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+22
+
+
+Example 3
+▪One day you decided to create a navigation app for casual 
+travelers. The app was centered around a beautiful map which 
+helped users quickly orient themselves in any city.
+▪One of the most requested features for the app was automatic 
+route planning. A user should be able to enter an address and 
+see the fastest route to that destination displayed on the map.
+▪The app could build the routes over roads, build walking routes. 
+▪Right after that, you added another option to let people use 
+public transport in their routes.
+▪And even later, another option for building routes through all of 
+a city’s tourist attractions.    etc
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+23
+
+
+Solution
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+24
+
+
+Example 4
+▪You are designing a game where characters can have 
+different behaviors based on their current state (e.g., idle, 
+attacking, defending). The behavior of each character may 
+change dynamically based on game events and player 
+actions. How would you design the game system to handle 
+character behaviors while ensuring flexibility and 
+extensibility?
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+25
+
+
+Solution
+▪The State pattern would be an appropriate choice for designing the 
+character behavior system. Each behavior of the character (e.g., 
+idle, attacking, defending) could be implemented as a separate 
+state object, encapsulating its specific logic. The system can 
+transition between states dynamically based on game events and 
+player actions, allowing for flexibility and extensibility in managing 
+character behaviors.
+RIAD SONBOL - SOFTWARE SYSTEM DESIGN
+26
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+implements
+
+= ConcreteStrategy
+
+execute()
+
+IStrategy
+
+execute()
+
+implements
+
+aggregation
+
+c
+
+2 ConcreteStrategy
+
+execute()
+
+a Context
+
++ strategy
+
+setStrategy(strategy)
+doSomething()
+
+
+
+
+
+
+
+implements
+
+= ConcreteStrategy
+
+execute()
+
+IStrategy
+
+execute()
+
+implements
+
+aggregation
+
+c
+
+2 ConcreteStrategy
+
+execute()
+
+a Context
+
++ strategy
+
+setStrategy(strategy)
+doSomething()
+
+
+
+
+
+g
+
+7 93 7
+
+CSVDataMiner PDFDataMiner
+:
+
+file pay file pathy file = openFile(pathy
+
+rawData = extractDocDatatile) rawData = extractCSVData(fle) rawData = extractPDFData(file)
+arseDocData(rawData) data = parseCSVData(rawData) data = parsePDFData(rawData)
+analy, ‏كا‎ = analyzeData(data) a analyzeData(data)
+
+ort(analysis) ort(analysis) ort(analysis)
+6 file)
+
+
+
+
+ConcreteClass1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+01610
+connection: Connection
+[-connect
+
+|+disconnect()
+
+[rreceive(): int
+
+[rsend(in data : int)
+
+DisconnectedState
+CONNECT - Event
+socket : Socket
+[-connect()
+
+|+disconnect()
+
+irreceive(): int
+
+|6080 data : int)
+
+ConnectedState
+
+DISCONNECT - Event
+[socket : Socket
+F-connectt)
+I+disconnect)
+Irreceive(): int
+[Esend{in data : int)
+
+Socket
+
+Freonnect(y
+lraisconnect()
+brreceive(): int
+f+send(in data : int)
+
+Connection
+
+IFconnect
+
+I+disconnect()
+lsreceive(): int
+l+send(in data : int)
+
+[rcreateAutomaton(in socket : Socket}
+
+
+
+
+
+Draft
+
+
+
+
+
+state
+
+Ee + Context(initialState)
++ changeState(state)
++ doThis()
++ doThat()
+
++ setContext(
++ doThis()
++ doThat()
+
+state = new OtherState
+t.chat
+
+
+
+
+
+
+
+
+
+
+
+
+
+<<Java Class>>
+
+©PaypalStrategy
+
+comjoumaldev.design.strategy
+= emailld: Sting
+
+8 password: Sting
+
+F PaypalStrategy(Sting Sting)
+© pay(int)void
+
+“<<Java interface>>
+@PaymentStrategy
+
+ comjoumaldev.design.stategy|
+
+© pay(int)void
+
+1
+
+‎Class>>‏ مله
+801160503169 ©
+‎comjoumaldev.desgn.stategy‏
+‎name: Sting‏ =
+‎cardNumber: String‏ »
+‎ew: String‏ 8
+‎dateOrExpiry: String‏ 8
+‎F CreditCardStrategy(String Sting String Sting)‏
+‎pay(int)void‏ ©
+
+‎~<<Java Class>>
+@ShoppingCart
+
+‏ا
+
+‎500009010
+
+‎© addltem(tem):void
+
+‎© removeltemittem}void
+
+‎© calculateTotal()nt
+
+‎© pay(PaymentStrategy):vold
+
+‎~items | 0."
+
+‎<<Java Class>>
+
+‎@ltem
+
+‎Jcomjoumaldev.design.stategy
+‎© upeGode: String
+® pice: int
+Fitem(String int)
+© getUpcCode():Sting
+© getPrice()int
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+eStrate RouteStrategy
+
++ buildRoute(A, B)
+
+route = routeStrategy.buildRoute(A, B)
+
+Road PublicTransport
+Strategy Strategy
+
+Watking
+Strategy
+
+
+
+

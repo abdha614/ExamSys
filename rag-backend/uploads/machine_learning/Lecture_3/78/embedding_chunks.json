@@ -1,0 +1,32 @@
+[
+  {
+    "chunk_index": 1,
+    "title": "Introduction to Decision Trees and Traditional ML Pipeline",
+    "text": "أشجار القرار2\nDecision Tree 2\nد .رياض سنبل\n1\nRIAD SONBOL - ML COURSE\nمقرر تعلم اآللة\nالمحاضرة الثالثة\nكلية الهندسة المعلوماتية\n\nTraditional ML Pipeline\nRIAD SONBOL - ML COURSE\n2\nData\nTraining \nApproach\nmodel\nNew input\nPredicted \noutput\nFeature \nEngineering\n مجموعة\nمعطيات\n منهجية\nالتعلم\nالنموذج\n  المتعل\nم\nهندسة السمات\nالخرج المتوقع\n\nDecision Tree Hypothesis Space\n▪Internal nodes test the value of particular features xi and branch according to the results of \nthe test.\n▪Leaf nodes specify the class.\nRIAD SONBOL - ML COURSE\n3\n\n\nDecision Tree Decision Boundaries\n▪Decision trees divide the feature space into axis-parallel rectangles, and label each rectangle \nwith one of the K class.\nRIAD SONBOL - ML COURSE\n4\n▪Advantages:\n◦explicit relationship among features\n◦human interpretable model\n▪Limitations?\n\n\nLearning Algorithm for Decision Trees\nRIAD SONBOL - ML COURSE\n5\n\n\nWhich Attribute is \"best\"?\nRIAD SONBOL - ML COURSE\n6\n\n\nWhich Attribute is \"best\"?\nRIAD SONBOL - ML COURSE\n7\nA1=?\nTrue\nFalse\n[21+, 5-]\n[8+, 30-]\n[29+,35-]\nA2=?\nTrue\nFalse\n[18+, 33-]\n[11+, 2-]\n[29+,35-]\n\n\nUsing Absolute error\nRIAD SONBOL - ML COURSE\n8\n\n\nUsing Absolute error\nRIAD SONBOL - ML COURSE\n9\nBUT…"
+  },
+  {
+    "chunk_index": 2,
+    "title": "Entropy, Information Gain, and Attribute Selection",
+    "text": "Entropy\n▪S is a sample of training examples\n▪p+ is the proportion of positive examples\n▪p- is the proportion of negative examples\n▪Entropy measures the impurity of S\nEntropy(S) = -p+ log2 p+ - p- log2 p-\n\n\nInformation Gain\nEntropy([21+,5-])   = 0.71\nEntropy([8+,30-]) = 0.74\nGain(S,A1)=Entropy(S)\n-26/64*Entropy([21+,5-]) \n-38/64*Entropy([8+,30-])\n=0.27\nEntropy([18+,33-]) = 0.94\nEntropy([8+,30-]) = 0.62\nGain(S,A2)=Entropy(S)\n-51/64*Entropy([18+,33-]) \n-13/64*Entropy([11+,2-])\n=0.12\nA1=?\nTrue\nFalse\n[21+, 5-]\n[8+, 30-]\n[29+,35-]\nA2=?\nTrue\nFalse\n[18+, 33-]\n[11+, 2-]\n[29+,35-]\n\n\nTraining Examples\nNo\nStrong\nHigh\nMild\nRain\nD14\nYes\nWeak\nNormal\nHot\nOvercast\nD13\nYes\nStrong\nHigh\nMild\nOvercast\nD12\nYes\nStrong\nNormal\nMild\nSunny\nD11\nYes\nStrong\nNormal\nMild\nRain\nD10\nYes\nWeak\nNormal\nCool\nSunny\nD9\nNo\nWeak\nHigh\nMild\nSunny\nD8\nYes\nWeak\nNormal\nCool\nOvercast\nD7\nNo\nStrong\nNormal\nCool\nRain\nD6\nYes\nWeak\nNormal\nCool\nRain\nD5\nYes\nWeak\nHigh\nMild\nRain \nD4 \nYes\nWeak\nHigh\nHot\nOvercast\nD3\nNo\nStrong\nHigh\nHot\nSunny\nD2\nNo\nWeak\nHigh\nHot\nSunny\nD1\nPlay Tennis\nWind\nHumidity\nTemp.\nOutlook\nDay"
+  },
+  {
+    "chunk_index": 3,
+    "title": "Attribute Selection Example and ID3 Algorithm",
+    "text": "Selecting the Next Attribute\nHumidity\nHigh\nNormal\n[3+, 4-]\n[6+, 1-]\nS=[9+,5-]\nE=0.940\nGain(S,Humidity)\n=0.940-(7/14)*0.985 \n– (7/14)*0.592\n=0.151\nE=0.985\nE=0.592\nWind\nWeak\nStrong\n[6+, 2-]\n[3+, 3-]\nS=[9+,5-]\nE=0.940\nE=0.811\nE=1.0\nGain(S,Wind)\n=0.940-(8/14)*0.811 \n– (6/14)*1.0\n=0.048\n\n\nSelecting the Next Attribute\nOutlook\nSunny\nRain\n[2+, 3-]\n[3+, 2-]\nS=[9+,5-]\nE=0.940\nGain(S,Outlook)\n=0.940-(5/14)*0.971 \n-(4/14)*0.0 – (5/14)*0.0971\n=0.247\nE=0.971\nE=0.971\nOver\ncast\n[4+, 0]\nE=0.0\n\n\nID3 Algorithm\nOutlook\nSunny\nOvercast\nRain\nYes\n[D1,D2,…,D14]\n[9+,5-]\nSsunny=[D1,D2,D8,D9,D11]\n[2+,3-]\n?    \n?    \n[D3,D7,D12,D13]\n[4+,0-]\n[D4,D5,D6,D10,D14]\n[3+,2-]\nGain(Ssunny , Humidity)=0.970-(3/5)0.0 – 2/5(0.0) = 0.970\nGain(Ssunny , Temp.)=0.970-(2/5)0.0 –2/5(1.0)-(1/5)0.0 = 0.570\nGain(Ssunny , Wind)=0.970= -(2/5)1.0 – 3/5(0.918) = 0.019"
+  },
+  {
+    "chunk_index": 4,
+    "title": "Stopping Criteria and Rule Extraction from Decision Trees",
+    "text": "When should we stop\n▪All samples for a given node belong to the same class.\n▪There are no remaining attributes for further partitioning.\n▪There are no samples left\nRIAD SONBOL - ML COURSE\n16\n\n\nConverting a Tree to Rules\nOutlook\nSunny\nOvercast\nRain\nHumidity\nHigh\nNormal\nWind\nStrong\nWeak\nNo\nYes\nYes\nYes\nNo\nR1: If (Outlook=Sunny) (Humidity=High) Then PlayTennis=No \nR2: If (Outlook=Sunny) (Humidity=Normal) Then PlayTennis=Yes\nR3: If (Outlook=Overcast) Then PlayTennis=Yes\nR4: If (Outlook=Rain) (Wind=Strong) Then PlayTennis=No\nR5: If (Outlook=Rain) (Wind=Weak) Then PlayTennis=Yes"
+  },
+  {
+    "chunk_index": 5,
+    "title": "Decision Tree Structure, Feature Irrelevance, and Tree Growing Algorithm",
+    "text": "Wind\n\nRain\n\nStrong Weak\n\n\\\n\nYes\n\n2\n\nNo\n\nOutlook\n\nSunny Overcast\n\n\\\n\nYes\n\nNormal\n\n\\\n\nYes\n\nHumidity\n\nHigh\n\n2\n\nNo\n\nSuppose the features are Outlook (1r:), Temperature (2), Humidity (3), and Wind\n(2s). Then the feature vector x = (Sunny, Hot, High, Strong) will be classified as No. The\n\nTemperature feature is irrelevant.\n\nx2\n\nGrowTREE(S) Poe\nif (y = 0 for all (x,y) 6 S) return new leaf(0)\nelse if (y = 1 for all (x,y) € S) return new leaf(1)\nelse\nchoose best attribute x;\nSo = all (x,y) 6 S with ‏رع‎ = 0;\nS; =all (x,y) 6 S with ‏رع‎ = 1,\nreturn new node(x;, GROWTREE(Sp), GROWTREE(S}))"
+  },
+  {
+    "chunk_index": 6,
+    "title": "Tree Example, Attribute Selection by Error, and Entropy",
+    "text": "Tree 2\n\nce ee\nOutlook\n\n‎[Overcast] [Rain‏ الس\n\n‎Humidity Wind\n\n‎diy” gp\n\n‎Dr. Bassam Kurdy\n\n| Overcast | fea\nYes\n[Strong || Weak | ee\nDr. Bassam K|\nNo\n\n\nCoo!\n\n\nMild\n\n\nCHOOSEBESTATTRIBUTE(S)\n\nchoose j to minimize J;, computed as follows:\n‏وق‎ = all (x,y) 6 5 with xj = 0;\n‏رق‎ =all (x,y) € 9 with ‏ره‎ =1;\nyo = the most common value of y in Sp\n\nan = the most common value of y in\n\nJo = number of examples (x,y) € So with ‏ن‎ # vo\n\n+h = number of examples (x,y) € ‏ري‎ with y Ay:\n\nJj = Jo + Jj (total errors if wo split on this feature)\nreturn j\n\n\nJ=4\n\nJ=4\n\nJ=2\n\nx3\n\nx2\n\nxl\n\n0\n\n0 00\n\n1\n\n0\n\n1\n\n0 0\n\n0 0 1\n\nل\n\n2 29 wy\n\n\nx3\n\nxl\n\n\n\nEntropy"
+  }
+]

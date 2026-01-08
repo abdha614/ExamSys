@@ -1,0 +1,1536 @@
+Agile Software Development
+Instructor: Dr. Mouhib Alnoukari
+
+
+SCRUM
+2
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum has been used by:
+•Microsoft
+•Yahoo
+•Google
+•Electronic Arts
+•IBM
+•Lockheed Martin
+•Philips
+•Siemens
+•Nokia
+•Capital One
+•BBC
+•Intuit
+•Nielsen Media
+•First American Real Estate
+•BMC Software
+•Ipswitch
+•John Deere
+•Lexis Nexis
+•Sabre
+•Salesforce.com
+•Time Warner
+•Turner Broadcasting
+•Oce
+3
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum has been used for:
+• Commercial software
+• In-house development
+• Contract development
+• Fixed-price projects
+• Financial applications
+• ISO 9001-certified 
+applications
+• Embedded systems
+• 24x7 systems with 99.999% 
+uptime requirements
+• the Joint Strike Fighter
+• Video game development
+• FDA-approved, life-critical 
+systems
+• Satellite-control software
+• Websites
+• Handheld software
+• Mobile phones
+• Network switching applications
+• ISV applications
+• Some of the largest applications 
+in use
+4
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Characteristics
+• Self-organizing teams
+• Product progresses in a series of 1-4 week 
+“sprints”
+• Requirements are captured as items in a list of 
+“product backlog”
+• No specific engineering practices prescribed
+• Uses generative rules to create an agile 
+environment for delivering projects
+• One of the “agile processes”
+5
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+The Scrum Framework
+Product Backlog
+•
+Groomed, prioritized 
+Features in story form
+Sprint Planning Meeting
+•
+Review Product backlog
+•
+Estimate Sprint backlog
+•
+Commit to Sprint timebox
+•
+Communicate Sprint Goals
+Sprint Backlog
+•
+Stories estimated  by team
+•
+Task breakdown by team
+Daily Standup
+•
+What was done 
+yesterday?
+•
+What will be done 
+today?
+•
+Impediments -
+Blockers?
+Business Ideas
+•
+Epics and Features for 
+scrum team
+Iteration Timebox
+•
+2 to 4 weeks
+Sprint Review Meeting
+•
+Demo and 
+Acceptance of Sprint 
+stories
+Retrospective
+•
+Inspect and 
+Adapt
+6
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sprints
+•
+Scrum projects make progress in a series of “sprints”
+–
+Analogous to Extreme Programming iterations
+•
+Typical duration is 2–4 weeks or a calendar month at 
+most
+•
+A constant duration leads to a better rhythm
+•
+Product is designed, coded, and tested during the 
+sprint
+7
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+No changes during a sprint
+• Plan sprint durations around how long you can 
+commit to keeping change out of the sprint
+Change
+8
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+•Product owner
+•ScrumMaster
+•Team
+Roles
+•Sprint planning
+•Sprint review
+•Sprint retrospective
+•Daily scrum meeting
+Ceremonies
+•Product backlog
+•Sprint backlog
+•Burndown charts
+Artifacts
+Scrum framework
+9
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum framework
+•Sprint planning
+•Sprint review
+•Sprint retrospective
+•Daily scrum meeting
+Ceremonies
+•Product owner
+•ScrumMaster
+•Team
+Roles
+10
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Roles and Responsibilities in Scrum
+Product Owner
+Scrum 
+Master
+Scrum Team
+Stakeholders
+Commit to 
+delivering the 
+sprint goals
+Develop and 
+commit to the 
+Sprint Backlog
+Develops and maintains the Product 
+Backlog and is communication link 
+between the team and Stakeholders
+Provides 
+product needs, 
+guidance and 
+feedback
+Feedback
+Deliver Business Objects 
+based on Stakeholder needs 
+and define sprint goals
+Manages the Scrum Process, 
+works  Retrospective 
+actions  and removes 
+impediments
+Maintains metrics
+11
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Roles and Responsibilities in Scrum
+– Product Owner
+• Possibly a Product Manager or Project Sponsor
+• Decides features, release date, prioritization, $$$
+– Scrum Master
+• Typically a Project Manager or Team Leader
+• Responsible for enacting Scrum values and practices
+• Remove impediments / politics, keeps everyone productive
+– Project Team
+• 5-10 members;  Teams are self-organizing
+• Cross-functional: QA, Programmers, UI Designers, etc.
+• Membership should change only between sprints
+12
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scalability
+• Typical individual team is 7 ± 2 people
+– Scalability comes from teams of teams
+• Factors in scaling
+– Type of application
+– Team size
+– Team dispersion
+– Project duration
+• Scrum has been used on multiple 500+ person projects
+13
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scaling: Scrum of Scrums
+14
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum framework
+•Product owner
+•ScrumMaster
+•Team
+Roles
+•Product backlog
+•Sprint backlog
+•Burndown charts
+Artifacts
+•Sprint planning
+•Sprint review
+•Sprint retrospective
+•Daily scrum meeting
+Ceremonies
+15
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sprint Planning Mtg.
+Sprint planning meeting
+Sprint prioritization
+• Analyze/evaluate product 
+backlog
+• Select sprint goal
+Sprint planning
+• Decide how to achieve sprint goal 
+(design)
+• Create sprint backlog (tasks) from 
+product backlog items (user 
+stories / features)
+• Estimate sprint backlog in hours
+Sprint
+goal
+Sprint
+backlog
+Business 
+conditions
+Team 
+capacity
+Product 
+backlog
+Technology
+Current 
+product
+16
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sprint Planning
+• Team selects items from the product backlog they 
+can commit to completing
+• Sprint backlog is created
+– Tasks are identified and each is estimated (1-16 hours)
+– Collaboratively, not done alone by the ScrumMaster
+• High-level design is considered
+As a vacation planner, I want to see 
+photos of the hotels.
+Code the middle tier (8 hours)
+Code the user interface (4)
+Write test fixtures (4)
+Code the foo class (6)
+Update performance tests (4)
+17
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+The Sprint Review
+• Team presents what it accomplished during the 
+sprint
+• Typically takes the form of a demo of new features or 
+underlying architecture
+• Informal
+– 2-hour prep time rule
+– No slides
+• Whole team participates
+• Invite the world
+18
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sprint retrospective
+• Periodically take a look at what is and is not working
+• Typically 15–30 minutes
+• Done after every sprint
+• Whole team participates
+–
+ScrumMaster
+–
+Product owner
+–
+Team
+–
+Possibly customers and others
+19
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Start / Stop / Continue
+• Whole team gathers and discusses what they’d 
+like to:
+Start doing
+Stop doing
+Continue doing
+This is just one 
+of many ways 
+to do a sprint 
+retrospective.
+20
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Daily SCRUM Meeting
+•
+Parameters
+–
+Daily, ~15 minutes, Stand-up
+–
+Anyone late pays a $1 fee
+•
+Not for problem solving
+–
+Whole world is invited
+–
+Only team members, Scrum Master, product owner, can talk
+–
+Helps avoid other unnecessary meetings
+•
+Three questions answered by each team member:
+1.
+What did you do yesterday?
+2.
+What will you do today?
+3.
+What obstacles are in your way?
+21
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum framework
+•Product owner
+•ScrumMaster
+•Team
+Roles
+•Sprint planning
+•Sprint review
+•Sprint retrospective
+•Daily scrum meeting
+Ceremonies
+•Product backlog
+•Sprint backlog
+•Burndown charts
+Artifacts
+22
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Scrum's Artifacts
+• Scrum has remarkably few artifacts
+– Product Backlog
+– Sprint Backlog
+– Burndown Charts
+• Can be managed using just an Excel spreadsheet
+– More advanced / complicated tools exist:
+• Expensive
+• Web-based – no good for Scrum Master/project manager who 
+travels
+• Still under development
+23
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Product Backlog
+•
+The requirements
+•
+A list of all desired work on project
+•
+Ideally expressed as a list of user 
+stories along with "story points", 
+such that each item has value to 
+users or customers of the product 
+•
+Prioritized by the product owner
+•
+Reprioritized at start of each sprint
+This is the
+product backlog
+24
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+• The Product Backlog has no end – it is never finished 
+unless the activity is not longer needed
+• The Product Backlog should be groomed on a regular 
+cadence
+• The Product Backlog evolves to meet the Feedback 
+received from customers and the marketplace
+The Product Backlog Lifecycle
+New Items
+Released 
+Elements
+25
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Building a backlog
+•
+The Backlog is made 
+up of a hierarchy of 
+Epics →Features →
+Stories
+•
+Decompose an Epic 
+into Features
+•
+Decompose 
+Features into 
+Stories in 
+preparation for 
+Sprint Planning
+26
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+A deeper view of the Product Backlog
+•
+Owned and 
+prioritized by 
+the Product 
+Owner
+•
+Anyone in the 
+Org can add to 
+the backlog
+•
+Discipline:  “If it 
+is not on the 
+backlog it 
+doesn’t exist 
+27
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Backlog grooming based on Team velocity 
+28
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+User Stories
+• Instead of Use Cases, Agile project owners do "user stories"
+– Who (user role) – Is this a customer, employee, admin, etc.?
+– What (goal) – What functionality must be achieved/developed? 
+– Why (reason) – Why does user want to accomplish this goal?
+As a [user role], I want to [goal], so I can [reason].
+• Example:
+– "As a user, I want to log in, so I can access subscriber content."
+• story points: Rating of effort needed to implement this 
+story
+– common scales: 1-10, shirt sizes (XS, S, M, L, XL), etc.
+29
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+User Stories and the Backlog
+• ROLE – is the user of the element
+• GOAL – is what they want to accomplish
+• BENEFIT – is the business value it provides
+Describes the value from a users perspective of the value of the 
+element to be developed
+The backlog is a collection of Stories that are arranged in priority 
+order by value 
+Description – details of the story, technical, logistic, timing, etc.
+Acceptance Criteria”
+• Give – initial condition
+• When – stimulus
+• Then – Final condition
+Rqmts 
+Epic
+Feature
+Story
+Task
+30
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+• As a consumer, I want shopping cart functionality to 
+easily purchase items online.
+• As an executive, I want to generate a report to 
+understand which departments need to improve their 
+productivity.
+• As a developer, I want to publish the current state of 
+my application to an update set, so that I can deploy it 
+to a production system.
+• As a customer, I want to receive notifications when an 
+incident is commented, so that I am updated on the 
+status.
+• As a change manager, I want to enable the assessment 
+of risk for any given change by establishing a list of 
+questions with multiple choice answers.
+User Story Examples
+31
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+• First embrace that new requirements will be coming in as we 
+progress through the project/program
+• Review the business value of each new Feature or Story to 
+ensure the highest business value
+• Ensure that we are not over-specifying or adding extra 
+features that add to wasted time and effort for which the 
+customer or marketplace in not willing to pay
+• Groom the backlog on a cadence so that new requirements 
+can be added and the backlog order reprioritized
+Given that we have Emerging Requirements what do we do?
+32
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Method for determining an effective Story
+• Able to be build in any order
+Independent
+• Make tradeoffs with Stakeholders
+Negotiable
+• If there is no value, then it is a waste
+Valuable
+• There is enough information to estimate the 
+effort
+Estimable
+• Small enough to be estimable
+Small
+• Without testing there is no knowledge of 
+achievement: Given, When, Then
+Testable
+33
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+•
+Develop a single priority list which has the order of importance 
+visible in the ranking
+•
+Using this method provided a means for adding, subtracting or 
+changing order as new information is provided
+•
+It clearly shows the relative priority of one element to another
+Relative Priority to achieve a singularity
+34
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+• Perform a risk analysis on the backlog to determine 
+items that need to be learned early in the 
+development cycle
+– Move the most risky element up in priority
+• Review the backlog to see what technology items 
+must be completed before business items
+• Backlogs can be adjusted by 
+ROI or Risk calculations
+Risk/Technology adjusting a Backlog
+35
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Product Backlog
+Backlog item
+Estimate
+Allow a guest to make a reservation
+3 (story points)
+As a guest, I want to cancel a reservation.
+5
+As a guest, I want to change the dates of a 
+reservation.
+3
+As a hotel employee, I can run RevPAR reports 
+(revenue-per-available-room)
+8
+Improve exception handling
+8
+...
+30
+...
+50
+36
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Product Backlog
+37
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+The Sprint Goal
+• A short statement of what the work will be focused on during 
+the sprint
+Make the application run on 
+SQL Server in addition to 
+Oracle.
+Database Application
+Financial services
+Life Sciences
+Support features necessary for 
+population genetics studies.
+Support more technical 
+indicators than company ABC 
+with real-time, streaming data.
+38
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Managing the sprint backlog
+• Individuals sign up for work of their own choosing
+– Work is never assigned
+• Estimated work remaining is updated daily
+• Any team member can add, delete or change the 
+sprint backlog
+• Work for the sprint emerges
+• If work is unclear, define a sprint backlog item 
+with a larger amount of time and break it down 
+later
+• Update work remaining as more becomes known
+39
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Sprint Backlog
+Tasks
+Code the user interface
+Code the middle tier
+Test the middle tier
+Write online help
+Write the Foo class
+Mon
+8
+16
+8
+12
+8
+Tue
+4
+12
+16
+8
+Wed Thu
+4
+11
+8
+4
+Fri
+8
+8
+Add error logging
+8
+10
+16
+8
+8
+40
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Sprint Backlog
+41
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sprint Burndown Chart
+• A display of what work has been completed
+and what is left to complete
+– one for each developer or work item
+– updated every day
+– (make best guess about hours/points completed each 
+day)
+• variation: Release burndown chart
+– shows overall progress
+– updated at end of each sprint
+42
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Sprint Burndown Chart
+43
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Sample Sprint Burndown Chart
+Hours
+40
+30
+20
+10
+0 Mon
+Tue
+Wed
+Thu
+Fri
+Tasks
+Code the user interface
+Code the middle tier
+Test the middle tier
+Write online help
+Mon
+8
+16
+8
+12
+Tue
+Wed
+Thu
+Fri
+4
+12
+16
+7
+11
+8
+10
+16
+8
+50
+44
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+Product Roadmaps
+Story 
+map 
+Release 
+map 
+Encourage Stakeholder involvement 
+45
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+46
+Next Lecture
+• XP
+Agile Software Development – Syrian Private University – Instructor: Dr. Mouhib Alnoukari
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+كلية الهندسة
+‎FACULTY OF ENGINEERING‏
+
+
+
+الجامعة السورية الخاصة
+‎SYRIAN PRIVATE UNIVERSITY‏
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ل
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+بلا
+
+
+
+
+
+
+بل
+
+
+=.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Prioritized Backlog
+
+Epics &
+Uncertainty
+
+Bigger stories that are closer
+to Sprint Planning need
+decomposition, re-estimation
+and re-prioritization
+
+Higher
+Priority &
+More
+
+Detailed
+Sprint Sized and Ready
+for Planning (2-3 Sprints
+worth)
+
+
+
+
+
+
+عد
+‎Pitt‏ 7
+لل
+
+
+=)
+
+
+
+
+
+
+Sprint Velocity
+Story Pointed 7 20
+
+Product Backlog 8 25
+
+8: Average Capacity 27 Story Points 9 23
+Sprint 16 - 10 28
+5 Velocity 11 30
+. 5 12 27
+Sprint 17 - . 13 30
+ia 2 14 32
+Sprint 18 - x0 15 31
+5 1 In Story Points
+Sprint 19 | 10
+, L 5
+1
+1 °
+i 7 8 9 Db n BP ‏قد‎ wm ‏كد‎
+‎' ye!
+Sprintn —
+
+This effort generates a Sprint Roadmap that has been estimated by the team
+- Once there is some experience with this model it will provide our monthly planning data
+
+
+
+
+
+
+
+
+
+
+ka ‏«طفاد‎
+‎T wnt > GALT
+
+So Hat <Banott)
+
+
+
+Product Backlog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Element A
+Element B
+Element C
+Element D
+Element E
+Element F
+Element G
+Element H
+
+SPN OUP YNE
+
+Highest
+
+Lowest
+
+
+
+
+Highest 1. Element A
+2. Element B
+3. Element C
+4, ‏سه‎ Element A
+5. Element D
+6. Element ‏ع‎
+‎7. Element ‏ع‎
+‎8. ElementG _
+“9. Element H
+
+Lowest
+
+
+
+
+
+
+Highest 1. Business A
+2. Business B
+3. Business C
+4. ‏سه‎ _ Risk A
+5. Business D
+
+6
+
+7
+
++ Technology A
+
+Lowest
+
+10. Business G
+
+
+
+
+
+
+
+
+
+
+Remaining (days)
+
+Estimate (days)
+
+Owner
+
+BC
+8
+BC
+BC
+BC
+cam
+BC
+BC
+8
+BC
+BC
+8
+BC
+
+Product Backlog
+Estimating System Upgrade
+
+Backlog item
+Remove user kludge in lpr fle
+
+Remove cMapieMenuicMenuSize fom disciplines pas
+
+reste ‘Legacy’ ciscptine neve with ad cis are ‏لقع‎ content
+‘Augment each bl operation to supper network operation
+
+Enterd Engineering Design estimate tems to include summaries
+Supervision/Guiderce
+
+Remove Custodian property trom ‏وذ عم‎ class in glcbals pas
+Remove LOC_censtents in globas-pas end main pas
+
+New Bal sectin daesn't have 016000 set
+
+Daley in main eleaseferm doesnt appear tobe require
+
+Unco mations ta Other Mejor Equipmert in formE el pas
+AJACS term tobe certred on the sereen
+
+Enterd DUnit teststo all 4 discilines
+
+iD
+1 Miner
+2 Miner
+3 Minor
+4 Moor
+5 Major
+6 Super
+7 Minor
+8 Minor
+9 Minor
+
+10 Mirer
+
+11 Mirer
+
+12 Mirer
+
+13 Majer
+
+Sprint
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+12
+
+80
+16
+82
+
+12
+
+80
+16
+82
+
+12
+
+80
+16
+82
+
+Th
+
+12
+
+80
+16
+82
+
+12
+
+80
+16
+82
+
+Tu
+
+12
+
+80
+16
+82
+
+12
+
+80
+16
+82
+
+Sprint Day
+
+Hours
+remaining
+
+Estimate
+8
+
+8
+
+8
+
+80
+
+16
+
+82
+
+Owner
+BC
+BC
+BC
+BC
+BC
+CAM
+
+19 days work in this sprint
+
+Sprint 1
+
+0111/2004
+
+‎Item Backlag Item‏ ا
+
+‎Remave user kludge in .dpr lle
+Remave cMap/eMenu/cMenuSize from disciplines. pas
+
+‎Create "Legacy" discipline node with old civils and ‏لقع‎ content
+Augment each tbl operation to support network operation
+Extend Engineering Design estimate items to include summaries
+Supervision/Guidance
+
+‎1 Minor
+2 Minor
+3 Minor
+4 Major
+5 Major
+6 Super
+
+
+
+
+
+
+‘Sample Burndown Chart
+
+‎tort (hours)‏ وس
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sha
+
+=
+
+|
+
+USER ACTIVITIES
+(backbone)
+USER TASKS
+(walking skeleton) Search email File emails Compose emails Read emails Delete email View calendar Create Appt Update Appt View Appt
+i Done Gao ‘Done ‏ا‎ wie
+Search by Move Create and se! Open basic 0 View list of Create baste Update View
+keyword emails basic email email ‏لاط‎ appts appt Genny Appt
+location
+Done wie
+Create sus Send RTF- Open RTF- View montiny Create RTF- Accept/Reject!
+folders email email formats appt Tentative
+Limit search ‘Send HTML- Open HTML- Empty deleted ‏رفسي‎ CreateHTML Propose new
+to one field email email items format Appt time
+USER
+STORIES
+Limit search Set Open Mandatory/
+to 1+ field email priority attachments Optional
+
+View weekly Get address View
+formats from contacts attachments
+Search Add
+calendar attachments
+
+Get address
+from contacts
+
+Send
+attachments
+
+Search
+attachments
+
+Search sub
+folders
+
+
+
+
+

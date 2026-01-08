@@ -1,0 +1,97 @@
+[
+  {
+    "chunk_index": 1,
+    "title": "Introduction to Scrum and Its Applications",
+    "text": "Scrum has been used by:\n•Microsoft\n•Yahoo\n•Google\n•Electronic Arts\n•IBM\n•Lockheed Martin\n•Philips\n•Siemens\n•Nokia\n•Capital One\n•BBC\n•Intuit\n•Nielsen Media\n•First American Real Estate\n•BMC Software\n•Ipswitch\n•John Deere\n•Lexis Nexis\n•Sabre\n•Salesforce.com\n•Time Warner\n•Turner Broadcasting\n•Oce\n\nScrum has been used for:\n• Commercial software\n• In-house development\n• Contract development\n• Fixed-price projects\n• Financial applications\n• ISO 9001-certified applications\n• Embedded systems\n• 24x7 systems with 99.999% uptime requirements\n• the Joint Strike Fighter\n• Video game development\n• FDA-approved, life-critical systems\n• Satellite-control software\n• Websites\n• Handheld software\n• Mobile phones\n• Network switching applications\n• ISV applications\n• Some of the largest applications in use\n\nCharacteristics\n• Self-organizing teams\n• Product progresses in a series of 1-4 week “sprints”\n• Requirements are captured as items in a list of “product backlog”\n• No specific engineering practices prescribed\n• Uses generative rules to create an agile environment for delivering projects\n• One of the “agile processes”"
+  },
+  {
+    "chunk_index": 2,
+    "title": "The Scrum Framework and Sprints",
+    "text": "The Scrum Framework\nProduct Backlog\n• Groomed, prioritized Features in story form\nSprint Planning Meeting\n• Review Product backlog\n• Estimate Sprint backlog\n• Commit to Sprint timebox\n• Communicate Sprint Goals\nSprint Backlog\n• Stories estimated by team\n• Task breakdown by team\nDaily Standup\n• What was done yesterday?\n• What will be done today?\n• Impediments - Blockers?\nBusiness Ideas\n• Epics and Features for scrum team\nIteration Timebox\n• 2 to 4 weeks\nSprint Review Meeting\n• Demo and Acceptance of Sprint stories\nRetrospective\n• Inspect and Adapt\n\nSprints\n• Scrum projects make progress in a series of “sprints”\n– Analogous to Extreme Programming iterations\n• Typical duration is 2–4 weeks or a calendar month at most\n• A constant duration leads to a better rhythm\n• Product is designed, coded, and tested during the sprint\n\nNo changes during a sprint\n• Plan sprint durations around how long you can commit to keeping change out of the sprint"
+  },
+  {
+    "chunk_index": 3,
+    "title": "Scrum Roles, Ceremonies, and Artifacts",
+    "text": "•Product owner\n•ScrumMaster\n•Team\nRoles\n•Sprint planning\n•Sprint review\n•Sprint retrospective\n•Daily scrum meeting\nCeremonies\n•Product backlog\n•Sprint backlog\n•Burndown charts\nArtifacts\nScrum framework\n\nScrum framework\n•Sprint planning\n•Sprint review\n•Sprint retrospective\n•Daily scrum meeting\nCeremonies\n•Product owner\n•ScrumMaster\n•Team\nRoles\n\nRoles and Responsibilities in Scrum\nProduct Owner\nScrum Master\nScrum Team\nStakeholders\nCommit to delivering the sprint goals\nDevelop and commit to the Sprint Backlog\nDevelops and maintains the Product Backlog and is communication link between the team and Stakeholders\nProvides product needs, guidance and feedback\nFeedback\nDeliver Business Objects based on Stakeholder needs and define sprint goals\nManages the Scrum Process, works Retrospective actions and removes impediments\nMaintains metrics"
+  },
+  {
+    "chunk_index": 4,
+    "title": "Scrum Roles, Responsibilities, and Scalability",
+    "text": "Roles and Responsibilities in Scrum\n– Product Owner\n• Possibly a Product Manager or Project Sponsor\n• Decides features, release date, prioritization, $$$\n– Scrum Master\n• Typically a Project Manager or Team Leader\n• Responsible for enacting Scrum values and practices\n• Remove impediments / politics, keeps everyone productive\n– Project Team\n• 5-10 members; Teams are self-organizing\n• Cross-functional: QA, Programmers, UI Designers, etc.\n• Membership should change only between sprints\n\nScalability\n• Typical individual team is 7 ± 2 people\n– Scalability comes from teams of teams\n• Factors in scaling\n– Type of application\n– Team size\n– Team dispersion\n– Project duration\n• Scrum has been used on multiple 500+ person projects\n\nScaling: Scrum of Scrums"
+  },
+  {
+    "chunk_index": 5,
+    "title": "Scrum Ceremonies and Sprint Planning",
+    "text": "Scrum framework\n•Product owner\n•ScrumMaster\n•Team\nRoles\n•Product backlog\n•Sprint backlog\n•Burndown charts\nArtifacts\n•Sprint planning\n•Sprint review\n•Sprint retrospective\n•Daily scrum meeting\nCeremonies\n\nSprint Planning Mtg.\nSprint planning meeting\nSprint prioritization\n• Analyze/evaluate product backlog\n• Select sprint goal\nSprint planning\n• Decide how to achieve sprint goal (design)\n• Create sprint backlog (tasks) from product backlog items (user stories / features)\n• Estimate sprint backlog in hours\nSprint goal\nSprint backlog\nBusiness conditions\nTeam capacity\nProduct backlog\nTechnology\nCurrent product"
+  },
+  {
+    "chunk_index": 6,
+    "title": "Sprint Planning, Review, and Retrospective",
+    "text": "Sprint Planning\n• Team selects items from the product backlog they can commit to completing\n• Sprint backlog is created\n– Tasks are identified and each is estimated (1-16 hours)\n– Collaboratively, not done alone by the ScrumMaster\n• High-level design is considered\nAs a vacation planner, I want to see photos of the hotels.\nCode the middle tier (8 hours)\nCode the user interface (4)\nWrite test fixtures (4)\nCode the foo class (6)\nUpdate performance tests (4)\n\nThe Sprint Review\n• Team presents what it accomplished during the sprint\n• Typically takes the form of a demo of new features or underlying architecture\n• Informal\n– 2-hour prep time rule\n– No slides\n• Whole team participates\n• Invite the world\n\nSprint retrospective\n• Periodically take a look at what is and is not working\n• Typically 15–30 minutes\n• Done after every sprint\n• Whole team participates\n– ScrumMaster\n– Product owner\n– Team\n– Possibly customers and others"
+  },
+  {
+    "chunk_index": 7,
+    "title": "Sprint Retrospective and Daily Scrum Meeting",
+    "text": "Start / Stop / Continue\n• Whole team gathers and discusses what they’d like to:\nStart doing\nStop doing\nContinue doing\nThis is just one of many ways to do a sprint retrospective.\n\nDaily SCRUM Meeting\n• Parameters\n– Daily, ~15 minutes, Stand-up\n– Anyone late pays a $1 fee\n• Not for problem solving\n– Whole world is invited\n– Only team members, Scrum Master, product owner, can talk\n– Helps avoid other unnecessary meetings\n• Three questions answered by each team member:\n1. What did you do yesterday?\n2. What will you do today?\n3. What obstacles are in your way?"
+  },
+  {
+    "chunk_index": 8,
+    "title": "Scrum Artifacts and Product Backlog",
+    "text": "Scrum framework\n•Product owner\n•ScrumMaster\n•Team\nRoles\n•Sprint planning\n•Sprint review\n•Sprint retrospective\n•Daily scrum meeting\nCeremonies\n•Product backlog\n•Sprint backlog\n•Burndown charts\nArtifacts\n\nScrum's Artifacts\n• Scrum has remarkably few artifacts\n– Product Backlog\n– Sprint Backlog\n– Burndown Charts\n• Can be managed using just an Excel spreadsheet\n– More advanced / complicated tools exist:\n• Expensive\n• Web-based – no good for Scrum Master/project manager who travels\n• Still under development\n\nProduct Backlog\n• The requirements\n• A list of all desired work on project\n• Ideally expressed as a list of user stories along with \"story points\", such that each item has value to users or customers of the product\n• Prioritized by the product owner\n• Reprioritized at start of each sprint\nThis is the product backlog"
+  },
+  {
+    "chunk_index": 9,
+    "title": "Product Backlog Lifecycle and User Stories",
+    "text": "• The Product Backlog has no end – it is never finished unless the activity is not longer needed\n• The Product Backlog should be groomed on a regular cadence\n• The Product Backlog evolves to meet the Feedback received from customers and the marketplace\nThe Product Backlog Lifecycle\nNew Items\nReleased Elements\n\nBuilding a backlog\n• The Backlog is made up of a hierarchy of Epics →Features → Stories\n• Decompose an Epic into Features\n• Decompose Features into Stories in preparation for Sprint Planning\n\nA deeper view of the Product Backlog\n• Owned and prioritized by the Product Owner\n• Anyone in the Org can add to the backlog\n• Discipline:  “If it is not on the backlog it doesn’t exist\n\nBacklog grooming based on Team velocity"
+  },
+  {
+    "chunk_index": 10,
+    "title": "User Stories and Backlog Management",
+    "text": "User Stories\n• Instead of Use Cases, Agile project owners do \"user stories\"\n– Who (user role) – Is this a customer, employee, admin, etc.?\n– What (goal) – What functionality must be achieved/developed? \n– Why (reason) – Why does user want to accomplish this goal?\nAs a [user role], I want to [goal], so I can [reason].\n• Example:\n– \"As a user, I want to log in, so I can access subscriber content.\"\n• story points: Rating of effort needed to implement this story\n– common scales: 1-10, shirt sizes (XS, S, M, L, XL), etc.\n\nUser Stories and the Backlog\n• ROLE – is the user of the element\n• GOAL – is what they want to accomplish\n• BENEFIT – is the business value it provides\nDescribes the value from a users perspective of the value of the element to be developed\nThe backlog is a collection of Stories that are arranged in priority order by value \nDescription – details of the story, technical, logistic, timing, etc.\nAcceptance Criteria”\n• Give – initial condition\n• When – stimulus\n• Then – Final condition\nRqmts \nEpic\nFeature\nStory\nTask"
+  },
+  {
+    "chunk_index": 11,
+    "title": "User Story Examples and Managing Emerging Requirements",
+    "text": "• As a consumer, I want shopping cart functionality to easily purchase items online.\n• As an executive, I want to generate a report to understand which departments need to improve their productivity.\n• As a developer, I want to publish the current state of my application to an update set, so that I can deploy it to a production system.\n• As a customer, I want to receive notifications when an incident is commented, so that I am updated on the status.\n• As a change manager, I want to enable the assessment of risk for any given change by establishing a list of questions with multiple choice answers.\nUser Story Examples\n\n• First embrace that new requirements will be coming in as we progress through the project/program\n• Review the business value of each new Feature or Story to ensure the highest business value\n• Ensure that we are not over-specifying or adding extra features that add to wasted time and effort for which the customer or marketplace in not willing to pay\n• Groom the backlog on a cadence so that new requirements can be added and the backlog order reprioritized\nGiven that we have Emerging Requirements what do we do?"
+  },
+  {
+    "chunk_index": 12,
+    "title": "Effective User Stories and Backlog Prioritization",
+    "text": "Method for determining an effective Story\n• Able to be build in any order\nIndependent\n• Make tradeoffs with Stakeholders\nNegotiable\n• If there is no value, then it is a waste\nValuable\n• There is enough information to estimate the effort\nEstimable\n• Small enough to be estimable\nSmall\n• Without testing there is no knowledge of achievement: Given, When, Then\nTestable\n\n• Develop a single priority list which has the order of importance visible in the ranking\n• Using this method provided a means for adding, subtracting or changing order as new information is provided\n• It clearly shows the relative priority of one element to another\nRelative Priority to achieve a singularity"
+  },
+  {
+    "chunk_index": 13,
+    "title": "Risk Analysis and Sample Product Backlog",
+    "text": "• Perform a risk analysis on the backlog to determine items that need to be learned early in the development cycle\n– Move the most risky element up in priority\n• Review the backlog to see what technology items must be completed before business items\n• Backlogs can be adjusted by ROI or Risk calculations\nRisk/Technology adjusting a Backlog\n\nSample Product Backlog\nBacklog item\nEstimate\nAllow a guest to make a reservation\n3 (story points)\nAs a guest, I want to cancel a reservation.\n5\nAs a guest, I want to change the dates of a reservation.\n3\nAs a hotel employee, I can run RevPAR reports (revenue-per-available-room)\n8\nImprove exception handling\n8\n...\n30\n...\n50"
+  },
+  {
+    "chunk_index": 14,
+    "title": "Sprint Goals and Managing the Sprint Backlog",
+    "text": "Sample Product Backlog\n\nThe Sprint Goal\n• A short statement of what the work will be focused on during the sprint\nMake the application run on SQL Server in addition to Oracle.\nDatabase Application\nFinancial services\nLife Sciences\nSupport features necessary for population genetics studies.\nSupport more technical indicators than company ABC with real-time, streaming data.\n\nManaging the sprint backlog\n• Individuals sign up for work of their own choosing\n– Work is never assigned\n• Estimated work remaining is updated daily\n• Any team member can add, delete or change the sprint backlog\n• Work for the sprint emerges\n• If work is unclear, define a sprint backlog item with a larger amount of time and break it down later\n• Update work remaining as more becomes known"
+  },
+  {
+    "chunk_index": 15,
+    "title": "Sample Sprint Backlog and Burndown Charts",
+    "text": "Sample Sprint Backlog\nTasks\nCode the user interface\nCode the middle tier\nTest the middle tier\nWrite online help\nWrite the Foo class\nMon\n8\n16\n8\n12\n8\nTue\n4\n12\n16\n8\nWed Thu\n4\n11\n8\n4\nFri\n8\n8\nAdd error logging\n8\n10\n16\n8\n8\n\nSample Sprint Backlog\n\nSprint Burndown Chart\n• A display of what work has been completed and what is left to complete\n– one for each developer or work item\n– updated every day\n– (make best guess about hours/points completed each day)\n• variation: Release burndown chart\n– shows overall progress\n– updated at end of each sprint"
+  },
+  {
+    "chunk_index": 16,
+    "title": "Sample Burndown Chart and Product Roadmaps",
+    "text": "Sample Sprint Burndown Chart\nHours\n40\n30\n20\n10\n0 Mon\nTue\nWed\nThu\nFri\nTasks\nCode the user interface\nCode the middle tier\nTest the middle tier\nWrite online help\nMon\n8\n16\n8\n12\nTue\nWed\nThu\nFri\n4\n12\n16\n7\n11\n8\n10\n16\n8\n50\n\nProduct Roadmaps\nStory map\nRelease map\nEncourage Stakeholder involvement"
+  },
+  {
+    "chunk_index": 17,
+    "title": "Advanced Backlog Management and Sprint Planning Data",
+    "text": "Prioritized Backlog\n\nEpics & Uncertainty\n\nBigger stories that are closer to Sprint Planning need decomposition, re-estimation and re-prioritization\n\nHigher Priority & More Detailed\nSprint Sized and Ready for Planning (2-3 Sprints worth)\n\nSprint Velocity\nStory Pointed 7 20\nProduct Backlog 8 25\n8: Average Capacity 27 Story Points 9 23\nSprint 16 - 10 28\n5 Velocity 11 30\n. 5 12 27\nSprint 17 - . 13 30\nia 2 14 32\nSprint 18 - x0 15 31\n5 1 In Story Points\nSprint 19 | 10\n, L 5\n1\n1 °\ni 7 8 9 Db n BP ‏قد‎ wm ‏كد‎\n‎' ye!\nSprintn —\n\nThis effort generates a Sprint Roadmap that has been estimated by the team\n- Once there is some experience with this model it will provide our monthly planning data"
+  },
+  {
+    "chunk_index": 18,
+    "title": "Product Backlog Examples and Estimation",
+    "text": "Product Backlog\n\nElement A\nElement B\nElement C\nElement D\nElement E\nElement F\nElement G\nElement H\n\nSPN OUP YNE\n\nHighest\n\nLowest\n\nHighest 1. Element A\n2. Element B\n3. Element C\n4, ‏سه‎ Element A\n5. Element D\n6. Element ‏ع‎\n‎7. Element ‏ع‎\n‎8. ElementG _\n“9. Element H\n\nLowest\n\nHighest 1. Business A\n2. Business B\n3. Business C\n4. ‏سه‎ _ Risk A\n5. Business D\n\n6\n\n7\n\n+ Technology A\n\nLowest\n\n10. Business G\n\nRemaining (days)\n\nEstimate (days)\n\nOwner\n\nBC\n8\nBC\nBC\nBC\ncam\nBC\nBC\n8\nBC\nBC\n8\nBC\n\nProduct Backlog\nEstimating System Upgrade\n\nBacklog item\nRemove user kludge in lpr fle\n\nRemove cMapieMenuicMenuSize fom disciplines pas\n\nreste ‘Legacy’ ciscptine neve with ad cis are ‏لقع‎ content\n‘Augment each bl operation to supper network operation\n\nEnterd Engineering Design estimate tems to include summaries\nSupervision/Guiderce\n\nRemove Custodian property trom ‏وذ عم‎ class in glcbals pas\nRemove LOC_censtents in globas-pas end main pas\n\nNew Bal sectin daesn't have 016000 set\n\nDaley in main eleaseferm doesnt appear tobe require\n\nUnco mations ta Other Mejor Equipmert in formE el pas\nAJACS term tobe certred on the sereen\n\nEnterd DUnit teststo all 4 discilines\n\niD\n1 Miner\n2 Miner\n3 Minor\n4 Moor\n5 Major\n6 Super\n7 Minor\n8 Minor\n9 Minor\n\n10 Mirer\n\n11 Mirer\n\n12 Mirer\n\n13 Majer"
+  },
+  {
+    "chunk_index": 19,
+    "title": "Sprint Planning, Burndown Charts, and User Activities",
+    "text": "Sprint\n\n12\n\n80\n16\n82\n\n12\n\n80\n16\n82\n\n12\n\n80\n16\n82\n\nTh\n\n12\n\n80\n16\n82\n\n12\n\n80\n16\n82\n\nTu\n\n12\n\n80\n16\n82\n\n12\n\n80\n16\n82\n\nSprint Day\n\nHours remaining\n\nEstimate\n8\n\n8\n\n8\n\n80\n\n16\n\n82\n\nOwner\nBC\nBC\nBC\nBC\nBC\nCAM\n\n19 days work in this sprint\n\nSprint 1\n\n0111/2004\n\n‎Item Backlag Item‏ ا\n\n‎Remave user kludge in .dpr lle\nRemave cMap/eMenu/cMenuSize from disciplines. pas\n\n‎Create \"Legacy\" discipline node with old civils and ‏لقع‎ content\nAugment each tbl operation to support network operation\nExtend Engineering Design estimate items to include summaries\nSupervision/Guidance\n\n‎1 Minor\n2 Minor\n3 Minor\n4 Major\n5 Major\n6 Super\n\n‘Sample Burndown Chart\n\n‎tort (hours)‏ وس\n\nUSER ACTIVITIES\n(backbone)\nUSER TASKS\n(walking skeleton) Search email File emails Compose emails Read emails Delete email View calendar Create Appt Update Appt View Appt\ni Done Gao ‘Done ‏ا‎ wie\nSearch by Move Create and se! Open basic 0 View list of Create baste Update View\nkeyword emails basic email email ‏لاط‎ appts appt Genny Appt\nlocation\nDone wie\nCreate sus Send RTF- Open RTF- View montiny Create RTF- Accept/Reject!\nfolders email email formats appt Tentative\nLimit search ‘Send HTML- Open HTML- Empty deleted ‏رفسي‎ CreateHTML Propose new\nto one field email email items format Appt time\nUSER\nSTORIES\nLimit search Set Open Mandatory/\nto 1+ field email priority attachments Optional\n\nView weekly Get address View\nformats from contacts attachments\nSearch Add\ncalendar attachments\n\nGet address\nfrom contacts\n\nSend\nattachments\n\nSearch\nattachments\n\nSearch sub\nfolders"
+  }
+]

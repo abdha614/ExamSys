@@ -1,0 +1,553 @@
+
+
+
+
+
+
+مت
+الجامعة السورية الخاسنة
+
+الجامعة السورية.
+
+‘SYRIAN PRIVATE UNIVERSITY
+
+الكلية : هندسة الحاسوب والمعلوماتية
+المادة : تحليل رياضي
+
+اسم مدرس المادة: د.عمار دركل
+
+Syrian Private University
+
+الفصل الدراسي: الأول 2025/2026
+
+Answer Key
+
+2) Which SQL function is used to count the number
+of rows in a SQL query? (v38)
+Correct Answer: A) COUNT()
+
+4) In SQL, which keyword is used to sort the result-
+set? (v46)
+Correct Answer: A) ORDER BY
+
+6) Which command is used to remove all records
+from a table in SQL? (v13)
+Correct Answer: A) DELETE
+
+8) In SQL, which keyword is used to sort the result-
+set? (v16)
+Correct Answer: A) ORDER BY
+
+10) Which clause is used in SQL to filter the
+records? (v5)
+Correct Answer: A) WHERE
+
+12) In relational databases, normalization is used
+to: (v10)
+Correct Answer: A) Eliminate data redundancy
+
+14) In SQL, which keyword is used to sort the
+result-set? (v26)
+Correct Answer: A) ORDER BY
+
+16) What is a primary key in a database? (v44)
+Correct Answer: A) A unique identifier for each
+record
+
+18) What is a primary key in a database? (v4)
+
+1) What does SQL stand for? (v31)
+Correct Answer: A) Structured Query Language
+
+3) What does SQL stand for? (v1)
+Correct Answer: A) Structured Query Language
+
+5) Which clause is used in SQL to filter the
+records? (v45)
+Correct Answer: A) WHERE
+
+7) Which SQL statement is used to extract data
+from a database? (v12)
+Correct Answer: A) SELECT
+
+9) Which SQL statement is used to extract data
+from a database? (v22)
+Correct Answer: A) SELECT
+
+11) In relational databases, normalization is used
+to: (v40)
+Correct Answer: A) Eliminate data redundancy
+
+13) Which clause is used in SQL to filter the
+records? (v25)
+Correct Answer: A) WHERE
+
+15) Which command is used to remove all records
+from a table in SQL? (v43)
+Correct Answer: A) DELETE
+
+17) In SQL, which keyword is used to sort the
+
+
+Correct Answer: A) A unique 106011116١ for eacn
+record
+
+20) In relational databases, normalization is used
+to: (v50)
+Correct Answer: A) Eliminate data redundancy
+
+22) What does SQL stand for? (v11)
+Correct Answer: A) Structured Query Language
+
+24) Which command is used to remove all records
+from a table in SQL? (v33)
+Correct Answer: A) DELETE
+
+26) In SQL, which keyword is used to sort the
+result-set? (v36)
+Correct Answer: A) ORDER BY
+
+28) Which SQL statement is used to extract data
+from a database? (v2)
+Correct Answer: A) SELECT
+
+30) AFOREIGN KEY in one table points to a
+in another table. (v7)
+Correct Answer: A) PRIMARY KEY
+
+32) What does SQL stand for? (v21)
+Correct Answer: A) Structured Query Language
+
+34) Which SQL function is used to count the
+number of rows in a SQL query? (v18)
+Correct Answer: A) COUNT()
+
+36) What does SQL stand for? (v41)
+Correct Answer: A) Structured Query Language
+
+38) What is a primary key in a database? (v34)
+Correct Answer: A) A unique identifier for each
+record
+
+40) In relational databases, normalization is used
+to: (v20)
+Correct Answer: A) Eliminate data redundancy
+
+result-Sset¢ (Vo)
+Correct Answer: A) ORDER BY
+
+19) What is a primary key in a database? (v24)
+Correct Answer: A) A unique identifier for each
+record
+
+21) In relational databases, normalization is used
+to: (v30)
+Correct Answer: A) Eliminate data redundancy
+
+23) What is a primary key in a database? (v14)
+Correct Answer: A) A unique identifier for each
+record
+
+25) Which SQL statement is used to extract data
+from a database? (v32)
+Correct Answer: A) SELECT
+
+27) Which SQL function is used to count the
+number of rows in a SQL query? (v48)
+Correct Answer: A) COUNT()
+
+29) Which command is used to remove all records
+from a table in SQL? (v3)
+Correct Answer: A) DELETE
+
+31) Which SQL function is used to count the
+number of rows in a SQL query? (v8)
+Correct Answer: A) COUNT()
+
+33) Which clause is used in SQL to filter the
+records? (v35)
+Correct Answer: A) WHERE
+
+35) Which SQL statement is used to extract data
+from a database? (v42)
+Correct Answer: A) SELECT
+
+37) Which SQL function is used to count the
+number of rows in a SQL query? (v28)
+Correct Answer: A) COUNT()
+
+39) Which command is used to remove all records
+from a table in SQL? (v23)
+Correct Answer: A) DELETE
+
+41) Which clause is used in SQL to filter the
+records? (v15)
+
+
+Correct Answer: A) WHERE
+
+
+مت
+الجامعة السورية الخاسنة
+
+الجامعة السورية.
+
+‘SYRIAN PRIVATE UNIVERSITY
+
+الكلية : هندسة الحاسوب والمعلوماتية
+المادة : تحليل رياضي
+
+اسم مدرس المادة: د.عمار دركل
+
+Syrian Private University
+
+الفصل الدراسي: الأول 2025/2026
+
+Answer Key
+
+2) Which SQL function is used to count the number
+of rows in a SQL query? (v38)
+Correct Answer: A) COUNT()
+
+4) In SQL, which keyword is used to sort the result-
+set? (v46)
+Correct Answer: A) ORDER BY
+
+6) Which command is used to remove all records
+from a table in SQL? (v13)
+Correct Answer: A) DELETE
+
+8) In SQL, which keyword is used to sort the result-
+set? (v16)
+Correct Answer: A) ORDER BY
+
+10) Which clause is used in SQL to filter the
+records? (v5)
+Correct Answer: A) WHERE
+
+12) In relational databases, normalization is used
+to: (v10)
+Correct Answer: A) Eliminate data redundancy
+
+14) In SQL, which keyword is used to sort the
+result-set? (v26)
+Correct Answer: A) ORDER BY
+
+16) What is a primary key in a database? (v44)
+Correct Answer: A) A unique identifier for each
+record
+
+18) What is a primary key in a database? (v4)
+
+1) What does SQL stand for? (v31)
+Correct Answer: A) Structured Query Language
+
+3) What does SQL stand for? (v1)
+Correct Answer: A) Structured Query Language
+
+5) Which clause is used in SQL to filter the
+records? (v45)
+Correct Answer: A) WHERE
+
+7) Which SQL statement is used to extract data
+from a database? (v12)
+Correct Answer: A) SELECT
+
+9) Which SQL statement is used to extract data
+from a database? (v22)
+Correct Answer: A) SELECT
+
+11) In relational databases, normalization is used
+to: (v40)
+Correct Answer: A) Eliminate data redundancy
+
+13) Which clause is used in SQL to filter the
+records? (v25)
+Correct Answer: A) WHERE
+
+15) Which command is used to remove all records
+from a table in SQL? (v43)
+Correct Answer: A) DELETE
+
+17) In SQL, which keyword is used to sort the
+
+
+Correct Answer: A) A unique 106011116١ for eacn
+record
+
+20) In relational databases, normalization is used
+to: (v50)
+Correct Answer: A) Eliminate data redundancy
+
+22) What does SQL stand for? (v11)
+Correct Answer: A) Structured Query Language
+
+24) Which command is used to remove all records
+from a table in SQL? (v33)
+Correct Answer: A) DELETE
+
+26) In SQL, which keyword is used to sort the
+result-set? (v36)
+Correct Answer: A) ORDER BY
+
+28) Which SQL statement is used to extract data
+from a database? (v2)
+Correct Answer: A) SELECT
+
+30) AFOREIGN KEY in one table points to a
+in another table. (v7)
+Correct Answer: A) PRIMARY KEY
+
+32) What does SQL stand for? (v21)
+Correct Answer: A) Structured Query Language
+
+34) Which SQL function is used to count the
+number of rows in a SQL query? (v18)
+Correct Answer: A) COUNT()
+
+36) What does SQL stand for? (v41)
+Correct Answer: A) Structured Query Language
+
+38) What is a primary key in a database? (v34)
+Correct Answer: A) A unique identifier for each
+record
+
+40) In relational databases, normalization is used
+to: (v20)
+Correct Answer: A) Eliminate data redundancy
+
+result-Sset¢ (Vo)
+Correct Answer: A) ORDER BY
+
+19) What is a primary key in a database? (v24)
+Correct Answer: A) A unique identifier for each
+record
+
+21) In relational databases, normalization is used
+to: (v30)
+Correct Answer: A) Eliminate data redundancy
+
+23) What is a primary key in a database? (v14)
+Correct Answer: A) A unique identifier for each
+record
+
+25) Which SQL statement is used to extract data
+from a database? (v32)
+Correct Answer: A) SELECT
+
+27) Which SQL function is used to count the
+number of rows in a SQL query? (v48)
+Correct Answer: A) COUNT()
+
+29) Which command is used to remove all records
+from a table in SQL? (v3)
+Correct Answer: A) DELETE
+
+31) Which SQL function is used to count the
+number of rows in a SQL query? (v8)
+Correct Answer: A) COUNT()
+
+33) Which clause is used in SQL to filter the
+records? (v35)
+Correct Answer: A) WHERE
+
+35) Which SQL statement is used to extract data
+from a database? (v42)
+Correct Answer: A) SELECT
+
+37) Which SQL function is used to count the
+number of rows in a SQL query? (v28)
+Correct Answer: A) COUNT()
+
+39) Which command is used to remove all records
+from a table in SQL? (v23)
+Correct Answer: A) DELETE
+
+41) Which clause is used in SQL to filter the
+records? (v15)
+
+
+Correct Answer: A) WHERE
+
+
+مت
+الجامعة السورية الخاسنة
+
+الجامعة السورية.
+
+‘SYRIAN PRIVATE UNIVERSITY
+
+الكلية : هندسة الحاسوب والمعلوماتية
+المادة : تحليل رياضي
+
+اسم مدرس المادة: د.عمار دركل
+
+Syrian Private University
+
+الفصل الدراسي: الأول 2025/2026
+
+Answer Key
+
+2) Which SQL function is used to count the number
+of rows in a SQL query? (v38)
+Correct Answer: A) COUNT()
+
+4) In SQL, which keyword is used to sort the result-
+set? (v46)
+Correct Answer: A) ORDER BY
+
+6) Which command is used to remove all records
+from a table in SQL? (v13)
+Correct Answer: A) DELETE
+
+8) In SQL, which keyword is used to sort the result-
+set? (v16)
+Correct Answer: A) ORDER BY
+
+10) Which clause is used in SQL to filter the
+records? (v5)
+Correct Answer: A) WHERE
+
+12) In relational databases, normalization is used
+to: (v10)
+Correct Answer: A) Eliminate data redundancy
+
+14) In SQL, which keyword is used to sort the
+result-set? (v26)
+Correct Answer: A) ORDER BY
+
+16) What is a primary key in a database? (v44)
+Correct Answer: A) A unique identifier for each
+record
+
+18) What is a primary key in a database? (v4)
+
+1) What does SQL stand for? (v31)
+Correct Answer: A) Structured Query Language
+
+3) What does SQL stand for? (v1)
+Correct Answer: A) Structured Query Language
+
+5) Which clause is used in SQL to filter the
+records? (v45)
+Correct Answer: A) WHERE
+
+7) Which SQL statement is used to extract data
+from a database? (v12)
+Correct Answer: A) SELECT
+
+9) Which SQL statement is used to extract data
+from a database? (v22)
+Correct Answer: A) SELECT
+
+11) In relational databases, normalization is used
+to: (v40)
+Correct Answer: A) Eliminate data redundancy
+
+13) Which clause is used in SQL to filter the
+records? (v25)
+Correct Answer: A) WHERE
+
+15) Which command is used to remove all records
+from a table in SQL? (v43)
+Correct Answer: A) DELETE
+
+17) In SQL, which keyword is used to sort the
+
+
+Correct Answer: A) A unique 106011116١ for eacn
+record
+
+20) In relational databases, normalization is used
+to: (v50)
+Correct Answer: A) Eliminate data redundancy
+
+22) What does SQL stand for? (v11)
+Correct Answer: A) Structured Query Language
+
+24) Which command is used to remove all records
+from a table in SQL? (v33)
+Correct Answer: A) DELETE
+
+26) In SQL, which keyword is used to sort the
+result-set? (v36)
+Correct Answer: A) ORDER BY
+
+28) Which SQL statement is used to extract data
+from a database? (v2)
+Correct Answer: A) SELECT
+
+30) AFOREIGN KEY in one table points to a
+in another table. (v7)
+Correct Answer: A) PRIMARY KEY
+
+32) What does SQL stand for? (v21)
+Correct Answer: A) Structured Query Language
+
+34) Which SQL function is used to count the
+number of rows in a SQL query? (v18)
+Correct Answer: A) COUNT()
+
+36) What does SQL stand for? (v41)
+Correct Answer: A) Structured Query Language
+
+38) What is a primary key in a database? (v34)
+Correct Answer: A) A unique identifier for each
+record
+
+40) In relational databases, normalization is used
+to: (v20)
+Correct Answer: A) Eliminate data redundancy
+
+result-Sset¢ (Vo)
+Correct Answer: A) ORDER BY
+
+19) What is a primary key in a database? (v24)
+Correct Answer: A) A unique identifier for each
+record
+
+21) In relational databases, normalization is used
+to: (v30)
+Correct Answer: A) Eliminate data redundancy
+
+23) What is a primary key in a database? (v14)
+Correct Answer: A) A unique identifier for each
+record
+
+25) Which SQL statement is used to extract data
+from a database? (v32)
+Correct Answer: A) SELECT
+
+27) Which SQL function is used to count the
+number of rows in a SQL query? (v48)
+Correct Answer: A) COUNT()
+
+29) Which command is used to remove all records
+from a table in SQL? (v3)
+Correct Answer: A) DELETE
+
+31) Which SQL function is used to count the
+number of rows in a SQL query? (v8)
+Correct Answer: A) COUNT()
+
+33) Which clause is used in SQL to filter the
+records? (v35)
+Correct Answer: A) WHERE
+
+35) Which SQL statement is used to extract data
+from a database? (v42)
+Correct Answer: A) SELECT
+
+37) Which SQL function is used to count the
+number of rows in a SQL query? (v28)
+Correct Answer: A) COUNT()
+
+39) Which command is used to remove all records
+from a table in SQL? (v23)
+Correct Answer: A) DELETE
+
+41) Which clause is used in SQL to filter the
+records? (v15)
+
+
+Correct Answer: A) WHERE

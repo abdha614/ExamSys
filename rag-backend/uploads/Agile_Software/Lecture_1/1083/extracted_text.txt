@@ -1,0 +1,627 @@
+1. Introduction to Business Intelligence
+Dr. Kadan Aljoumaa
+Kadan.aljoumaa@hiast.edu.sy
+CISI612  Aril 05, 2025
+
+
+Learning Objectives
+Understand today's turbulent business environment
+and describe how organizations survive and even
+excel in such an environment (solving problems and
+exploiting opportunities)
+Understand the need for computerized support of
+managerial decision making
+Describe the business intelligence (BI) methodology
+and concepts and relate them to decision support
+systems (DSS)
+Understand the issues in implementing BI
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+2
+
+
+Changing Business Environment & 
+Computerized Decision Support
+Companies are moving aggressively to computerized
+support of their operations => Business Intelligence
+Business Pressures–Responses–Support Model
+Business pressures result of today's competitive business
+climate
+Responses to counter the pressures
+Support to better facilitate the process
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+3
+
+
+Business Pressures–Responses–Support 
+Model
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+4
+
+
+The Business Environment 
+The environment in which organizations operate today is
+becoming more and more complex, creating:
+opportunities, and
+problems.
+Example: globalization.
+Business environment factors:
+markets, consumer demands, technology, and societal.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+5
+
+
+Business Environment Factors
+FACTOR
+DESCRIPTION
+Markets
+Strong competition
+Expanding global markets
+Blooming electronic markets on the Internet
+Innovative marketing methods
+Opportunities for outsourcing with IT support
+Need for real-time, on-demand transactions
+Consumer
+Desire for customization
+demand
+Desire for quality, diversity of products, and speed of delivery
+Customers getting powerful and less loyal
+Technology
+More innovations, new products, and new services
+Increasing obsolescence rate
+Increasing information overload
+Social networking, Web 2.0 and beyond
+Societal
+Growing government regulations and deregulation
+Workforce more diversified, older, and composed of more women
+Prime concerns of homeland security and terrorist attacks
+Necessity of Sarbanes-Oxley Act and other reporting-related legislation
+Increasing social responsibility of companies
+Greater emphasis on sustainability
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+6
+
+
+Organizational Responses
+Be Reactive,Anticipative,Adaptive, and Proactive
+Managers may take actions, such as:
+Employing strategic planning.
+Using new and innovative business models.
+Restructuring business processes.
+Participating in business alliances.
+Improving corporate information systems.
+Improving partnership relationships.
+Encouraging innovation and creativity.
+…cont…>
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+7
+
+
+Organizational Responses, continued
+Improving customer service and relationships.
+Moving to electronic commerce (e-commerce).
+Moving
+to
+make-to-order
+production
+and
+on-demand
+manufacturing and services.
+Using new IT to improve communication, data access
+(discovery of information), and collaboration.
+Responding quickly to competitors' actions (e.g., in pricing,
+promotions, new products and services).
+Automating many tasks of white-collar employees.
+Automating certain decision processes.
+Improving decision making by employing analytics.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+8
+
+
+Closing the Strategy Gap 
+One of the major objectives of computerized decision
+support is to facilitate closing the gap between the
+current performance of an organization and its desired
+performance, as expressed in its mission, objectives, and
+goals, and the strategy to achieve them.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+9
+
+
+Business Intelligence (BI) 
+BI is an evolution of decision support concepts over time.
+Meaning of EIS/DSS…
+Then: Executive Information System
+Now: Everybody’s Information System (BI)
+BI systems are enhanced with additional visualizations,
+alerts, and performance measurement capabilities.
+The term BI emerged from industry apps.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+10
+
+
+Definition of BI
+BI is an umbrella term that combines architectures,
+tools, databases, analytical tools, applications, and
+methodologies.
+BI a content-free expression, so it means different
+things to different people.
+BI's major objective is to enable easy access to data
+(and models) to provide business managers with the
+ability to conduct analysis.
+BI
+helps
+transform
+data,
+to
+information
+(and
+knowledge), to decisions and finally to action.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+11
+
+
+A Brief History of BI
+The term BI was coined by the Gartner Group in the
+mid-1990s
+However, the concept is much older
+1970s — MIS reporting — static/periodic reports
+1980s — Executive Information Systems (EIS)
+1990s — OLAP, dynamic, multidimensional, ad-hoc reporting
+-> coining of the term “BI”
+2005+ — Inclusion of AI and Data/Text Mining capabilities;
+Web-based Portals/Dashboards
+2010s —Yet to be seen
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+12
+
+
+The Evolution of BI Capabilities
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+13
+
+
+The 5 Stages of Business Intelligence 
+BI development typically follows the 5 stages listed
+below:
+1. The Data: defining which data will be loaded into the system and
+analyzed.
+2. The ETL (Extract, Transform, and Load) Engine: moving the source data
+to the Data Warehouse. This can be a complex step involving
+modifications and calculations on the data itself. If this step doesn’t work
+properly, the BI solution simply cannot be effective.
+3. Data Warehousing: connects electronic data from different operational
+systems so that the data can be queried and analyzed over time for
+business decision making.
+4. Analytic Engine: analyzes multidimensional data sets found in a data
+warehouse to identify trends, outliers, and patterns.
+5. Presentation Layer: the dashboards, reports and alerts that present
+findings from the analysis.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+14
+
+
+The Architecture of BI
+A BI system has four major components:
+a data warehouse, with its source data
+business analytics, a collection of tools for manipulating, mining,
+and analyzing the data in the data warehouse;
+business performance management (BPM) for monitoring and
+analyzing performance
+a user interface (e.g., dashboard)
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+15
+
+
+A High-level Architecture of BI
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+16
+
+
+Components in a BI Architecture
+The data warehouse is the cornerstone of any
+medium-to-large BI system.
+Originally, the data warehouse included only historical data
+that was organized and summarized, so end users could
+easily view or manipulate it.
+Today, some data warehouses include access to current data
+as well, so they can provide real-time decision support (for
+details see Chapter 2).
+Business analytics are the tools
+that help users
+transform data into knowledge (e.g., queries, data/text
+mining tools, etc.).
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+17
+
+
+BI vs. Business Analytics
+Used often interchangeably in the present business
+environment
+Analytics is more tools oriented, so it mainly refers to the
+technology for BI
+BI is more of the umbrella term that also includes the
+business side of the equation
+BI is more of a planning level concept and BA is more of
+an implementation level concept
+If you think of KPI (Key Performance Indicators), BI
+defines them while BA measures them (roughly speaking)
+Google Analytics: BI or BA?
+
+
+Components in a BI Architecture
+Business Performance Management (BPM), which is
+also
+referred
+to
+as
+corporate
+performance
+management (CPM), is an emerging portfolio of
+applications within the BI framework that provides
+enterprises tools they need to better manage their
+operations
+User
+Interface
+(i.e.,
+dashboards)
+provides
+a
+comprehensive graphical/pictorial view of corporate
+performance measures, trends, and exceptions.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+19
+
+
+Styles of BI
+MicroStrategy, Corp. distinguishes five styles of BI and
+offers tools for each:
+1.
+report delivery and alerting
+2.
+enterprise reporting (using dashboards and scorecards)
+3.
+cube analysis (also known as slice-and-dice analysis)
+4.
+ad-hoc queries
+5.
+statistics and data mining
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+20
+
+
+The Benefits of BI
+The ability to provide accurate information when
+needed, including a real-time view of the corporate
+performance and its parts
+A survey byThompson (2004)
+Faster, more accurate reporting (81%)
+Improved decision making (78%)
+Improved customer service (56%)
+Increased revenue (49%)
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+21
+
+
+Automated Decision Making 
+A relatively new approach to supporting decision making
+Applies to highly structured decisions
+Automated decision systems (ADS)
+(or decision automation systems)
+An ADS is a rule-based system that provides a solution to
+a repetitive managerial problem in a specific area.
+e.g., simple-loan approval system
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+22
+
+
+Automated Decision-Making Framework 
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+23
+
+
+Automated Decision Making 
+ADS initially appeared in the airline industry called
+revenue (or yield) management (or revenue optimization)
+systems.
+dynamically price tickets based on actual demand
+Today, many service industries use similar pricing models.
+ADS are driven by business rules!
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+24
+
+
+Intelligence Creation and Use
+A Cyclical Process of 
+Intelligence Creation And Use
+BI practitioners 
+often follow the 
+national security 
+model depicted in 
+this figure.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+25
+
+
+Intelligence and Espionage
+Stealing corporate secrets, CIA, …
+Intelligence vs. Espionage
+Intelligence
+The way that modern companies ethically and legally
+organize themselves to glean as much as they can from their
+customers, their business environment, their stakeholders,
+their business processes, their competitors, and other such
+sources of potentially valuable information
+Problem – too much data, very little value
+Use of data/text/Web mining (see Chapter 4, 5)
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+26
+
+
+Transaction Processing Versus
+Analytic Processing
+Transaction
+processing
+systems
+are
+constantly
+involved in handling updates (add/edit/delete) to what
+we might call operational databases.
+ATM withdrawal transaction, sales order entry via an
+ecommerce site – updates DBs
+Online analytic processing (OLTP) handles routine on-going
+business
+ERP, SCM, CRM systems generate and store data in OLTP
+systems
+The main goal is to have high efficiency
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+27
+
+
+Transaction Processing Versus
+Analytic Processing
+Online
+analytic
+processing
+(OLAP)
+systems
+are
+involved in extracting information from data stored
+by OLTP systems
+Routine sales reports by product, by region, by sales person,
+etc.
+Often built on top of a data warehouse where the data is
+not transactional
+Main goal is effectiveness (and then, efficiency) – provide
+correct information in a timely manner
+More on OLAP will be covered in Chapter 2
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+28
+
+
+Successful BI Implementation
+Implementing and deploying a BI initiative is a lengthy,
+expensive and risky endeavor!
+Success of a BI system is measured by its widespread
+usage for better decision making.
+The typical BI user community includes
+All levels of the management hierarchy (not just the top
+executives, as was for EIS)
+Provide what is needed to whom he/she needs it
+A successful BI system must be of benefit to the
+enterprise as a whole.
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+29
+
+
+Real-time, On-demand BI
+The demand for “real-time” BI is growing!
+Is “real-time” BI attainable?
+Technology is getting there…
+Automated, faster data collection (RFID, sensors,… )
+Database and other software technologies (agent, SOA, …)
+are advancing
+Telecommunication infrastructure is improving
+Computational power is increasing while the cost for these
+technologies is decreasing
+Trent -> Business Activity Management
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+30
+
+
+Major BI Tools and Techniques
+Tool categories
+Data management
+Reporting, status tracking
+Visualization
+Strategy and performance management
+Business analytics
+Social networking & Web 2.0
+New/advanced tools/techniques to handle massive data sets for 
+knowledge discovery
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+31
+
+
+BI Resources
+Teradata University Network
+A great and free academic resource for BI (the available resources
+include cases, articles, tools including Microstrategy, datasets, exercises,
+etc.
+The Data Warehousing Institute (tdwi.org)
+The OLAP Report (olapreport.com)
+DSS Resources (dssresources.com)
+Business Intelligence Network (b-eye-network.com)
+AIS World (isworld.org)
+Microsoft
+Enterprise
+Consortium
+(enterprise.waltoncollege.uark.edu/mec)
+Introduction to Business Intelligence
+Dr. Kadan ALJOUMAA
+32
+
+
+
+
+الجامعة السورية الخاصة
+‎SYRIAN PRIVATE UNIVERSITY‏
+
+
+
+Business Organization’s.
+
+Environmental Factors Responses. ‘Support
+
+Globalization Strategy Analyses
+Customer demand Partners’ collaboration Predictions
+Government regulations Realtime response Decisions
+Market conditions Agility
+Competition Opportunities | Increased productivity
+Etc. New vendors
+New business models
+Etc.
+
+Integrated
+computerized
+decision
+
+support
+
+Business
+intelligence
+
+
+
+‘Spreadsheets
+(MS Excel)
+
+pss
+
+Portals
+
+0
+
+ETL
+
+I
+
+Data
+warehouse
+
+Data marts
+
+Business
+Intelligence
+
+Broadcasting
+tools
+
+Querying and
+reporting
+
+\
+
+Metadata
+
+Predictive
+analytics
+
+Workflow
+Alerts and 7
+
+5/5
+
+Financial
+reporting
+
+OLAP,
+
+Digital cockpits
+and dashboards
+
+‘Scorecards and
+dashboards
+
+notifications
+
+Data & text
+mining
+
+
+
+Data Warehouse Business Analytics Performance and
+Environment Environment Strategy
+
+Business users
+Access:
+
+Mangers / executives
+<—
+
+BPM strategies
+
+)
+
+Torgantzing
+Manipulation, results,
+
+“summarizing
+=standardizing
+
+User interface
+
+Future component
+intelligent systems
+
+- browser
+= portal
+- dashboard
+
+
+
+Foundations Artificial Business
+and Sources vesiaallesy) BSS IEE Intelligence processes
+Automated
+decision-making
+system
+Types
+
+
+Evaluation
+
+Planning/
+
+Evaluation
+
+
+
+

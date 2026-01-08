@@ -1,0 +1,354 @@
+مقدمة إلى تعلم اآللة
+Introduction to Machine Learning
+ مقرر مدخل إلى تعلم
+اآللة
+المحاضرة األولى
+كلية الهندسة المعلوماتية
+د .رياض سنبل
+1
+RIAD SONBOL - ML COURSE
+
+
+Course Details
+▪Course Code: CIEC.6.03
+▪Course Title: Introduction to Machine Learning
+▪Credits: 3 ECTS (2 Lectures & 2 Practical Sessions per week)
+▪Course Staff: Dr. Riad Sonbol, Eng. Anas Abdulaziz
+▪Grading: 
+◦15% Test 1
+◦15% Test 2
+◦20% Practical Sessions, Assignments, etc.
+◦50% Final Exam 
+RIAD SONBOL - ADVANCED ALGORITHMS AND DATA STRUCTURES
+2
+
+
+Outline of the course
+RIAD SONBOL - ADVANCED ALGORITHMS AND DATA STRUCTURES
+3
+▪The course covers the following core topics:
+1. An overview of machine learning systems, their methods, and applications.
+2. Learning using decision trees.
+3. Feature engineering.
+4. Training strategies and evaluation criteria.
+5. Selected machine learning algorithms: Naïve Bayes, KNN, SVM.
+
+
+Outline of the course
+▪Textbooks:
+▪Lindholm, A., Wahlström, N., Lindsten, F. and Schön, 
+T.B., 2022. Machine learning: a first course for 
+engineers and scientists. Cambridge University Press.
+▪Mitchell, T.M., 1997. Machine learning. McGraw Hill.
+▪Müller, A.C. and Guido, S., 2016. Introduction to 
+machine learning with Python: a guide for data 
+scientists. " O'Reilly Media, Inc.".
+RIAD SONBOL - ADVANCED ALGORITHMS AND DATA STRUCTURES
+4
+
+
+Why we need Machine Learning?
+▪Traditional Algorithms
+▪Heuristics, A* algorithms, 
+approximate algorithms
+▪Expert Systems
+▪Machine Learning
+5
+RIAD SONBOL - ML COURSE
+
+
+Expert Systems (النظم الخبيرة): A quick revision
+▪An expert system 
+generally consists of four 
+components:
+◦Knowledge base (Rules)
+◦Search or inference system,
+◦Knowledge acquisition 
+system,
+◦User interface or 
+communication system.
+6
+RIAD SONBOL - ML COURSE
+
+
+What is Machine Learning?
+▪Machine Learning is a type of 
+Artificial Intelligence that 
+provides computers with the 
+ability to learn
+▪Getting computers to program 
+themselves
+7
+Input
+Program
+(Logic)
+Output
+Traditional Approaches
+Input
+Output
+ML-based Approaches
+Program
+(Logic)
+RIAD SONBOL - ML COURSE
+
+
+Machine Learning ≈ Looking for a Function
+RIAD SONBOL - ML COURSE
+8
+
+
+When Do We Use Machine Learning?
+▪ML is used when:
+◦Human expertise does not exist (navigating on Mars),
+◦Humans are unable to explain their expertise (speech 
+recognition, OCR)
+◦Solution changes in time (routing on a computer 
+network, stock market)
+◦Solution needs to be adapted to particular cases 
+(recommendation systems)
+▪Learning is not always useful:
+◦There is no need to “learn” to calculate payroll.
+9
+RIAD SONBOL - ML COURSE
+
+
+Common ML Applications
+▪Recognizing patterns:
+◦Facial identities or facial expressions.
+◦Handwritten or spoken words.
+◦Medical images.
+◦Sentiment Analysis.
+▪Generating patterns:
+◦Generating images or motion 
+sequences.
+◦Articles generation.
+▪Recognizing anomalies:
+◦Unusual credit card transactions 
+▪Prediction:
+◦Future stock prices or currency 
+exchange rates
+10
+RIAD SONBOL - ML COURSE
+▪Web search 
+▪Computational biology
+▪Finance
+▪E-commerce
+▪Space exploration
+▪Robotics
+▪Information extraction
+▪Social networks
+▪Debugging
+
+
+More advanced Applications
+11
+RIAD SONBOL - ML COURSE
+
+
+Types of Learning
+▪Supervised (inductive) learning (التعلم المشرف عليه): Training data includes
+desired outputs
+◦Regression: predict numerical values
+◦Classification: predict categorical values, i.e., labels
+▪Unsupervised learning (التعلم غير المشرف عليه): Training data does not include 
+desired outputs
+◦Clustering: group data according to "distance"
+◦Association: find frequent co-occurrences
+◦Link prediction: discover relationships in data
+◦Data reduction: project features to fewer features
+▪Semi-supervised learning
+◦Training data includes a few desired outputs
+▪Reinforcement learning (التعلم المعزز)
+◦Learn to act based on feedback/reward.
+12
+RIAD SONBOL - ML COURSE
+
+
+Supervised Learning Techniques
+▪Numerical classifier functions
+◦Linear classifier, perceptron, logistic regression, support vector machines (SVM), 
+neural networks 
+▪Parametric (probabilistic) functions 
+◦Naïve Bayes, Gaussian discriminant analysis (GDA), hidden Markov models (HMM), 
+probabilistic graphical models 
+▪Non-parametric (instance-based) functions
+◦k-nearest neighbors, kernel regression, kernel density estimation, local regression
+▪Symbolic functions
+◦Decision trees, classification and regression trees (CART)
+▪Aggregation (ensemble) learning
+◦Bagging, boosting (Adaboost), random forest 
+13
+RIAD SONBOL - ML COURSE
+
+
+Traditional ML Pipeline
+RIAD SONBOL - ML COURSE
+14
+Data
+Training 
+Approach
+model
+New input
+Predicted 
+output
+Feature 
+Engineering
+ مجموعة
+معطيات
+ منهجية
+التعلم
+النموذج
+  المتعل
+م
+هندسة السمات
+الخرج المتوقع
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MACHINE
+
+
+
+
+
+Machine ‏كك‎
+‎Learning
+‎with Python
+
+
+
+
+
+
+
+
+
+
+
+Knowledge
+Acquisition Unit
+
+User Interface
+
+Expert
+
+User —_,
+
+
+
+
+
+
+
+
+
+
+
+
+
+* Speech Recognition
+
+#( ‏كز إ السب‎ “How are you”
+
+* Image Recognition
+
+17 ‏د( بي‎ “Cat”
+
+7 (- “505”
+
+* Dialogue System
+S( “Hi” ‏د(‎ “Hello”
+(what the user said) (system response)
+
+* Playing Go
+
+(next move)
+
+
+
+
+
+0 Recommendation
+
+
+
+
+| HELLO
+
+WORLD
+
+
+
+
+
+
+
+
+Autonomous Cars
+
+* Nevada made it legal for
+autonomous cars to drive on
+roads in June 2011
+
+* As of 2013, four states (Nevada,
+Florida, California, and
+Michigan) have legalized
+autonomous cars
+
+
+Scene Labeling via Deep Learning
+
+[Farabet et al. ICML 2012, PAMI 2013] 19
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

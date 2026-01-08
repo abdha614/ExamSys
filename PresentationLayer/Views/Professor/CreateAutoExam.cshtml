@@ -5,6 +5,48 @@
 
 <h2 class="text-center mb-4">Create Auto Exam</h2>
 
+<style>
+
+    .ratio-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.ratio-title {
+    font-size: 14pt;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.ratio-row {
+    margin-top: 10px;
+}
+
+.ratio-item {
+    padding: 10px;
+    font-size: 12pt;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.easy {
+    background: #d4edda;
+    color: #155724;
+}
+
+.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.hard {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+</style>
 <form asp-action="PreviewExam" method="post">
     <div class="row">
         <!-- Exam Details Card -->
@@ -279,6 +321,20 @@
             </div>
         </div>
     </div>
+    <hr />
+
+<div class="ratio-box mt-3">
+    <strong class="ratio-title">Question Difficulty Ratio (100%)</strong>
+
+    <div class="row mt-2 text-center ratio-row">
+        <div class="col ratio-item easy">Easy: <span id="easyRatio">0%</span></div>
+        <div class="col ratio-item medium">Medium: <span id="mediumRatio">0%</span></div>
+        <div class="col ratio-item hard">Hard: <span id="hardRatio">0%</span></div>
+    </div>
+</div>
+
+
+
    
     <!-- Submit Button -->
     <div class="text-end mt-3">
@@ -623,8 +679,15 @@
             const summaryList = document.getElementById("summaryList");
             const hiddenInputsContainer = document.getElementById("hiddenInputsContainer");
             const checkboxes = document.querySelectorAll(".question-select");
+
             let totalQuestions = 0;
             let totalPoints = 0.0;
+
+            // ✅ Difficulty counters
+            let easyCount = 0;
+            let mediumCount = 0;
+            let hardCount = 0;
+
             summaryList.innerHTML = "";
             hiddenInputsContainer.innerHTML = ""; // Clear previous inputs
 
@@ -643,33 +706,52 @@
                     totalQuestions++;
                     totalPoints += points;
 
+                    // ✅ Count difficulties
+                    if (difficulty.toLowerCase() === "easy") easyCount++;
+                    else if (difficulty.toLowerCase() === "medium") mediumCount++;
+                    else if (difficulty.toLowerCase() === "hard") hardCount++;
+
                     // Summary UI
                     summaryList.innerHTML += `
-                  <div class="d-flex justify-content-between align-items-center mb-2" id="summary-${idx}">
-                    <div>
-                      <strong>Q${totalQuestions}:</strong> ${questionText}<br>
-                      <small>${type} | ${difficulty} | ${lecture} | ${points} pts</small>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion(${idx})">Remove</button>
-                  </div>
-                `;
-
-
+                        <div class="d-flex justify-content-between align-items-center mb-2" id="summary-${idx}">
+                            <div>
+                                <strong>Q${totalQuestions}:</strong> ${questionText}<br>
+                                <small>${type} | ${difficulty} | ${lecture} | ${points} pts</small>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion(${idx})">Remove</button>
+                        </div>
+                    `;
 
                     // Hidden inputs
                     hiddenInputsContainer.innerHTML += `
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionId" value="${questionId}" />
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionText" value="${questionText}" />
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionTypeName" value="${type}" />
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].DifficultyLevelName" value="${difficulty}" />
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].LectureName" value="${lecture}" />
-                                <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].Points" value="${points}" />
-                            `;
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionId" value="${questionId}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionText" value="${questionText}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].QuestionTypeName" value="${type}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].DifficultyLevelName" value="${difficulty}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].LectureName" value="${lecture}" />
+                        <input type="hidden" name="SelectedQuestions[${totalQuestions - 1}].Points" value="${points}" />
+                    `;
                 }
             });
 
             document.getElementById("totalQuestions").innerText = totalQuestions;
             document.getElementById("totalPoints").innerText = totalPoints.toFixed(1);
+
+            // ✅ Update difficulty ratio (out of 100%)
+            if (totalQuestions > 0) {
+                document.getElementById("easyRatio").innerText =
+                    ((easyCount / totalQuestions) * 100).toFixed(0) + "%";
+
+                document.getElementById("mediumRatio").innerText =
+                    ((mediumCount / totalQuestions) * 100).toFixed(0) + "%";
+
+                document.getElementById("hardRatio").innerText =
+                    ((hardCount / totalQuestions) * 100).toFixed(0) + "%";
+            } else {
+                document.getElementById("easyRatio").innerText = "0%";
+                document.getElementById("mediumRatio").innerText = "0%";
+                document.getElementById("hardRatio").innerText = "0%";
+            }
         }
 
 

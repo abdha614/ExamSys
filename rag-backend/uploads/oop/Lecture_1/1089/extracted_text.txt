@@ -1,0 +1,566 @@
+Software system design – 
+practical 
+Lecture 07 – observer design pattern
+Eng. Raghad al-hossny
+
+
+Design patterns: 
+Design patterns 
+Creational 
+Structural 
+Behavioral 
+•
+Factory method
+•
+Singelton
+•
+Strategy.
+•
+State. 
+•
+Template method.
+•
+observer
+•
+ Decorator 
+
+
+Observer design pattern: 
+Also known as event-subscriber and 
+listener 
+is a behavioral design pattern that 
+lets you define a subscription 
+mechanism to notify multiple 
+objects about any events that 
+happen to the object they’re 
+observing.
+
+
+Observer design pattern - example: 
+Imagine that you have 
+two types of objects: a 
+Customer and a Store. 
+The customer is very 
+interested in a particular 
+brand of product, which 
+should become available 
+in the store very soon.
+It looks like we’ve got a conflict. Either the customer wastes 
+time checking product availability or the store wastes resources 
+notifying the wrong customers.
+
+
+Observer design pattern - example: 
+The solution: 
+Notify only the interested 
+clients about the new 
+product arriving.
+Same idea as the observer 
+design pattern.
+
+
+Observer design pattern: 
+The object that has some interesting state 
+is often called subject, but since it’s also 
+going to notify other objects about the 
+changes to its state, we’ll call it publisher.
+All other objects that want to track 
+changes to the publisher’s state are called 
+subscribers.
+The Observer pattern suggests that you 
+add a subscription mechanism to the 
+publisher class so individual objects can 
+subscribe to or unsubscribe from a stream 
+of events coming from that publisher. 
+
+
+Observer design pattern: 
+How? 
+1)
+an array field for storing a list of 
+references to subscriber objects.
+2)
+several public methods which allow 
+adding subscribers to and removing 
+them from that list.
+Now, whenever an important event happens to the publisher, it 
+goes over its subscribers and calls the specific notification 
+method on their objects.
+
+
+Observer design pattern: 
+Problem:
+Real apps might have dozens of different 
+subscriber classes that are interested in 
+tracking events of the same publisher 
+class. You wouldn’t want to couple the 
+publisher to all of those classes !!
+
+
+Observer design pattern: 
+That’s why it’s crucial that all subscribers implement the same 
+interface and that the publisher communicates with them only 
+via that interface.
+
+
+Observer design pattern: 
+The Publisher issues events of interest 
+to other objects. 
+These events occur when the 
+publisher changes its state or 
+executes some behaviors. Publishers 
+contain a subscription infrastructure 
+that lets new subscribers join and 
+current subscribers leave the list.
+
+
+Observer design pattern: 
+When a new event happens, the 
+publisher goes over the subscription 
+list and calls the notification method 
+declared in the subscriber interface on 
+each subscriber object.
+
+
+Observer design pattern: 
+The Subscriber interface declares the 
+notification interface. In most cases, it 
+consists of a single update method. 
+The method may have several 
+parameters that let the publisher pass 
+some event details along with the 
+update.
+
+
+Observer design pattern: 
+Concrete Subscribers perform some 
+actions in response to notifications 
+issued by the publisher. All of these 
+classes must implement the same 
+interface so the publisher isn’t 
+coupled to concrete classes.
+
+
+Observer design pattern: 
+The Client creates publisher and subscriber 
+objects separately and then registers 
+subscribers for publisher updates.
+
+
+Store example: 
+Design and implement the store solution 
+using the observer design pattern.
+And what if we want a mobile app notification?
+
+
+Store example -  design: 
+
+
+Store example -  implementation: 
+The main interface: 
+the observer interface.
+
+
+Store example -  implementation: 
+The concrete observers.
+
+
+Store example -  implementation: 
+The publisher class:
+defines the subscribers’ list 
+and notifies them.
+
+
+
+
+SYRIAN PRIVATE UNIVERSITY
+
+
+
+
+
+
+
+
+Hey, sign me
+up, please!
+
+- subscribers[]
+
++ addSubscriber(subscriber)
+
++ removeSubscriber(subscriber)
+Me too!
+
+
+Hey, sign me
+up, please!
+
+- subscribers[]
+
++ addSubscriber(subscriber)
+
++ removeSubscriber(subscriber)
+Me too!
+
+
+Guys, | just want
+to let you know that
+something has just
+
+happened to me.
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+interfa
+Subscriber
+
++ update(context)
+
+Concrete
+Subscribers
+
++ update(context)
+
+- subscribers: Subscriber[]
+-mainState
+
++ subscribe(s: Subscriber)
+
++ unsubscribe(s: Subscriber)
++ notifySubscribers()
+
++ mainBusinessLogic
+
+5 = new ConcreteSubscriber)
+publishersubscribe(s)
+
+foreach (s in subscribers)
+
+notifySubscribers()
+
+
+
+
+‘email Subscriber
+
+email'string
+
+update( )
+
+| Subscriber
+
+update( )
+
+it
+
+mobile app Subscriber
+
+device_id
+
+update( )
+
+notification-service
+subscribers []
+add_subscriber ()
+remove_subscriber )(
+
+notify_users( )
+
+store
+
+notification-service
+
+notify_users()
+
+
+
+package observer;
+
+public interface Eventbistener {
+
+void update (String message);
+
+
+‘email Subscriber
+
+email'string
+
+update( )
+
+| Subscriber
+
+update( )
+
+it
+
+mobile app Subscriber
+
+device_id
+
+update( )
+
+notification-service
+subscribers []
+add_subscriber ()
+remove_subscriber )(
+
+notify_users( )
+
+store
+
+notification-service
+
+notify_users()
+
+
+
+‘email Subscriber
+
+email'string
+
+update( )
+
+| Subscriber
+
+update( )
+
+it
+
+mobile app Subscriber
+
+device_id
+
+update( )
+
+notification-service
+subscribers []
+add_subscriber ()
+remove_subscriber )(
+
+notify_users( )
+
+store
+
+notification-service
+
+notify_users()
+
+
+
+public class MobileAppListener implements EventListener {
+private final String username;
+public MobileAppListener (String username) {
+
+this.username = username;
+
+@override
+public void update (String message) {
+System. out.print1n("Push notification sent to "+ username +
+
+
+
+public class EmailMsgListener 220160205 EventListener {
+
+private final String ema
+
+public EmailMsgbistener (String email) {
+this.email = email;
+
+@override
+public void update (String message) {
+System. out.print1n("Email sent to " + em:
+
++ message) +
+
+
+‘email Subscriber
+
+email'string
+
+update( )
+
+| Subscriber
+
+update( )
+
+it
+
+mobile app Subscriber
+
+device_id
+
+update( )
+
+notification-service
+subscribers []
+add_subscriber ()
+remove_subscriber )(
+
+notify_users( )
+
+store
+
+notification-service
+
+notify_users()
+
+
+
+public class NotificationService {
+
+private final List<EventListener>
+
+isteners = new ArrayList<>();
+
+public void subscribe (EventListener listener) {
+teners.add (listener) ;
+
+public void unsubscribe (EventListener listener) {
+isteners. remove (listener);
+
+public void notifyAllUsers (string message) {
+for (EventListener listener
+
+listener. update (message) ;
+
+teners) {
